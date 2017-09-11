@@ -51,7 +51,7 @@ h1, h2, h3{
   align-items: stretch;
 }
 
-.page{
+.content{
   position: relative;
   box-sizing: border-box;
   flex: 1 0 auto;
@@ -62,6 +62,12 @@ h1, h2, h3{
   padding: 10px 20px;
   overflow-y: auto;
 }
+
+//page
+.page{
+  border: 1px solid turquoise;
+}
+
 
 .navbar{
   width: 100%;
@@ -82,4 +88,25 @@ h1, h2, h3{
   height: 80px;
   border-radius: 50%;
   background-color: #555;
+  &__arrow{
+    width: 40px;
+    height: 3px;
+    position: relative;
+    //left: 40px;
+    top: 40px;
+    background-color: $color-main;
+    transform-origin: 100% 50%;
+    transition: transform .2s;
+    &:after{
+      content: '';
+      display: block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      position: absolute;
+      background-color: $color-main;
+      top: -3px;
+    }
+  }
 }
+

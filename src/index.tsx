@@ -17,7 +17,7 @@ ReactDom.render(
   <BrowserRouter>
     <div className="main">
       <Header />
-        <div className="page">
+        <div className="content">
           <Switch>
             <Route exact path="/" component={Home}/>
             <Route path="/le-refuge-des-souvenirs" component={LeRefuge}/>
