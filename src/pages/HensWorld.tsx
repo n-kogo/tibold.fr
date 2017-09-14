@@ -1,5 +1,5 @@
 import * as React from "react";
-import anime from 'animejs';
+import {timeline} from 'animejs';
 export class HensWorld extends React.Component{
   name: string = "Hens World";
   render(){
@@ -20,8 +20,8 @@ export class HensWorld extends React.Component{
   }
   componentDidMount(){
     let title = document.querySelector('.page h2');
-    let letters = title.getElementsByTagName('span');
-    let tl = anime.timeline();
+    let letters = !!title ? title.getElementsByTagName('span') : [];
+    let tl = timeline();
     for(let i = 0; i < letters.length; i++){
       let letter = letters[i];
       tl.add({

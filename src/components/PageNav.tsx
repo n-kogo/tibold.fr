@@ -1,23 +1,26 @@
 import * as React from "react";
 import {Link, BrowserRouter, withRouter} from 'react-router-dom';
-import anime from "animejs";
+import * as anime from "animejs";
 class PageNavComponent extends React.Component<any, any>{
-  routes: Array<string> = ['/', 'hens-world', 'le-refuge-des-souvenirs', 'the-last-frontier', 'one-eternity-to-run', 'wittyfit'];
+  routes: Array<string> = ['', 'hens-world', 'le-refuge-des-souvenirs', 'the-last-frontier', 'eternity-run', 'wittyfit'];
   state: any = {
     position: 0
   };
-  constructor(props){
+  constructor(props: any){
     super(props);
+    this.state = {
+      position: this.routes.indexOf(this.props.history.location.pathname.replace('/', ''))
+    }
   }
   render(){
-    let angle = 15 + (this.state.position) * 180 / this.routes.length
+    let angle = 15 + (this.state.position) * 180 / this.routes.length;
     let arrowStyle = {
       transform: `rotate(${angle}deg)`
     };
     let currentRoute = this.routes[this.state.position >= this.routes.length ? 0 : this.state.position + 1];
     return (
       <div className="page-nav"  onClick={this.changePage.bind(this)}>
-        <div className="page-nav__arrow" style={arrowStyle}></div>
+        <div className="page-nav__arrow" style={arrowStyle}> </div>
       </div>
     );
   }
