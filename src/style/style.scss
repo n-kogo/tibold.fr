@@ -63,17 +63,25 @@ h1, h2, h3{
 
 //page
 .page{
-  margin: 5px 10px 0 10px;
-  padding: 10px 20px;
   flex: 1 0 auto;
   background-color: $color-background-content;
   border:1px solid $shade-gray;
+  display: flex;
   h2{
     span{
       display: inline-block;
       opacity: 0;
     }
   }
+}
+
+.image-slider{
+  flex: 0 0 55%;
+  overflow: hidden;
+  width: 100%;
+  background-size: cover;
+  background-position: center center;
+  clip-path: url('#myClip');
 }
 
 //page specific
@@ -120,6 +128,41 @@ h1, h2, h3{
       position: absolute;
       background-color: $color-main;
       top: -3px;
+    }
+  }
+}
+
+.side-nav{
+  position: fixed;
+  right: 15px;
+  width: 8px;
+  top: 50%;
+  border-radius: 4px;
+  background-color: $color-main;
+  transform: translate(0% -50%);
+  &__link{
+    margin-left: -4px;
+    width: 16px;
+    height: 16px;
+    display: block;
+    border-radius: 50%;
+    background-color: $color-main;
+    &:not(:last-child){
+      margin-bottom: 15px;
+    }
+    .link-info{
+      opacity: 0;
+      width: 150px;
+      pointer-events: none;
+      position: absolute;
+      right: 15px;
+      text-align: right;
+    }
+    &:hover{
+      background-color: lighten($color-main, 15%);
+      .link-info{
+        opacity: 1;
+      }
     }
   }
 }

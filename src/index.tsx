@@ -12,23 +12,24 @@ import {Home} from "./pages/Home";
 import {TheLastFrontier} from "./pages/TheLastFrontier";
 import {Navbar} from "./components/Navbar";
 import {Header} from "./components/Header";
+import {SideNav} from "./components/SideNav";
 
 ReactDom.render(
   <BrowserRouter>
     <div className="main">
       <Header />
-        <div className="content">
-          <Switch>
-            <Route exact path="/" component={Home}/>
-            <Route path="/le-refuge-des-souvenirs" component={LeRefuge}/>
-            <Route path="/the-last-frontier" component={TheLastFrontier}/>
-            <Route path="/hens-world" component={HensWorld}/>t
-            <Route path="/eternity-run" component={EternityRun}/>
-            <Route path="/wittyfit" component={Wittyfit}/>
-            <Redirect to="/" />
-          </Switch>
-        </div>
-      <Navbar />
+      <div className="content">
+        <Switch>
+          <Route exact path="/" component={Home}/>
+          <Route path="/le-refuge-des-souvenirs" component={LeRefuge}/>
+          <Route path="/the-last-frontier" component={TheLastFrontier}/>
+          <Route path="/hens-world" component={HensWorld}/>t
+          <Route path="/eternity-run" component={EternityRun}/>
+          <Route path="/wittyfit" component={Wittyfit}/>
+          <Redirect to="/" />
+        </Switch>
+      </div>
+      <SideNav />
     </div>
   </BrowserRouter>
   ,document.getElementById('root')
