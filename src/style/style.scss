@@ -7,7 +7,6 @@ body,html, #root{
   height: 100%;
   min-height: 100%;
   margin: 0;
-  overflow-y: hidden;
   padding: 0;
   font-family: 'Open Sans', sans-serif;
   color: $color-font;
@@ -65,8 +64,10 @@ h1, h2, h3{
 .page{
   flex: 1 0 auto;
   background-color: $color-background-content;
-  border:1px solid $shade-gray;
   display: flex;
+  @media screen and (max-width: 640px){
+    flex-direction: column;
+  }
   h2{
     span{
       display: inline-block;
@@ -75,21 +76,51 @@ h1, h2, h3{
   }
 }
 
-.image-slider{
-  flex: 0 0 55%;
-  overflow: hidden;
+.slider{
+  flex: 0 0 50%;
   width: 100%;
-  background-size: cover;
-  background-position: center center;
-  clip-path: url('#myClip');
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  align-items: stretch;
+  @media screen and (max-width: 640px){
+    height: 55vh;
+    transform: rotate(90deg);
+  }
+  &__image {
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+    clip-path: url('#myClip');
+  }
+  &__cache{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    background-color: $shade-bright;
+    &.closing{
+      clip-path: url('#myClip');
+    }
+  }
 }
 
 //page specific
-.page.hens-world{
-  h2{
-    font-size: 3em;
+.page {
+  .hens-world {
+    h2 {
+      font-size: 3em;
+    }
   }
 }
+
+.project {
+  &__excerpt{
+    margin-top: 40px;
+    opacity: 0;
+  }
+}
+
 
 
 .navbar{

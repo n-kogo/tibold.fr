@@ -2,8 +2,11 @@ import * as React from "react";
 import {withRouter} from "react-router";
 import {Link} from "react-router-dom";
 import {ReactDOM} from "react";
+import {bindActionCreators} from "redux";
+import actions from "../store/actions";
+import {connect} from "react-redux";
 
-class SideNavComponent extends React.Component{
+class SideNavComponent extends React.Component<any, any>{
   routes: Array<string> = ['', 'hens-world', 'le-refuge-des-souvenirs', 'the-last-frontier', 'eternity-run', 'wittyfit'];
   routeNames: {[s: string]: string} = {
     '': 'Home',
@@ -29,4 +32,16 @@ class SideNavComponent extends React.Component{
   }
 }
 
-export let SideNav = withRouter(SideNavComponent);
+let SideNavRouter = withRouter(SideNavComponent);
+
+function mapDispatchToProps(dispatch: any) {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  }
+}
+
+function mapStateToProps(state: any, ownProps: any) {
+  return {currentPage: state.currentPage}
+}
+
+export let SideNav = connect( mapStateToProps, mapDispatchToProps)(SideNavRouter);
