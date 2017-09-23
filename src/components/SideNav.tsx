@@ -4,9 +4,15 @@ import {Link} from "react-router-dom";
 import {ReactDOM} from "react";
 import {bindActionCreators} from "redux";
 import actions from "../store/actions";
-import {connect} from "react-redux";
+import {connect, DispatchProp} from "react-redux";
 
-class SideNavComponent extends React.Component<any, any>{
+interface SideNavProps extends DispatchProp<any>{
+  currentPath: string;
+  history: any;
+  actions: any;
+}
+
+class SideNavComponent extends React.Component<SideNavProps, any>{
   routes: Array<string> = ['', 'hens-world', 'le-refuge-des-souvenirs', 'the-last-frontier', 'eternity-run', 'wittyfit'];
   routeNames: {[s: string]: string} = {
     '': 'Home',
@@ -19,9 +25,9 @@ class SideNavComponent extends React.Component<any, any>{
   render(){
     let links: Array<JSX.Element> = this.routes.map((route, i)=>{
       return (
-        <Link key={i} className="side-nav__link" to={'/' + route}>
+        <div key={i} className="side-nav__link" onClick={()=> this.navigateTo('/' + route)}>
           <span className="link-info">{this.routeNames[route]}</span>
-        </Link>
+        </div>
       )
     });
     return (
@@ -29,6 +35,11 @@ class SideNavComponent extends React.Component<any, any>{
         {links}
       </div>
     )
+  }
+  navigateTo(route: string){
+    console.log('nav to ', route)
+    this.props.actions.changePage(route);
+    this.props.history.push(route);
   }
 }
 
@@ -41,7 +52,7 @@ function mapDispatchToProps(dispatch: any) {
 }
 
 function mapStateToProps(state: any, ownProps: any) {
-  return {currentPage: state.currentPage}
+  return {currentPath: state.currentPath}
 }
 
 export let SideNav = connect( mapStateToProps, mapDispatchToProps)(SideNavRouter);

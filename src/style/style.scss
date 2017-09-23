@@ -83,21 +83,30 @@ h1, h2, h3{
   display: flex;
   overflow: hidden;
   align-items: stretch;
+  clip-path: url('#myClip');
   @media screen and (max-width: 640px){
     height: 55vh;
     transform: rotate(90deg);
   }
-  &__image {
-    width: 100%;
-    background-size: cover;
-    background-position: center center;
-    clip-path: url('#myClip');
+  &__image, &__next-image {
+    width: 160%;
+    margin-left: -25%;
+    height: 100%;
+    position: absolute;
+    //background-size: cover;
+    //background-position: center center;
+  }
+  &__image{
+    z-index: 10;
+  }
+  &__next-image{
+    z-index: 8;
   }
   &__cache{
     position: absolute;
     height: 100%;
     width: 100%;
-    z-index: 1;
+    z-index: 11;
     background-color: $shade-bright;
     &.closing{
       clip-path: url('#myClip');
@@ -108,13 +117,14 @@ h1, h2, h3{
 //page specific
 .page {
   .hens-world {
-    h2 {
-      font-size: 3em;
-    }
+
   }
 }
 
 .project {
+  h2 {
+    font-size: 3em;
+  }
   &__excerpt{
     margin-top: 40px;
     opacity: 0;

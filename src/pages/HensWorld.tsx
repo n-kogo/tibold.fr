@@ -23,7 +23,7 @@ export class HensWorld extends React.Component{
     )
   }
   componentDidMount(){
-    let title = document.querySelector('.page h2');
+    let title = document.querySelector('.project h2');
     let letters = title.getElementsByTagName('span');
     let tl = timeline();
     for(let i = 0; i < letters.length; i++){
