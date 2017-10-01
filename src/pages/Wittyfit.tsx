@@ -1,16 +1,36 @@
 import * as React from "react";
 import {timeline} from "animejs";
+import {Project} from "../components/Project";
 
 export class Wittyfit extends React.Component{
+  name: string = "Wittyfit";
+  tag: string = 'wittyfit';
+  link: string = 'http://wittyfit.com';
   timeout: number = 1200;
   render(){
+    let n = this.name.split('');
+    let renderName = n.map((letter, index)=>(
+      letter !== ' ' ?
+        <span key={index}>{letter}</span>
+        :
+        <span style={{marginLeft: '.5em'}} key={index}> </span>
+    ));
     return (
-      <div className="project wittyfit">
-        <h2>Wittyfit</h2>
+      <Project
+        tag={this.tag}
+        url={this.link}
+        introOffset={this.timeout}
+      >
+        <h2>{renderName}</h2>
+        <h3>Outil pour la qualité de vie au travail pour les grandes entreprises</h3>
         <div className="project__excerpt">
-          <p>Réalisation d'un outil pour la gestion du  bien être au travail pour les grandes entreprise. J'ai travaillé sur le projet en tant que développeur Front End Jr. dans une équipe de 3 développeurs. L'outil permet de récupérer les données anonymement de chaque employé, le renvoyant vers des formations concernant ses problèmes, mais aussi donne des ensembles de données aux managers pouvant agir en conséquence face à certains problèmes (manque de formation etc...).</p>
+          <p>
+            Wittyfit est une application à destination des grandes entreprises pour améliorer la qualité de vie au travail de ses employés.
+            <br/>
+            L'outil comprend des questionnaires, des statistiques pour les chefs d'équipes, un board pour proposer des idées anonymement, des formations pour les employés, etc..
+          </p>
         </div>
-      </div>
+      </Project>
     )
   }
   componentDidMount(){

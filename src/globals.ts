@@ -1,5 +1,5 @@
 export interface PageDescriptor  {
-  color: string,
+  color?: string,
   techs: Array<string>,
   images:Array<string>
 }
@@ -14,6 +14,7 @@ const icons: {[s: string]: string} = {
   createjs: require('./assets/logos/createjs.svg'),
   css3: require('./assets/logos/css3.svg'),
   react: require('./assets/logos/react.svg'),
+  'socket-io': require('./assets/logos/socket-io.svg')
 };
 
 const labels: {[s: string]: string} = {
@@ -25,29 +26,58 @@ const labels: {[s: string]: string} = {
   less: "Less",
   createjs: "CreateJS",
   css3: "CSS3",
-  react: "React"
+  react: "React",
+  'socket-io': 'Socket.io'
 };
 
 const projects: {
   [s: string]: PageDescriptor
 } = {
   'hens-world':{
-    techs: ['angular', 'wordpress', 'coffeescript', 'nodejs', 'mysql','less'],
-    color: '#222',
+    techs: ['angular', 'wordpress', 'coffeescript', 'nodejs', 'mysql', 'less', 'gulp'],
     images:[
       require('./assets/hens-world/1.jpg'),
       require('./assets/hens-world/2.jpg'),
       require('./assets/hens-world/3.jpg'),
       require('./assets/hens-world/4.jpg'),
+      require('./assets/hens-world/5.jpg'),
+      require('./assets/hens-world/6.jpg'),
     ]
   },
   'wittyfit': {
-    techs: ['angular', 'coffeescript', 'less'],
-    color: '#222',
+    techs: ['angular', 'coffeescript', 'gulp', 'less'],
     images: [
       require('./assets/wittyfit/1.jpg'),
       require('./assets/wittyfit/2.jpg'),
     ]
+  },
+  'the-last-frontier': {
+    techs: ['angular', 'nodejs', 'socket-io', 'typescript', 'mySQL', 'webpack'],
+    images: [
+      require('./assets/le-refuge-des-souvenirs/1.jpg'),
+      require('./assets/le-refuge-des-souvenirs/2.jpg'),
+      require('./assets/le-refuge-des-souvenirs/3.jpg'),
+      require('./assets/le-refuge-des-souvenirs/4.jpg'),
+    ]
+  },
+  'le-refuge-des-souvenirs': {
+    techs: ['typescript', 'react', 'sass', 'nodejs', 'socket-io', 'mySQL', 'knex', 'webpack'],
+    images: [
+      require('./assets/le-refuge-des-souvenirs/1.jpg'),
+      require('./assets/le-refuge-des-souvenirs/2.jpg'),
+      require('./assets/le-refuge-des-souvenirs/3.jpg'),
+      require('./assets/le-refuge-des-souvenirs/4.jpg'),
+    ]
+  },
+  'eternity-run': {
+    techs: ['ES6', 'phaser', 'sass', 'webpack'],
+    images: [
+      require('./assets/le-refuge-des-souvenirs/1.jpg'),
+      require('./assets/le-refuge-des-souvenirs/2.jpg'),
+      require('./assets/le-refuge-des-souvenirs/3.jpg'),
+      require('./assets/le-refuge-des-souvenirs/4.jpg'),
+    ]
   }
 };
+['', 'hens-world', 'le-refuge-des-souvenirs', 'the-last-frontier', 'eternity-run', 'wittyfit'];
 export {projects, icons, labels};

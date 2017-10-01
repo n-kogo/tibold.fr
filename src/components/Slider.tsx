@@ -50,11 +50,13 @@ class SliderComponent extends  React.Component<SliderProps, any>{
       var bg = this.currentPage.color;
     }
     return (
-      <div className="slider" style={{backgroundColor: bg, clipPath: `url(#${pageName}-clip)`}}>
+      <div className="slider" style={{backgroundColor: '#EEE', clipPath: `url(#${pageName}-clip)`}}>
         <div className="slider__cache" style={{clipPath: `url(#${pageName}-clip`}}> </div>
-        <img className="slider__image" src={this.img} />
+        {/*<img className="slider__image" src={this.img} />*/}
+        <div className="slider__image" style={{backgroundImage: `url(${this.img})`}}> </div>
+        {/*<img className="slider__next-image" src={this.nextImg} />*/}
         {!!this.nextImg ?
-          <img className="slider__next-image" src={this.nextImg} />
+          <div className="slider__next-image" style={{backgroundImage: `url(${this.nextImg})`}}> </div>
           : ''
         }
         <svg width="0" height="0">
@@ -65,12 +67,17 @@ class SliderComponent extends  React.Component<SliderProps, any>{
             </clipPath>
             <clipPath id="hens-world-clip"  clipPathUnits="objectBoundingBox">
               {/*<path d="M0,1, 0,0 .5,0 Q .62,.4 .8,.5 Q .95,.7 1,1 Z"/>*/}
-              <path d="M0 0L0 1C0.44 1 0.66 1 0.66 1C0.74 0.83 0.88 0.76 0.91 0.53C0.92 0.38 0.85 0.2 0.7 0L0.01 0Z" id="bK9LiFI55"/>
+              <path id="XMLID_2_" d="M0.7,0c0.1,0.2,0.2,0.3,0.2,0.5S0.7,0.9,0.7,1C0.7,1.1,0,1,0,1V0C0,0,0.6-0.2,0.7,0z"/>
+              {/*<path d="M0 0L0 1C0.44 1 0.66 1 0.66 1C0.74 0.83 0.88 0.76 0.91 0.53C0.92 0.38 0.85 0.2 0.7 0L0.01 0Z" id="bK9LiFI55"/>*/}
             </clipPath>
             <clipPath id="wittyfit-clip"  clipPathUnits="objectBoundingBox">
-              {/*<path d="M0,1, 0,0 .5,0 Q .62,.4 .8,.5 Q .95,.7 1,1 Z"/>*/}
-              <path d="M0.37 0.45C0.36 0.45 0.36 0.44 0.36 0.44C0.34 0.4 0.47 0.21 0.75 -0.12C0.37 -0.12 0.11 -0.12 -0.04 -0.12C-0.11 -0.12 -0.16 0.65 -0.01 0.88C0.19 1.22 0.63 1.06 0.6 0.98C0.57 0.93 0.56 0.87 0.56 0.82C0.56 0.65 0.67 0.5 0.82 0.45C0.87 0.43 0.38 0.45 0.37 0.45Z" id="hYOcygPEE" />
-              <path d="M-0.08 0.98C-0.09 1.15 0.17 1.05 0.17 1.1C0.17 1.21 0.21 0.5 0.17 0.5C0.11 0.5 0.86 0.48 0.81 0.44C0.75 0.39 0.7 0.31 0.7 0.22C0.7 0.12 0.76 0.03 0.84 -0.02C0.88 -0.04 -0.34 0.02 -0.29 0.02C-0.18 0.02 -0.07 0.62 -0.08 0.98Z" id="ae0pqxJut" />            </clipPath>
+              <circle cx=".3" cy=".2" r=".5"/>
+              <circle cx=".2" cy=".7" r=".7"/>
+            </clipPath>
+            <clipPath id="the-last-frontier-clip"  clipPathUnits="objectBoundingBox">
+              <circle cx=".2" cy=".2" r=".5"/>
+              <circle cx=".3" cy=".7" r=".7"/>
+            </clipPath>
           </defs>
         </svg>
       </div>

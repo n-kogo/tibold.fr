@@ -5,6 +5,7 @@ import {ReactDOM} from "react";
 import {bindActionCreators} from "redux";
 import actions from "../store/actions";
 import {connect, DispatchProp} from "react-redux";
+import {projects} from "../globals";
 
 interface SideNavProps extends DispatchProp<any>{
   currentPath: string;
@@ -13,7 +14,7 @@ interface SideNavProps extends DispatchProp<any>{
 }
 
 class SideNavComponent extends React.Component<SideNavProps, any>{
-  routes: Array<string> = ['', 'hens-world', 'le-refuge-des-souvenirs', 'the-last-frontier', 'eternity-run', 'wittyfit'];
+  routes: Array<string> = ['/'].concat(Object.keys(projects));
   routeNames: {[s: string]: string} = {
     '': 'Home',
     'hens-world': 'Hens World',
