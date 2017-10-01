@@ -1,7 +1,19 @@
 import * as React from "react";
 import {timeline} from 'animejs';
-export class HensWorld extends React.Component{
+import {IconList} from "../components/IconList";
+import {Button} from "../components/Button";
+import {Line} from "../components/Line";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import actions from "../store/actions";
+import {MoreButton} from "../components/MoreButton";
+import classNames = require("classnames");
+import {Project} from "../components/Project";
+
+export class HensWorld extends React.Component<any, any>{
   name: string = "Hens World";
+  tag: string = 'hens-world';
+  link: string = 'http://hens-world.fr';
   timeout: number = 1200;
   render(){
     let n = this.name.split('');
@@ -12,14 +24,14 @@ export class HensWorld extends React.Component{
       <span style={{marginLeft: '.5em'}} key={index}> </span>
     ));
     return (
-      <div className="project hens-world">
+      <Project tag={this.tag} url={this.link} introOffset={this.timeout}>
         <h2>{renderName}</h2>
+        <h3>Plateforme Web sur la création et le jeu de rôle</h3>
         <div className="project__excerpt">
-          <p>Site communautaire et interactif basé autour d'un univers fictif. J'ai réalisé l'ensemble du développement du site, en me basant sur une architecture Wordpress et AngularJS. La communauté comprend une centaine de membre, dont une trentaine poste régulièrement des créations venant compléter l'univers.
+          <p>Site communautaire et interactif basé autour d'un univers fictif. Le site permet de poster des créations de tous types, naviguer dans différents villages en vue isométrique pour découvrir l’univers, créer son personnage, faire des jeux de rôles avec d’autres joueurs, etc.
           </p>
         </div>
-        <div className="project__technologies"></div>
-      </div>
+      </Project>
     )
   }
   componentDidMount(){
@@ -51,20 +63,47 @@ export class HensWorld extends React.Component{
   }
   introPage(){
     let tl = timeline();
+    console.log('intro')
     tl.add({
       targets: '.project__excerpt',
-      translateY: -40,
+      translateY: -25,
       opacity: 0,
       duration: 1,
       offset: `+=${this.timeout + 1000}`,
       easing: 'linear'
     });
     tl.add({
+      targets: '.project h3',
+      translateY: -30,
+      opacity: 0,
+      duration: 1,
+      offset: `+=1`,
+      easing: 'linear'
+    });
+
+    tl.add({
+      targets: '.project h3',
+      translateY: 0,
+      opacity: 1,
+      duration: 700,
+      easing: 'easeInOutQuad'
+    });
+    tl.add({
       targets: '.project__excerpt',
       translateY: 0,
       opacity: 1,
-      duration: 1000,
-      easing: 'easeInOutQuad'
+      duration: 600,
+      easing: 'easeInOutQuad',
+      offset: '-=200'
     });
+
+    tl.play();
+  }
 }
+
+
+function mapDispatchToProps(dispatch: any) {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  }
 }

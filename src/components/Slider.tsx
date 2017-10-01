@@ -4,33 +4,10 @@ import {connect, DispatchProp} from "react-redux";
 import {bindActionCreators} from "redux";
 import actions from "../store/actions";
 import {timeline} from "animejs";
+import {projects as pages, PageDescriptor} from '../globals';
 
-interface PageDescriptor {
-  color: string,
-  images:Array<string>
-}
 
-let pages: {
-  [s: string]: PageDescriptor
-} = {
-  'hens-world':{
-    color: '#222',
-    images:[
-      require('../assets/hens-world/1.jpg'),
-      require('../assets/hens-world/2.jpg'),
-      require('../assets/hens-world/3.jpg'),
-      require('../assets/hens-world/4.jpg'),
-    ]
-  },
-  'wittyfit': {
-    color: '#222',
-    images: [
-      require('../assets/wittyfit/1.jpg'),
-      require('../assets/wittyfit/2.jpg'),
-    ]
-  }
-};
-interface SliderProps extends DispatchProp<any>{
+interface SliderProps{
   currentPath: string;
   actions: any;
 }
@@ -57,7 +34,8 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     else {
       this.shown = true;
     }
-    var page = pages[this.props.currentPath.replace('/', '')];
+    var pageName = this.props.currentPath.replace('/', '');
+    var page = pages[pageName];
     this.currentPage = page;
     if(this.previousImage){
       this.nextImg = page.images[Math.floor(Math.random() * page.images.length)];
@@ -72,8 +50,8 @@ class SliderComponent extends  React.Component<SliderProps, any>{
       var bg = this.currentPage.color;
     }
     return (
-      <div className="slider" style={{backgroundColor: bg}}>
-        <div className="slider__cache"> </div>
+      <div className="slider" style={{backgroundColor: bg, clipPath: `url(#${pageName}-clip)`}}>
+        <div className="slider__cache" style={{clipPath: `url(#${pageName}-clip`}}> </div>
         <img className="slider__image" src={this.img} />
         {!!this.nextImg ?
           <img className="slider__next-image" src={this.nextImg} />
@@ -81,16 +59,18 @@ class SliderComponent extends  React.Component<SliderProps, any>{
         }
         <svg width="0" height="0">
           <defs>
-
             <clipPath id="myClip"  clipPathUnits="objectBoundingBox">
               <path d="M0,1, 0,0 .5,0 Q .62,.4 .8,.5 Q .95,.7 1,1 Z"/>
+              {/*<path d="M0 0L0 1C0.44 1 0.66 1 0.66 1C0.74 0.83 0.88 0.76 0.91 0.53C0.92 0.38 0.85 0.2 0.7 0L0.01 0Z" id="bK9LiFI55"/>*/}
             </clipPath>
             <clipPath id="hens-world-clip"  clipPathUnits="objectBoundingBox">
-              <path d="M0,1, 0,0 .5,0 Q .62,.4 .8,.5 Q .95,.7 1,1 Z"/>
+              {/*<path d="M0,1, 0,0 .5,0 Q .62,.4 .8,.5 Q .95,.7 1,1 Z"/>*/}
+              <path d="M0 0L0 1C0.44 1 0.66 1 0.66 1C0.74 0.83 0.88 0.76 0.91 0.53C0.92 0.38 0.85 0.2 0.7 0L0.01 0Z" id="bK9LiFI55"/>
             </clipPath>
             <clipPath id="wittyfit-clip"  clipPathUnits="objectBoundingBox">
-              <path d="M0,1, 0,0 .5,0 Q .62,.4 .8,.5 Q .95,.7 1,1 Z"/>
-            </clipPath>
+              {/*<path d="M0,1, 0,0 .5,0 Q .62,.4 .8,.5 Q .95,.7 1,1 Z"/>*/}
+              <path d="M0.37 0.45C0.36 0.45 0.36 0.44 0.36 0.44C0.34 0.4 0.47 0.21 0.75 -0.12C0.37 -0.12 0.11 -0.12 -0.04 -0.12C-0.11 -0.12 -0.16 0.65 -0.01 0.88C0.19 1.22 0.63 1.06 0.6 0.98C0.57 0.93 0.56 0.87 0.56 0.82C0.56 0.65 0.67 0.5 0.82 0.45C0.87 0.43 0.38 0.45 0.37 0.45Z" id="hYOcygPEE" />
+              <path d="M-0.08 0.98C-0.09 1.15 0.17 1.05 0.17 1.1C0.17 1.21 0.21 0.5 0.17 0.5C0.11 0.5 0.86 0.48 0.81 0.44C0.75 0.39 0.7 0.31 0.7 0.22C0.7 0.12 0.76 0.03 0.84 -0.02C0.88 -0.04 -0.34 0.02 -0.29 0.02C-0.18 0.02 -0.07 0.62 -0.08 0.98Z" id="ae0pqxJut" />            </clipPath>
           </defs>
         </svg>
       </div>

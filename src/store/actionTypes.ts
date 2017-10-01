@@ -1,4 +1,5 @@
 export default {
   CHANGE_PAGE: 'CHANGE_PAGE',
+  TOGGLE_OVERLAY: 'TOGGLE_OVERLAY'
 }
 

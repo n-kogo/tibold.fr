@@ -15,6 +15,7 @@ import {Header} from "./components/Header";
 import {SideNav} from "./components/SideNav";
 import {Slider} from "./components/Slider";
 import {configureStore} from "./store/createStore";
+import {Overlay} from "./components/Overlay";
 
 let store = configureStore();
 
@@ -25,6 +26,9 @@ class App extends React.Component{
       <Provider store={store}>
         <BrowserRouter>
           <div className="main">
+            <Overlay>
+              <h2>Hello Overlays</h2>
+            </Overlay>
             <Header />
             <div className="content">
               <div className="page">
