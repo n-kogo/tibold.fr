@@ -4,57 +4,85 @@ import {connect, Provider} from 'react-redux';
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import {BrowserRouter, HashRouter, Route, Switch} from 'react-router-dom';
-import {Redirect} from "react-router";
+import {Redirect, withRouter} from "react-router";
 import {LeRefuge} from "./pages/LeRefuge";
 import {Wittyfit} from './pages/Wittyfit';
 import {HensWorld} from "./pages/HensWorld";
 import {EternityRun} from "./pages/EternityRun";
-import {Home} from "./pages/Home";
+import {CV} from "./pages/CV";
 import {TheLastFrontier} from "./pages/TheLastFrontier";
 import {Header} from "./components/Header";
 import {SideNav} from "./components/SideNav";
 import {Slider} from "./components/Slider";
 import {configureStore} from "./store/createStore";
 import {Overlay} from "./components/Overlay";
+import {SvgDefinitions} from "./components/SvgDefinitions";
+import {Landing} from "./pages/Landing";
+import {CSSTransition, TransitionGroup} from "react-transition-group";
 
 let store = configureStore();
 
-class App extends React.Component{
+const PageTransition = (props: any) => (
+  <CSSTransition
+    {...props}
+    classNames="fadeTranslate"
+    timeout={1000}
+    mountOnEnter={true}
+    unmountOnExit={true}
+  />
+);
+
+class App extends React.Component<any, any>{
   render(){
-    let p = window.location.pathname;
+    let loc = this.props.location.pathname;
+    console.log('location get', loc);
     return (
       <Provider store={store}>
-        <BrowserRouter>
-          <div className="main">
-            <Overlay>
-              <h2>Hello Overlays</h2>
-            </Overlay>
-            <Header />
-            <div className="content">
-              <div className="page">
-                <Slider currentPath={p} />
-                {/*<Route path="/hens-world" component={Slider}>*/}
-                {/*</Route>*/}
-                <Switch>
-                  <Route exact path="/" component={Home}/>
-                  <Route path="/le-refuge-des-souvenirs" component={LeRefuge}/>
-                  <Route path="/the-last-frontier" component={TheLastFrontier}/>
-                  <Route path="/hens-world" component={HensWorld}/>t
-                  <Route path="/eternity-run" component={EternityRun}/>
-                  <Route path="/wittyfit" component={Wittyfit}/>
-                  <Redirect to="/" />
-                </Switch>
-                <SideNav />
+        <div className="main">
+          <Overlay>
+            <h2>Hello Overlays</h2>
+          </Overlay>
+          <Switch>
+            <Route exact path="/" component={Landing} />
+            <Route>
+              <div style={{height: '100%', display: 'flex', flexDirection: 'column'}}>
+                <Header />
+                <div className="content">
+                  <div className="page">
+                    <Slider />
+                    {/*<Route path="/hens-world" component={Slider}>*/}
+                    {/*</Route>*/}
+                    <TransitionGroup>
+                      <PageTransition key={loc}>
+                        <Switch location={this.props.location}>
+                          <Route path="/home" component={CV}/>
+                          <Route path="/le-refuge-des-souvenirs" component={LeRefuge}/>
+                          <Route path="/the-last-frontier" component={TheLastFrontier}/>
+                          <Route path="/hens-world" component={HensWorld}/>t
+                          <Route path="/eternity-run" component={EternityRun}/>
+                          <Route path="/wittyfit" component={Wittyfit}/>
+                          <Redirect to="/" />
+                        </Switch>
+                      </PageTransition>
+
+                    </TransitionGroup>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </BrowserRouter>
+            </Route>
+          </Switch>
+          <SvgDefinitions />
+        </div>
       </Provider>
     )
   }
 }
 
+let AppComponent = withRouter(App);
+
 ReactDom.render(
-    <App />
+    <BrowserRouter>
+      <Route path="/" component={AppComponent} />
+    </BrowserRouter>
   ,document.getElementById('root')
 );

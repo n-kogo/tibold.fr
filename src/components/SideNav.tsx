@@ -3,20 +3,24 @@ import {withRouter} from "react-router";
 import {Link} from "react-router-dom";
 import {ReactDOM} from "react";
 import {bindActionCreators} from "redux";
-import actions from "../store/actions";
+import actions, {actionTypings} from "../store/actions";
 import {connect, DispatchProp} from "react-redux";
 import {projects} from "../globals";
+import * as classNames from "classnames";
 
-interface SideNavProps extends DispatchProp<any>{
+interface SideNavProps{
   currentPath: string;
   history: any;
-  actions: any;
+  actions: actionTypings;
+  opt: {
+    mode: '';
+  }
 }
 
 class SideNavComponent extends React.Component<SideNavProps, any>{
-  routes: Array<string> = ['/'].concat(Object.keys(projects));
+  routes: Array<string> = ['home'].concat(Object.keys(projects));
   routeNames: {[s: string]: string} = {
-    '': 'Home',
+    'home': 'Station',
     'hens-world': 'Hens World',
     'le-refuge-des-souvenirs': 'Le Refuge des Souvenirs',
     'eternity-run': 'One Eternity to Run',
@@ -24,15 +28,18 @@ class SideNavComponent extends React.Component<SideNavProps, any>{
     'the-last-frontier': 'The Last Frontier'
   };
   render(){
+    let opt = this.props.opt || {mode: 'normal'};
     let links: Array<JSX.Element> = this.routes.map((route, i)=>{
       return (
-        <div key={i} className="side-nav__link" onClick={()=> this.navigateTo('/' + route)}>
+        <div key={i} className={classNames("side-nav__link", {"active": '/' + route === this.props.currentPath})}>
+          <div className={"side-nav__link-dot"} onClick={()=> this.navigateTo('/' + route)}>
+          </div>
           <span className="link-info">{this.routeNames[route]}</span>
         </div>
       )
     });
     return (
-      <div className="side-nav">
+      <div className={classNames("side-nav", opt.mode)}>
         {links}
       </div>
     )

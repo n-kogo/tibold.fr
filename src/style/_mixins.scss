@@ -1,0 +1,31 @@
+@import './_vars.scss';
+
+@mixin media-desktop-hd{
+ @media (min-width: $size-hd) {
+   @content;
+ }
+}
+
+@mixin media-desktop{
+  @media (min-width: $size-md) and (max-width: $size-hd - 1){
+    @content;
+  }
+}
+
+@mixin media-tablet{
+  @media (min-width: $size-sm) and (max-width: $size-md - 1){
+    @content;
+  }
+}
+
+@mixin media-tablet-down{
+  @media (max-width: $size-md - 1){
+    @content;
+  }
+}
+
+@mixin media-phone{
+  @media (max-width: $size-sm - 1){
+    @content;
+  }
+}

@@ -22,14 +22,6 @@ export class Wittyfit extends React.Component{
         introOffset={this.timeout}
       >
         <h2>{renderName}</h2>
-        <h3>Outil pour la qualité de vie au travail pour les grandes entreprises</h3>
-        <div className="project__excerpt">
-          <p>
-            Wittyfit est une application à destination des grandes entreprises pour améliorer la qualité de vie au travail de ses employés.
-            <br/>
-            L'outil comprend des questionnaires, des statistiques pour les chefs d'équipes, un board pour proposer des idées anonymement, des formations pour les employés, etc..
-          </p>
-        </div>
       </Project>
     )
   }

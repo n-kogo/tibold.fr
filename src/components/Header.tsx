@@ -1,17 +1,15 @@
 import * as React from "react";
+import {Logo} from "./Logo";
+import {SideNav} from "./SideNav";
 
 export class Header extends React.Component{
   render(){
     return (
       <div id="header">
-        <div className="logo">
-          <span>T</span>
-          <span>i</span>
-          <span>b</span>
-          <span>o</span>
-          <span>l</span>
-          <span>d</span>
-        </div>
+        <Logo />
+        <SideNav opt={{
+          mode: 'long'
+        }} />
       </div>
     )
   }

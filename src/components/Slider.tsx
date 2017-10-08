@@ -27,8 +27,10 @@ class SliderComponent extends  React.Component<SliderProps, any>{
   }
 
   render(){
-    if(this.props.currentPath === '/'){
+    console.log('render slider on path', this.props.currentPath)
+    if(this.props.currentPath === '/' || this.props.currentPath === '/home'){
       this.shown = false;
+      this.nextImg = null;
       return <span></span>
     }
     else {
@@ -59,27 +61,6 @@ class SliderComponent extends  React.Component<SliderProps, any>{
           <div className="slider__next-image" style={{backgroundImage: `url(${this.nextImg})`}}> </div>
           : ''
         }
-        <svg width="0" height="0">
-          <defs>
-            <clipPath id="myClip"  clipPathUnits="objectBoundingBox">
-              <path d="M0,1, 0,0 .5,0 Q .62,.4 .8,.5 Q .95,.7 1,1 Z"/>
-              {/*<path d="M0 0L0 1C0.44 1 0.66 1 0.66 1C0.74 0.83 0.88 0.76 0.91 0.53C0.92 0.38 0.85 0.2 0.7 0L0.01 0Z" id="bK9LiFI55"/>*/}
-            </clipPath>
-            <clipPath id="hens-world-clip"  clipPathUnits="objectBoundingBox">
-              {/*<path d="M0,1, 0,0 .5,0 Q .62,.4 .8,.5 Q .95,.7 1,1 Z"/>*/}
-              <path id="XMLID_2_" d="M0.7,0c0.1,0.2,0.2,0.3,0.2,0.5S0.7,0.9,0.7,1C0.7,1.1,0,1,0,1V0C0,0,0.6-0.2,0.7,0z"/>
-              {/*<path d="M0 0L0 1C0.44 1 0.66 1 0.66 1C0.74 0.83 0.88 0.76 0.91 0.53C0.92 0.38 0.85 0.2 0.7 0L0.01 0Z" id="bK9LiFI55"/>*/}
-            </clipPath>
-            <clipPath id="wittyfit-clip"  clipPathUnits="objectBoundingBox">
-              <circle cx=".3" cy=".2" r=".5"/>
-              <circle cx=".2" cy=".7" r=".7"/>
-            </clipPath>
-            <clipPath id="the-last-frontier-clip"  clipPathUnits="objectBoundingBox">
-              <circle cx=".2" cy=".2" r=".5"/>
-              <circle cx=".3" cy=".7" r=".7"/>
-            </clipPath>
-          </defs>
-        </svg>
       </div>
     );
   }
@@ -92,16 +73,12 @@ class SliderComponent extends  React.Component<SliderProps, any>{
       this.showSlide();
     }
     if(this.nextImg){
-      console.log('transition slide')
       this.transitionSlide();
     }
   }
 
   transitionSlide(){
    let tl =  timeline({
-     update: (d: any)=>{
-       console.log(d)
-     }
    });
    let i = document.querySelector('.slider__image') as HTMLElement;
    let ni  = document.querySelector('.slider__next-image') as HTMLElement;

@@ -3,6 +3,7 @@ import {projects, icons, labels} from "../globals";
 import {MouseEvent} from "react";
 import classNames = require("classnames");
 import {timeline} from "animejs";
+import {Icon} from "./Icon";
 
 interface IconListProps{
   project: string;
@@ -37,20 +38,8 @@ export class IconList extends  React.Component<IconListProps, IconListState>{
         {
          projects[this.props.project].techs.map((tech, idx)=>{
            return (
-             <img
-               style={{
-                 opacity: 0,
-                 transform: 'scale(0.85)'
-               }}
-               key={idx}
-               src={icons[tech]}
-               className={classNames('icon','icon-' + tech)}
-               width="90"
-               onMouseEnter={(e: MouseEvent<HTMLElement>)=>this.onHover(tech, e)}
-               onMouseLeave={(e: MouseEvent<HTMLElement>)=>this.onMouseOut()}
-               onMouseMove={(e: MouseEvent<HTMLElement>)=>this.onMouseMove(e)}
-             />
-           )
+             <Icon key={idx} tech={tech} />
+         )
          })
         }
       </div>
@@ -87,29 +76,5 @@ export class IconList extends  React.Component<IconListProps, IconListState>{
     });
 
     setTimeout(()=>tl.play(), this.props.introOffset + 1800);
-  }
-
-
-  onHover(hovered: string, e: MouseEvent<HTMLElement>){
-    this.setState({
-      hovered: hovered,
-      mouse: {
-        x: e.clientX,
-        y: e.clientY
-      }
-    });
-  }
-  onMouseMove(e: MouseEvent<HTMLElement>){
-    this.setState({
-      mouse: {
-        x: e.clientX,
-        y: e.clientY
-      }
-    })
-  }
-  onMouseOut(){
-    this.setState({
-      hovered: null
-    });
   }
 }
