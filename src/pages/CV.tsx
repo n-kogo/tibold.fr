@@ -9,9 +9,11 @@ export class CV extends React.Component{
   render(){
     let projectsElements: Array<JSX.Element> = [];
     for (let key in projects){
-      projectsElements.push(
-        <ProjectExcerpt key={key} project={projects[key]} tag={key} />
-      )
+      if(key !== 'home'){
+        projectsElements.push(
+          <ProjectExcerpt key={key} project={projects[key]} tag={key} />
+        )
+      }
     }
     return (
       <div className="home">
@@ -26,7 +28,7 @@ export class CV extends React.Component{
               )
             })}
           </div>
-          <div className="info-card">
+          <div className="info-card" style={{display: 'none'}}>
             <img className="avatar" src="../assets/avatar.jpg" alt=""/>
             <p>Thibaut</p>
             <p>CARCENAC</p>

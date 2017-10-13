@@ -7,6 +7,7 @@ import actions, {actionTypings} from "../store/actions";
 import {connect, DispatchProp} from "react-redux";
 import {projects} from "../globals";
 import * as classNames from "classnames";
+import {LinkWrapper} from "./LinkWrapper";
 
 interface SideNavProps{
   currentPath: string;
@@ -18,7 +19,7 @@ interface SideNavProps{
 }
 
 class SideNavComponent extends React.Component<SideNavProps, any>{
-  routes: Array<string> = ['home'].concat(Object.keys(projects));
+  routes: Array<string> = [].concat(Object.keys(projects));
   routeNames: {[s: string]: string} = {
     'home': 'Station',
     'hens-world': 'Hens World',
@@ -31,13 +32,17 @@ class SideNavComponent extends React.Component<SideNavProps, any>{
     let opt = this.props.opt || {mode: 'normal'};
     let links: Array<JSX.Element> = this.routes.map((route, i)=>{
       return (
-        <div key={i} className={classNames("side-nav__link", {"active": '/' + route === this.props.currentPath})}>
-          <div className={"side-nav__link-dot"} onClick={()=> this.navigateTo('/' + route)}>
+        <LinkWrapper link={'/' + route}>
+          <div key={i} className={classNames("side-nav__link", {"active": '/' + route === this.props.currentPath})}>
+            <div className={"side-nav__link-dot"}>
+            </div>
+            <span className="link-info">{this.routeNames[route]}</span>
           </div>
-          <span className="link-info">{this.routeNames[route]}</span>
-        </div>
+        </LinkWrapper>
+
       )
     });
+
     return (
       <div className={classNames("side-nav", opt.mode)}>
         {links}

@@ -1,11 +1,13 @@
 import * as React from "react";
 import {Project} from "../components/Project";
+import {CST} from "../globals";
+import {timeline} from "animejs";
 
 export class TheLastFrontier extends React.Component{
   name: string = "The Last Frontier";
   tag: string = 'the-last-frontier';
   link: string = 'http://beta.thelastfrontiergame.com';
-  timeout: number = 1200;
+  timeout: number = 600;
   render(){
     let n = this.name.split('');
     let renderName = n.map((letter, index)=>(
@@ -21,15 +23,33 @@ export class TheLastFrontier extends React.Component{
         introOffset={this.timeout}
       >
         <h2>{renderName}</h2>
-        <h3>Outil pour la qualité de vie au travail pour les grandes entreprises</h3>
-        <div className="project__excerpt">
-          <p>
-            Wittyfit est une application à destination des grandes entreprises pour améliorer la qualité de vie au travail de ses employés.
-            <br/>
-            L'outil comprend des questionnaires, des statistiques pour les chefs d'équipes, un board pour proposer des idées anonymement, des formations pour les employés, etc..
-          </p>
-        </div>
       </Project>
     )
+  }
+  componentDidMount(){
+    let title = document.querySelector('.project h2');
+    let letters = title.getElementsByTagName('span');
+    let tl = timeline();
+    for(let i = 0; i < letters.length; i++){
+      let letter = letters[i];
+      tl.add({
+        targets: letter,
+        translateX: 200,
+        opacity: 0,
+        duration: 1,
+        offset: 0,
+        easing: 'easeInOutQuad',
+      });
+      tl.add({
+        targets: letter,
+        translateX: 0,
+        opacity: 1,
+        duration: 500,
+        easing: 'easeInOutQuad',
+        offset: 50 + i * 100
+      });
+    }
+    tl.pause();
+    setTimeout(tl.play, CST.SLIDER_TIMER);
   }
 }

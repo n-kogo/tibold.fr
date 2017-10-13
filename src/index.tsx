@@ -50,9 +50,7 @@ class App extends React.Component<any, any>{
                 <div className="content">
                   <div className="page">
                     <Slider />
-                    {/*<Route path="/hens-world" component={Slider}>*/}
-                    {/*</Route>*/}
-                    <TransitionGroup>
+                    <TransitionGroup style={{width: '100%', maxHeight: "100%"}}>
                       <PageTransition key={loc}>
                         <Switch location={this.props.location}>
                           <Route path="/home" component={CV}/>
@@ -64,7 +62,6 @@ class App extends React.Component<any, any>{
                           <Redirect to="/" />
                         </Switch>
                       </PageTransition>
-
                     </TransitionGroup>
                   </div>
                 </div>

@@ -15,7 +15,7 @@ export class HensWorld extends React.Component<any, any>{
   name: string = "Hens World";
   tag: string = 'hens-world';
   link: string = 'http://hens-world.fr';
-  timeout: number = 1200;
+  timeout: number = 600;
   render(){
     let n = this.name.split('');
     let renderName = n.map((letter, index)=>(

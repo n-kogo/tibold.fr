@@ -1,7 +1,10 @@
 @import './_mixins';
 @import './_vars.scss';
+@import './transitions';
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 @import url('https://fonts.googleapis.com/css?family=Raleway:100,900,400');
+
+
 body,html, #root{
   width: 100%;
   height: 100%;
@@ -10,6 +13,7 @@ body,html, #root{
   padding: 0;
   font-family: 'Open Sans', sans-serif;
   color: $color-font;
+  overflow: hidden;
   background-color: $color-background-page;
   @include media-desktop{
     font-size: 16px;
@@ -23,6 +27,7 @@ p{margin:0;padding:0}
 
 a{
   text-decoration: none;
+  color: $color-main;
 }
 
 h1, h2, h3{
@@ -43,7 +48,7 @@ h1, h2, h3{
     //position: absolute;
   }
   .side-nav{
-    margin: 20px auto 0 auto;
+    margin: 40px auto 0 auto;
     flex: 0 0 auto;
   }
 }
@@ -77,16 +82,13 @@ h1, h2, h3{
 .content{
   position: relative;
   box-sizing: border-box;
-  flex: 1 0 auto;
+  flex: 0 1 100%;
   display: flex;
-  overflow-y: auto;
-  overflow-x: hidden;
   flex-direction: column;
 }
 
 //page
 .page{
-  flex: 1 0 auto;
   background-color: $color-background-content;
   display: flex;
   @include media-phone {
@@ -110,6 +112,39 @@ h1, h2, h3{
     height: 55vh;
     transform: rotate(90deg);
   }
+  &__path-fill{
+    fill: $shade-bright;
+    stroke: none;
+    z-index: 50;
+  }
+  &__bt{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: white;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $color-main;
+    transform-origin: 0 0;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: background-color .3s, width .3s, height .3s;
+    &:hover{
+      width: 35px;
+      height: 35px;
+      background-color: lighten($color-main, 15%);
+      opacity: 1;
+    }
+  }
+  &__previous-bt{
+    background-color: rgba(255, 255, 255, .7);
+    color: $color-main;
+    border: 2px solid $color-main;
+    font-weight: bold;
+  }
   &__image, &__next-image {
     width: 160%;
     margin-left: -25%;
@@ -131,6 +166,16 @@ h1, h2, h3{
     z-index: 11;
     background-color: $shade-bright;
   }
+  &__ram{
+    position: absolute;
+    box-sizing: border-box;
+    background-color: $shade-bright;
+    border: 3px solid $color-main;
+    width: 35px;
+    height: 22px;
+    z-index: 100;
+    transform-origin: 0 0;
+  }
 }
 
 //page specific
@@ -141,7 +186,17 @@ h1, h2, h3{
 }
 
 .project {
-  padding: 20px 55px 15px 15px;
+  padding: 20px 60px 35px 15px;
+  overflow-y: auto;
+  position: absolute;
+  box-sizing: border-box;
+  height: 100%;
+  &__flex{
+    display: flex;
+    min-height: 100%;
+    flex-direction: column;
+    justify-content: center;
+  }
   &:not(.fadeTranslate-exit){
     h2{
       span{opacity: 0}
@@ -154,7 +209,6 @@ h1, h2, h3{
     text-align: justify;
   }
   h2 {
-    font-size: 4em;
   }
   h3{
     font-size: 1.9em;
@@ -162,6 +216,12 @@ h1, h2, h3{
   }
   &__excerpt{
     margin-top: 30px;
+    p{
+      width: 100%;
+    }
+  }
+  .button{
+    opacity: 0;
   }
 }
 
@@ -215,27 +275,32 @@ h1, h2, h3{
   border-radius: 4px;
   background-color: $color-main;
   transform: translate(0% -50%);
+  a{
+    color: $color-font;
+    display: inline-block;
+  }
   &.long{
-    .side-nav__link{
-      &:not(:first-child){
-        padding-left: 50px;
-      }
-      &:not(:last-child){
-        padding-right: 50px;
-      }
+    > a:not(:first-child){
+      padding-left: 70px;
+    }
+    > a:not(:last-child){
+      padding-right: 70px;
     }
     .link-info{
-      margin-top: -3em;
+      padding-bottom: 1em;
       display: block;
+      bottom: 20%;
       width: 120px;
       margin-left: -54px;
       //position: static;
       top: auto;
       right: auto;
-      pointer-events: all;
       text-align: center;
       transform: none;
     }
+  }
+  > a:not(:last-child){
+    padding-right: 25px;
   }
   &__link{
     margin-top: -4px;
@@ -259,16 +324,14 @@ h1, h2, h3{
         font-weight: 700;
       }
     }
-    &:not(:last-child){
-      padding-right: 25px;
-    }
+
     .link-info{
       transform-origin: 100% 50%;
       transform: rotate(-75deg);
       line-height: 1;
       //border: 1px solid red;
       width: 200px;
-      pointer-events: none;
+      //pointer-events: none;
       position: absolute;
       right: 100%;
       top: 1.1em;
@@ -289,8 +352,12 @@ h1, h2, h3{
 .home{
   max-width: 1080px;
   width: 100%;
+  padding: 10px 30px 25px 25px;
+  box-sizing: border-box;
   margin: 0 auto;
   padding-bottom: 45px;
+  max-height: 100%;
+  overflow-y: auto;
 }
 
 
@@ -299,6 +366,7 @@ h1, h2, h3{
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  flex: 0 0 auto;
   justify-content: space-around;
   margin: 10px 0;
   &__hover{
@@ -308,7 +376,7 @@ h1, h2, h3{
     position: fixed;
     z-index: 5;
     padding: 5px;
-    pointer-events: none;
+    //pointer-events: none;
     color: white;
     background-color: rgba(10, 10, 10, .88);
   }
@@ -340,6 +408,7 @@ h1, h2, h3{
   text-align: center;
   color: $color-main;
   cursor: pointer;
+  flex: 0 0 auto;
   &:hover{
     color: $shade-bright;
     background-color: $color-main;
@@ -349,11 +418,11 @@ h1, h2, h3{
 .line{
   margin-top: 20px;
   display: flex;
+  flex: 0 0 auto;
   margin-bottom: 35px;
   justify-content: space-between;
   @include media-phone{
-    flex-direction: column
-  ;
+    flex-direction: column;
   }
 }
 
@@ -484,7 +553,7 @@ h1, h2, h3{
     }
   }
   &__info{
-    width: 100px;
+    width: 130px;
     flex: 0 0 auto;
     text-align: center;
     padding-right: 10px;
@@ -585,30 +654,8 @@ h1, h2, h3{
   left: -23px;
 }
 
-.fadeTranslate-enter {
-  opacity: 0;
-  transform: translate(0, -3vh);
-  position: fixed;
-}
-
-.fadeTranslate-enter.fadeTranslate-enter-active {
-  opacity: 1;
-  transform: translate(0, 0);
-  transition: opacity 500ms ease-in 500ms, transform 500ms ease-in-out 500ms;
-}
-
-.fadeTranslate-exit {
-  opacity: 1;
-  position: fixed;
-  transform: translate(0, 0);
-}
-
-.fadeTranslate-exit.fadeTranslate-exit-active {
-  opacity: 0;
-  transform: translate(0, 3vh);
-  transition: opacity 300ms ease-in, transform 300ms ease-in-out;
-}
-
-.fix-container {
-  position: fixed;
+.virtual-fit-text{
+  position: absolute;
+  font-family: Raleway, sans-serif;
+  visibility: hidden;
 }

@@ -1,12 +1,13 @@
 import * as React from "react";
 import {timeline} from "animejs";
 import {Project} from "../components/Project";
+import {CST} from "../globals";
 
 export class Wittyfit extends React.Component{
   name: string = "Wittyfit";
   tag: string = 'wittyfit';
   link: string = 'http://wittyfit.com';
-  timeout: number = 1200;
+  timeout: number = 800;
   render(){
     let n = this.name.split('');
     let renderName = n.map((letter, index)=>(
@@ -49,26 +50,7 @@ export class Wittyfit extends React.Component{
       });
     }
     tl.pause();
-    setTimeout(tl.play, this.timeout);
-    this.introPage();
-  }
-  introPage(){
-    let tl = timeline();
-    tl.add({
-      targets: '.project__excerpt',
-      translateY: -40,
-      opacity: 0,
-      duration: 1,
-      offset: `+=${this.timeout + 1000}`,
-      easing: 'linear'
-    });
-    tl.add({
-      targets: '.project__excerpt',
-      translateY: 0,
-      opacity: 1,
-      duration: 1000,
-      easing: 'easeInOutQuad'
-    });
+    setTimeout(tl.play, CST.SLIDER_TIMER);
   }
 }
 

@@ -5,6 +5,7 @@ import {bindActionCreators} from "redux";
 import actions from "../store/actions";
 import {timeline} from "animejs";
 import {projects as pages, PageDescriptor} from '../globals';
+import {LinkWrapper} from "./LinkWrapper";
 
 
 interface SliderProps{
@@ -28,7 +29,7 @@ class SliderComponent extends  React.Component<SliderProps, any>{
 
   render(){
     console.log('render slider on path', this.props.currentPath)
-    if(this.props.currentPath === '/' || this.props.currentPath === '/home'){
+    if(this.props.currentPath === '/' ){
       this.shown = false;
       this.nextImg = null;
       return <span></span>
@@ -51,9 +52,32 @@ class SliderComponent extends  React.Component<SliderProps, any>{
       this.previousPage = page;
       var bg = this.currentPage.color;
     }
+
+    let closingPath = page.isPathReversed ?
+      `L${page.viewbox[0]},0 L${page.viewbox[0]},${page.viewbox[1]}`
+      :
+      `L${page.viewbox[0]},${page.viewbox[1]} L${page.viewbox[0]},0z`;
+
+    let pageKeys = Object.keys(pages);
+    let linkIndex = pageKeys.indexOf(pageName) >= pageKeys.length - 1 ? 0 : pageKeys.indexOf(pageName) + 1;
+    let link = pageKeys[linkIndex];
+    let prevLinkIndex = pageKeys.indexOf(pageName) === 0 ? pageKeys.length - 1 : pageKeys.indexOf(pageName) - 1;
+    let prevLink = pageKeys[prevLinkIndex];
     return (
-      <div className="slider" style={{backgroundColor: '#EEE', clipPath: `url(#${pageName}-clip)`}}>
-        <div className="slider__cache" style={{clipPath: `url(#${pageName}-clip`}}> </div>
+      <div className="slider" style={{backgroundColor: '#EEE'}}>
+        <svg viewBox={`0 0 ${page.viewbox[0]} ${page.viewbox[1]}`} width="auto" height={"auto"} style={{position:'relative', zIndex: 50}} preserveAspectRatio="none">
+          <path id="slider_path" className="slider__path-fill" d={page.path + closingPath} strokeWidth={"0"}/>
+          <path id="slider_ram-path" d={page.path} stroke={"#none"} strokeWidth={"0.005"} fill={"none"}/>
+          {/*<polygon points={"0,0, 1,0, 1,1 0,1"} fill={"#FFF"}></polygon>*/}
+        </svg>
+        <div className="slide_cache" style={{clipPath: `url(#${pageName}-clip`}}> </div>
+        <LinkWrapper link={'/' + prevLink}>
+          <div className="slider__previous-bt slider__bt">{"<"}</div>
+        </LinkWrapper>
+        <LinkWrapper link={'/' + link}>
+          <div className="slider__next-bt slider__bt">{">"}</div>
+        </LinkWrapper>
+        <div className="slider__ram"></div>
         {/*<img className="slider__image" src={this.img} />*/}
         <div className="slider__image" style={{backgroundImage: `url(${this.img})`}}> </div>
         {/*<img className="slider__next-image" src={this.nextImg} />*/}
@@ -68,13 +92,41 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     this.componentDidUpdate();
   }
   componentDidUpdate(){
-    console.log('update slide', this.shown)
+    let ram: HTMLElement = document.querySelector('.slider__ram') as HTMLElement;
+    let prevBt: HTMLElement = document.querySelector('.slider__previous-bt') as HTMLElement;
+    let nextBt: HTMLElement = document.querySelector('.slider__next-bt') as HTMLElement;
+    if(this.currentPage.isPathReversed){
+      this.placeAt(prevBt, 1 - .12);
+      this.placeAt(ram, 1 -.20);
+      this.placeAt(nextBt, 1 - .28);
+
+    }
+    else{
+      this.placeAt(prevBt, .1);
+      this.placeAt(ram, .2);
+      this.placeAt(nextBt, .3);
+    }
     if(this.shown){
       this.showSlide();
     }
     if(this.nextImg){
       this.transitionSlide();
     }
+  }
+
+  placeAt(element: HTMLElement, percent:number){
+    let p: SVGPathElement = document.getElementById('slider_ram-path') as any;
+    let pathEl = anime.path(p);
+    let p1 = p.getPointAtLength(p.getTotalLength() * percent);
+    let p0 = p.getPointAtLength(p.getTotalLength() * (percent - 0.01));
+    let angle =  ( Math.atan2(p1.y - p0.y, p1.x - p0.x) * 180) / Math.PI;
+    if(this.currentPage.isPathReversed){
+      angle += 180;
+    }
+    console.log(element.classList, p.getTotalLength(), percent, p1);
+    element.style.left = p1.x * 100 / this.currentPage.viewbox[0]  + '%';
+    element.style.top = p1.y * 100 / this.currentPage.viewbox[1] + '%';
+    element.style.transform = `rotate(${angle}deg) translateX(-50%) translateY(-50%)`;
   }
 
   transitionSlide(){

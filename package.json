@@ -29,6 +29,7 @@
     "classnames": "^2.2.5",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
+    "react-fittext": "^1.0.0",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-transition-group": "^2.2.1",

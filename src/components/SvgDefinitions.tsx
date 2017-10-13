@@ -1,6 +1,9 @@
 import * as React from "react";
 
 export class SvgDefinitions extends  React.Component{
+  paths = {
+    'hens-world': ''
+  };
   render(){
     return (
       <svg width="0" height="0">
@@ -11,7 +14,7 @@ export class SvgDefinitions extends  React.Component{
           </clipPath>
           <clipPath id="hens-world-clip"  clipPathUnits="objectBoundingBox">
             {/*<path d="M0,1, 0,0 .5,0 Q .62,.4 .8,.5 Q .95,.7 1,1 Z"/>*/}
-            <path id="XMLID_2_" d="M0.7,0c0.1,0.2,0.2,0.3,0.2,0.5S0.7,0.9,0.7,1C0.7,1.1,0,1,0,1V0C0,0,0.6-0.2,0.7,0z"/>
+            <path id="XMLID_2_" d="M0.7,0 c0.1,0.2 0.2,0.3 0.2,0.5 S0.7,0.9 0.7,1 C0.7,1.1 0,1 ,0,1 V0 C0,0 0.6-0.2,0.7,0z"/>
             {/*<path d="M0 0L0 1C0.44 1 0.66 1 0.66 1C0.74 0.83 0.88 0.76 0.91 0.53C0.92 0.38 0.85 0.2 0.7 0L0.01 0Z" id="bK9LiFI55"/>*/}
           </clipPath>
           <clipPath id="wittyfit-clip"  clipPathUnits="objectBoundingBox">

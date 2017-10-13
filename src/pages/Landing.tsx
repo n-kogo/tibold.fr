@@ -19,6 +19,7 @@ interface MetroLine{
 export class Landing extends React.Component{
   lines: Array<MetroLine> = [];
   bgColor: string = "#999";
+  requestAnimationFrameID: number;
   svg: svgjs.Doc;
   render(){
     return (
@@ -73,7 +74,7 @@ export class Landing extends React.Component{
         line.spawnTime = performance.now();
       }
     });
-    requestAnimationFrame(()=> this.updateLines());
+    this.requestAnimationFrameID = requestAnimationFrame(()=> this.updateLines());
   }
   spawnLine(){
     let cont = document.querySelector('.landing__draw-background')
@@ -153,6 +154,7 @@ export class Landing extends React.Component{
     });
     let w = document.createElement('svg');
   }
+
   generatePath(){
     let p = "";
     let w = window.innerWidth;
@@ -183,6 +185,7 @@ export class Landing extends React.Component{
     }
     return p;
   }
+
   randomSign(){
     return Math.random() < .5 ? -1 : 1;
   }
@@ -205,4 +208,9 @@ export class Landing extends React.Component{
     });
     return {pos, segment};
   }
+
+  componentWillUnmount(){
+    cancelAnimationFrame(this.requestAnimationFrameID);
+  }
+
 }
