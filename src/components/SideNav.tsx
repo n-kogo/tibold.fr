@@ -32,14 +32,13 @@ class SideNavComponent extends React.Component<SideNavProps, any>{
     let opt = this.props.opt || {mode: 'normal'};
     let links: Array<JSX.Element> = this.routes.map((route, i)=>{
       return (
-        <LinkWrapper link={'/' + route}>
-          <div key={i} className={classNames("side-nav__link", {"active": '/' + route === this.props.currentPath})}>
+        <LinkWrapper link={'/' + route}  key={i}>
+          <div className={classNames("side-nav__link", {"active": '/' + route === this.props.currentPath})}>
             <div className={"side-nav__link-dot"}>
             </div>
             <span className="link-info">{this.routeNames[route]}</span>
           </div>
         </LinkWrapper>
-
       )
     });
 

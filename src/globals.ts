@@ -125,7 +125,7 @@ const projects: {
   'hens-world':{
     name: 'Hens World',
     techs: ['angular', 'wordpress', 'coffeescript', 'nodejs', 'mysql', 'less', 'gulp'],
-    path: 'M0.7,0 c0.1,0.2 0.2,0.3 0.2,0.5 S0.7,0.9 0.7,1',
+    path: 'M0.71,0 c0.1,0.2 0.2,0.3 0.2,0.5 S0.7,0.9 0.7,1',
     viewbox: [1, 1],
     images:[
       require('./assets/hens-world/1.jpg'),
@@ -141,7 +141,7 @@ const projects: {
     viewbox: [100, 100],
     // top bubble
     // path: "M60.05,0 c0,0-15.5,17.325-5,33.325S80.266,39.833,82.3,41 s-16.75,59-16.75,59",
-    path: "M65.5,100.049c0,0,17-13.799,18.084-34.25 C84.5,48.524,71.5,33.5,65.229,31.322 c5.084-2.444,8.65-8.156,8.65-14.813 c0-8.883-6.35-16.084-12.182-17.184",
+    path: "M71,100 c0,0 17-13.799,18.084-34.25 C90.5,48.524 71.5,33.5 65.229,31.322 c5.084,-2.444 8.65,-8.156 12.65,-14.813 c0-8.883-6.35-16.084-12.182-18.184",
     isPathReversed: true,
     techs: ['angular', 'coffeescript', 'gulp', 'less'],
     images: [

@@ -16,14 +16,15 @@ export class ProjectExcerpt extends React.Component<ProjectExcerptProps, any>{
           <h2>{this.props.project.name}</h2>
           <p>{pContent[this.props.tag].excerpt}</p>
           <p className="project-excerpt__date">{pContent[this.props.tag].date}</p>
-          <div className="project-excerpt__icons">
-            {this.props.project.techs.filter((tech, idx)=>idx < 3).map((tech, idx)=>{
-              return <Icon key={idx} tech={tech} />
-            })}
-          </div>
+
+        </div>
+        <div className="project-excerpt__icons">
+          {this.props.project.techs.filter((tech, idx)=>idx < 3).map((tech, idx)=>{
+            return <Icon key={idx} tech={tech} />
+          })}
         </div>
         <div className="project-excerpt__image" style={{backgroundImage: `url(${this.props.project.images[0]})`}}>
-          <svg  viewBox="0 0 1 1" width="100%" height="100" preserveAspectRatio="none">
+          <svg  viewBox="0 0 1 1" preserveAspectRatio="none">
             <filter id="dropshadow">
               <feGaussianBlur in="SourceAlpha" stdDeviation=".5"/>
               <feOffset dx=".5" dy=".5" result="offsetblur"/>

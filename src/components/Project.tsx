@@ -78,8 +78,8 @@ export class Project extends React.Component<ProjectProps, any>{
           <h3>{content.excerpt}</h3>
           <div className="project__excerpt">
             {Array.isArray(content.description) ?
-              content.description.map((line)=>(
-                <p>{line}</p>
+              content.description.map((line, index)=>(
+                <p key={index}>{line}</p>
               ))
               :
               <p>{content.description}</p>

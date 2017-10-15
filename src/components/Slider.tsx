@@ -6,6 +6,8 @@ import actions from "../store/actions";
 import {timeline} from "animejs";
 import {projects as pages, PageDescriptor} from '../globals';
 import {LinkWrapper} from "./LinkWrapper";
+import {CSSProperties} from "react";
+import AnimeCallbackFunction = require("animejs");
 
 
 interface SliderProps{
@@ -49,7 +51,6 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     else {
       this.img = page.images[Math.floor(Math.random() * page.images.length)];
       this.previousImage = this.img;
-      this.previousPage = page;
       var bg = this.currentPage.color;
     }
 
@@ -58,19 +59,36 @@ class SliderComponent extends  React.Component<SliderProps, any>{
       :
       `L${page.viewbox[0]},${page.viewbox[1]} L${page.viewbox[0]},0z`;
 
+    if(this.previousPage){
+      var prevClosingPath = this.previousPage.isPathReversed ?
+        `L${this.previousPage.viewbox[0]},0 L${this.previousPage.viewbox[0]},${this.previousPage.viewbox[1]}`
+        :
+        `L${this.previousPage.viewbox[0]},${this.previousPage.viewbox[1]} L${this.previousPage.viewbox[0]},0z`;
+    }
+
     let pageKeys = Object.keys(pages);
     let linkIndex = pageKeys.indexOf(pageName) >= pageKeys.length - 1 ? 0 : pageKeys.indexOf(pageName) + 1;
     let link = pageKeys[linkIndex];
     let prevLinkIndex = pageKeys.indexOf(pageName) === 0 ? pageKeys.length - 1 : pageKeys.indexOf(pageName) - 1;
     let prevLink = pageKeys[prevLinkIndex];
+    let svgStyle: CSSProperties = {position:'relative', zIndex: 50, transform: 'translateY(0)'};
     return (
       <div className="slider" style={{backgroundColor: '#EEE'}}>
-        <svg viewBox={`0 0 ${page.viewbox[0]} ${page.viewbox[1]}`} width="auto" height={"auto"} style={{position:'relative', zIndex: 50}} preserveAspectRatio="none">
+        {
+          this.previousPage ?
+            <svg className="slider__svg"  viewBox={`0 0 ${this.previousPage.viewbox[0]} ${this.previousPage.viewbox[1]}`} style={svgStyle} preserveAspectRatio="none">
+              <path id="slider_previous-path" className="slider__path-fill" d={this.previousPage.path + prevClosingPath} strokeWidth={"0"}/>
+              <path id="slider_previous-ram-path" d={this.previousPage.path} stroke={"#none"} strokeWidth={"0.005"} fill={"none"}/>
+            </svg>
+          :
+          ''
+        }
+        <svg className="slider__svg"  viewBox={`0 0 ${page.viewbox[0]} ${page.viewbox[1]}`} style={svgStyle} preserveAspectRatio="none">
           <path id="slider_path" className="slider__path-fill" d={page.path + closingPath} strokeWidth={"0"}/>
-          <path id="slider_ram-path" d={page.path} stroke={"#none"} strokeWidth={"0.005"} fill={"none"}/>
-          {/*<polygon points={"0,0, 1,0, 1,1 0,1"} fill={"#FFF"}></polygon>*/}
+          <path id="slider_ram-path" d={page.path} stroke={"none"} strokeWidth={"0.005"} fill={"none"}/>
         </svg>
-        <div className="slide_cache" style={{clipPath: `url(#${pageName}-clip`}}> </div>
+        <div className="slider__cache" style={{clipPath: `url(#${pageName}-clip`}}> </div>
+        {/*Ram and links*/}
         <LinkWrapper link={'/' + prevLink}>
           <div className="slider__previous-bt slider__bt">{"<"}</div>
         </LinkWrapper>
@@ -78,9 +96,8 @@ class SliderComponent extends  React.Component<SliderProps, any>{
           <div className="slider__next-bt slider__bt">{">"}</div>
         </LinkWrapper>
         <div className="slider__ram"></div>
-        {/*<img className="slider__image" src={this.img} />*/}
+        {/*Image blocs*/}
         <div className="slider__image" style={{backgroundImage: `url(${this.img})`}}> </div>
-        {/*<img className="slider__next-image" src={this.nextImg} />*/}
         {!!this.nextImg ?
           <div className="slider__next-image" style={{backgroundImage: `url(${this.nextImg})`}}> </div>
           : ''
@@ -111,7 +128,33 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     }
     if(this.nextImg){
       this.transitionSlide();
+      this.moveRam();
     }
+    this.previousPage = this.currentPage;
+  }
+
+  moveRam(){
+    document.querySelectorAll('.slider__svg').forEach((div: HTMLElement)=>{
+      div.style.transform = 'translateY(0)';
+    });
+    anime({
+      targets: '.slider__svg',
+      translateY: [0, "-100%"],
+      easing: 'easeInOutQuad',
+      duration: (elt, i)=>(2000 - i * 10)
+    });
+    let ramPos= {
+      percent: 0,
+      percent2: 0
+    }
+    anime({
+      targets: ramPos,
+      percent: 150,
+      update: (value)=>{
+        console.log(value.progress)
+      },
+      duration: 1000
+    })
   }
 
   placeAt(element: HTMLElement, percent:number){
@@ -123,7 +166,6 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     if(this.currentPage.isPathReversed){
       angle += 180;
     }
-    console.log(element.classList, p.getTotalLength(), percent, p1);
     element.style.left = p1.x * 100 / this.currentPage.viewbox[0]  + '%';
     element.style.top = p1.y * 100 / this.currentPage.viewbox[1] + '%';
     element.style.transform = `rotate(${angle}deg) translateX(-50%) translateY(-50%)`;
@@ -155,7 +197,6 @@ class SliderComponent extends  React.Component<SliderProps, any>{
      opacity: 1,
      duration: 600,
    });
-   this.previousPage = this.currentPage;
   }
 
   showSlide(){
