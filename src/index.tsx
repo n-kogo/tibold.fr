@@ -32,6 +32,16 @@ const PageTransition = (props: any) => (
   />
 );
 
+const HomeTransition = (props: any) =>(
+  <CSSTransition
+    {...props}
+    classNames={"homeTranslate"}
+    timeout={1000}
+    mountOnEnter={true}
+    unmountOnExit={true}
+  />
+)
+
 class App extends React.Component<any, any>{
   render(){
     let loc = this.props.location.pathname;
@@ -42,32 +52,37 @@ class App extends React.Component<any, any>{
           <Overlay>
             <h2>Hello Overlays</h2>
           </Overlay>
-          <Switch>
-            <Route exact path="/" component={Landing} />
-            <Route>
-              <div style={{height: '100%', display: 'flex', flexDirection: 'column'}}>
-                <Header />
-                <div className="content">
-                  <div className="page">
-                    <Slider />
-                    <TransitionGroup style={{width: '100%', maxHeight: "100%"}}>
-                      <PageTransition key={loc}>
-                        <Switch location={this.props.location}>
-                          <Route path="/home" component={CV}/>
-                          <Route path="/le-refuge-des-souvenirs" component={LeRefuge}/>
-                          <Route path="/the-last-frontier" component={TheLastFrontier}/>
-                          <Route path="/hens-world" component={HensWorld}/>t
-                          <Route path="/eternity-run" component={EternityRun}/>
-                          <Route path="/wittyfit" component={Wittyfit}/>
-                          <Redirect to="/" />
-                        </Switch>
-                      </PageTransition>
-                    </TransitionGroup>
+          <TransitionGroup  style={{width: '100%', height: "100%"}}>
+            <HomeTransition key={loc}>
+              <Switch>
+                <Route exact path="/" component={Landing} />
+                <Route>
+                  <div style={{height: '100%', display: 'flex', flexDirection: 'column'}}>
+                    <Header />
+                    <div className="content">
+                      <div className="page">
+                        <Slider />
+                        <TransitionGroup style={{width: '100%', maxHeight: "100%"}}>
+                          <PageTransition key={loc}>
+                            <Switch location={this.props.location}>
+                              <Route path="/home" component={CV}/>
+                              <Route path="/le-refuge-des-souvenirs" component={LeRefuge}/>
+                              <Route path="/the-last-frontier" component={TheLastFrontier}/>
+                              <Route path="/hens-world" component={HensWorld}/>t
+                              <Route path="/eternity-run" component={EternityRun}/>
+                              <Route path="/wittyfit" component={Wittyfit}/>
+                              <Redirect to="/" />
+                            </Switch>
+                          </PageTransition>
+                        </TransitionGroup>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </Route>
-          </Switch>
+                </Route>
+              </Switch>
+            </HomeTransition>
+
+          </TransitionGroup>
           <SvgDefinitions />
         </div>
       </Provider>

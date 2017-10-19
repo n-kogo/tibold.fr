@@ -128,7 +128,7 @@ h1, h2, h3{
     height: 30px;
     border-radius: 50%;
     color: white;
-    z-index: 100;
+    z-index: 60;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -180,7 +180,7 @@ h1, h2, h3{
     border: 3px solid $color-main;
     width: 35px;
     height: 22px;
-    z-index: 100;
+    z-index: 65;
     transform-origin: 0 0;
   }
 }
@@ -439,10 +439,10 @@ h1, h2, h3{
     opacity: 0;
     z-index: 0;
   }
-  transition: z-index 2s, opacity .25s;
+  transition: z-index .2s, opacity .35s;
   opacity: 1;
   position: fixed;
-  z-index: 20;
+  z-index: 100;
   width: 100%;
   height: 100%;
   background-color: rgba(13, 13, 15, 0.85);

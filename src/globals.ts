@@ -78,7 +78,7 @@ const pContent: {[key: string]: PageContent} = {
   },
   'le-refuge-des-souvenirs':{
     excerpt: "Film Interactif",
-    description: "",
+    description: "Le Refuge des Souvenirs est un film interactif réalisé par Lyne Hehlen en tant que projet de fin d'étude à l'EMCA. Le film permet de suivre l'histoire de deux amies d'enfances aux travers de 3 points de vues différents.",
     date: 'Mai 2017 - Août 2017',
   },
   'eternity-run': {
@@ -115,7 +115,7 @@ const projects: {
   'home':{
     name: 'Station',
     viewbox: [100, 100],
-    path : "M71,100c0.166-0.5,18.083-16.5,16.5-49.667C81.168,18.921,72,-1,71,0",
+    path : "M71,100c0.166-0.5,18.083-16.5,16.5-49.667C81.168,18.921,71,0,71,0",
     isPathReversed: true,
     techs: [],
     images:[
@@ -125,8 +125,8 @@ const projects: {
   'hens-world':{
     name: 'Hens World',
     techs: ['angular', 'wordpress', 'coffeescript', 'nodejs', 'mysql', 'less', 'gulp'],
-    path: 'M0.71,0 c0.1,0.2 0.2,0.3 0.2,0.5 S0.7,0.9 0.7,1',
-    viewbox: [1, 1],
+    path: 'M71,0 c10,20 20,30 20,50 S70,90 70,100',
+    viewbox: [100, 100],
     images:[
       require('./assets/hens-world/1.jpg'),
       require('./assets/hens-world/2.jpg'),
@@ -141,7 +141,7 @@ const projects: {
     viewbox: [100, 100],
     // top bubble
     // path: "M60.05,0 c0,0-15.5,17.325-5,33.325S80.266,39.833,82.3,41 s-16.75,59-16.75,59",
-    path: "M71,100 c0,0 17-13.799,18.084-34.25 C90.5,48.524 71.5,33.5 65.229,31.322 c5.084,-2.444 8.65,-8.156 12.65,-14.813 c0-8.883-6.35-16.084-12.182-18.184",
+    path: "M71,100 c0,0 17,-13.799 18.084,-34.25 C90.5,48.524 71.5,33.5 65.229,31.322 c5.084,-2.444 12.65,-8.156 12.65,-14.813 c0,-8.883 -6.35,-16.084 -11,-18.184",
     isPathReversed: true,
     techs: ['angular', 'coffeescript', 'gulp', 'less'],
     images: [
@@ -153,7 +153,7 @@ const projects: {
     name: 'The Last Frontier',
     viewbox: [100, 100],
     techs: ['angular', 'nodejs', 'socket-io', 'typescript', 'mysql', 'webpack'],
-    path: "M71,0 c0,0-10.802,39-5.617,72.75  c4.319,28.114,9.938,27.25,9.938,27.25",
+    path: "M71,0 c0,0 -10.802,39 -5.617,72.75  c4.319,28.114 4.38,24.25 5.38,27.25",
     images: [
       require('./assets/thelastfrontier/1.jpg'),
       require('./assets/thelastfrontier/2.jpg'),
@@ -165,7 +165,7 @@ const projects: {
   'le-refuge-des-souvenirs': {
     name: 'Le Refuge des Souvenirs',
     viewbox: [100, 100],
-    path: 'M71,0 c0,0-8.52,6.325-9.878,24.871  c-1.076,14.693,3.505,25.862,9.836,31.232  c6.936,5.883,11.082,5.729,14.411,11.064  c4.722,7.563-10.351,32.832-10.351,32.832',
+    path: 'M71,0 c0,0-8.52,6.325-9.878,24.871  c-1.076,14.693,3.505,25.862,9.836,31.232  c6.936,5.883,11.082,5.729,14.411,11.064  c4.722,7.563 -10.351,32.832 -15,32.832',
     techs: ['typescript', 'react', 'nodejs', 'sass', 'mysql', 'webpack'],
     images: [
       require('./assets/le-refuge-des-souvenirs/1.jpg'),
@@ -177,7 +177,7 @@ const projects: {
   'eternity-run': {
     name: 'One Eternity to Run',
     techs: ['phaser', 'nodejs', 'socket-io', 'webpack', 'sass'],
-    path: "M59.904,0 L71.654,72.25 L58.904,71.75 L68.904,86.75 L57.904,86.5 L66.779,100",
+    path: "M71,0 L71.654,72.25 L58.904,71.75 L68.904,86.75 L57.904,86.5 L71,100",
     viewbox: [100, 100],
     images: [
       require('./assets/eternity-run/1.jpg'),

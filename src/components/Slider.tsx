@@ -41,6 +41,7 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     }
     var pageName = this.props.currentPath.replace('/', '');
     var page = pages[pageName];
+    this.previousPage = this.currentPage;
     this.currentPage = page;
     if(this.previousImage){
       this.nextImg = page.images[Math.floor(Math.random() * page.images.length)];
@@ -109,6 +110,21 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     this.componentDidUpdate();
   }
   componentDidUpdate(){
+    if(this.shown){
+      this.showSlide();
+    }
+    if(this.nextImg){
+      let ram: HTMLElement = document.querySelector('.slider__ram') as HTMLElement;
+      console.log('BEFORE UPDATE', ram.style.top, ram.style.marginTop, this.previousPage.isPathReversed, this.previousPage.name);
+      this.transitionSlide();
+      this.moveRam();
+    }
+    else {
+      this.placeAll();
+    }
+  }
+
+  placeAll(){
     let ram: HTMLElement = document.querySelector('.slider__ram') as HTMLElement;
     let prevBt: HTMLElement = document.querySelector('.slider__previous-bt') as HTMLElement;
     let nextBt: HTMLElement = document.querySelector('.slider__next-bt') as HTMLElement;
@@ -123,14 +139,6 @@ class SliderComponent extends  React.Component<SliderProps, any>{
       this.placeAt(ram, .2);
       this.placeAt(nextBt, .3);
     }
-    if(this.shown){
-      this.showSlide();
-    }
-    if(this.nextImg){
-      this.transitionSlide();
-      this.moveRam();
-    }
-    this.previousPage = this.currentPage;
   }
 
   moveRam(){
@@ -138,34 +146,96 @@ class SliderComponent extends  React.Component<SliderProps, any>{
       div.style.transform = 'translateY(0)';
     });
     anime({
-      targets: '.slider__svg',
+      targets: ['.slider__svg'],
       translateY: [0, "-100%"],
       easing: 'easeInOutQuad',
-      duration: (elt, i)=>(2000 - i * 10)
+      duration: (elt, i)=>(2100 - i * 6)
     });
     let ramPos= {
-      percent: 0,
+      percent: 20,
       percent2: 0
-    }
+    };
+    let ram: HTMLElement = document.querySelector('.slider__ram') as HTMLElement;
+    let prevPath: HTMLElement = document.querySelector('.slider__svg') as HTMLElement;
+    let path: HTMLElement = document.querySelectorAll('.slider__svg')[1] as HTMLElement;
+    anime({
+      targets: '.slider__bt',
+      opacity:0,
+      duration: 150,
+      easing: 'linear'
+    });
     anime({
       targets: ramPos,
-      percent: 150,
+      percent: 100,
+      easing: 'easeInQuad',
       update: (value)=>{
-        console.log(value.progress)
+        let rect = prevPath.getBoundingClientRect();
+        ram.style.marginTop = (rect.top - 76)  + 'px';
+        console.log(ram.style.top, ram.style.left, ram.style.marginTop, this.previousPage.isPathReversed, this.previousPage.name);
+        if(ramPos.percent >= 20){
+          if(this.previousPage.isPathReversed){
+            this.placeAt(ram, (100 - ramPos.percent) / 100, document.getElementById('slider_previous-ram-path') as any);
+          }
+          else {
+            this.placeAt(ram, (ramPos.percent) / 100, document.getElementById('slider_previous-ram-path') as any);
+          }
+        }
       },
-      duration: 1000
+      duration: 1550,
+      complete: ()=>{
+        console.log('first part ram complete')
+        ram.style.top = '0';
+        ram.style.left = '0';
+
+        anime({
+          targets: ramPos,
+          percent2: 20,
+          duration: 550,
+          easing: 'easeOutQuad',
+          update:()=>{
+            console.log('update anime part 2')
+            console.log(ram.style.top, ram.style.left, ram.style.marginTop, this.previousPage.isPathReversed, this.previousPage.name);
+            let rect = path.getBoundingClientRect();
+            ram.style.marginTop = (rect.top - 76) + 'px';
+            if(ramPos.percent >= 5){
+              if(this.currentPage.isPathReversed){
+                this.placeAt(ram, (100 - ramPos.percent2) / 100, document.getElementById('slider_ram-path') as any);
+              }
+              else {
+                this.placeAt(ram, (ramPos.percent2) / 100, document.getElementById('slider_ram-path') as any);
+              }
+            }
+          },
+          complete: ()=>{
+            setTimeout(()=>{
+              ram.style.marginTop = "0";
+              this.placeAll();
+              anime({
+                targets: '.slider__bt',
+                opacity:1,
+                duration: (elt,i) => (150 + 150 * i),
+                easing: 'linear'
+              });
+            }, 50);
+          }
+        });
+      },
     })
   }
 
-  placeAt(element: HTMLElement, percent:number){
-    let p: SVGPathElement = document.getElementById('slider_ram-path') as any;
+  placeAt(element: HTMLElement, percent:number, p?: SVGPathElement){
+    if(!p){
+      p = document.getElementById('slider_ram-path') as any;
+    }
     let pathEl = anime.path(p);
     let p1 = p.getPointAtLength(p.getTotalLength() * percent);
     let p0 = p.getPointAtLength(p.getTotalLength() * (percent - 0.01));
+    // console.log(p1, p0, percent, p.getAttribute('d'));
     let angle =  ( Math.atan2(p1.y - p0.y, p1.x - p0.x) * 180) / Math.PI;
     if(this.currentPage.isPathReversed){
       angle += 180;
     }
+
     element.style.left = p1.x * 100 / this.currentPage.viewbox[0]  + '%';
     element.style.top = p1.y * 100 / this.currentPage.viewbox[1] + '%';
     element.style.transform = `rotate(${angle}deg) translateX(-50%) translateY(-50%)`;

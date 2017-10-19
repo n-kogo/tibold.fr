@@ -67,7 +67,6 @@ export class Landing extends React.Component{
             line.outline.node.parentElement.removeChild(line.outline.node);
             line.ram.parentNode.removeChild(line.ram);
             this.lines.splice(index, 1);
-            console.log(line.line.node);
           }
 
         });
