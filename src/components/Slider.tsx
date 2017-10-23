@@ -30,7 +30,6 @@ class SliderComponent extends  React.Component<SliderProps, any>{
   }
 
   render(){
-    console.log('render slider on path', this.props.currentPath)
     if(this.props.currentPath === '/' ){
       this.shown = false;
       this.nextImg = null;
@@ -86,8 +85,15 @@ class SliderComponent extends  React.Component<SliderProps, any>{
         }
         <svg className="slider__svg"  viewBox={`0 0 ${page.viewbox[0]} ${page.viewbox[1]}`} style={svgStyle} preserveAspectRatio="none">
           <path id="slider_path" className="slider__path-fill" d={page.path + closingPath} strokeWidth={"0"}/>
-          <path id="slider_ram-path" d={page.path} stroke={"none"} strokeWidth={"0.005"} fill={"none"}/>
+          <path id="slider_ram-path" d={page.path} />
         </svg>
+        {
+          this.previousPage ?
+            <div className="slider__station slider__previous-station"> </div>
+            :
+            ''
+        }
+        <div className="slider__station slider__current-station"> </div>
         <div className="slider__cache" style={{clipPath: `url(#${pageName}-clip`}}> </div>
         {/*Ram and links*/}
         <LinkWrapper link={'/' + prevLink}>
@@ -96,7 +102,7 @@ class SliderComponent extends  React.Component<SliderProps, any>{
         <LinkWrapper link={'/' + link}>
           <div className="slider__next-bt slider__bt">{">"}</div>
         </LinkWrapper>
-        <div className="slider__ram"></div>
+        <div className="slider__ram"> </div>
         {/*Image blocs*/}
         <div className="slider__image" style={{backgroundImage: `url(${this.img})`}}> </div>
         {!!this.nextImg ?
@@ -106,7 +112,20 @@ class SliderComponent extends  React.Component<SliderProps, any>{
       </div>
     );
   }
+  setPathDraw(path: SVGPathElement, percent: number, isPathReversed?: boolean){
+    path.setAttribute('stroke-dasharray', (path.getTotalLength() * percent) + ' ' + (path.getTotalLength() * (1 - percent)));
+    if(isPathReversed){
+      path.setAttribute('stroke-dashoffset', (path.getTotalLength() * percent) + '');
+    }
+    else {
+      path.setAttribute('stroke-dashoffset', '0');
+
+    }
+    return path;
+  }
   componentDidMount(){
+    let linePath: SVGPathElement = document.getElementById("slider_ram-path") as any;
+    this.setPathDraw(linePath, .2, this.currentPage.isPathReversed);
     this.componentDidUpdate();
   }
   componentDidUpdate(){
@@ -115,7 +134,6 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     }
     if(this.nextImg){
       let ram: HTMLElement = document.querySelector('.slider__ram') as HTMLElement;
-      console.log('BEFORE UPDATE', ram.style.top, ram.style.marginTop, this.previousPage.isPathReversed, this.previousPage.name);
       this.transitionSlide();
       this.moveRam();
     }
@@ -124,19 +142,24 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     }
   }
 
+
   placeAll(){
+    if(!this.currentPage) return;
     let ram: HTMLElement = document.querySelector('.slider__ram') as HTMLElement;
+    let station: HTMLElement = document.querySelector('.slider__station.slider__current-station') as HTMLElement;
     let prevBt: HTMLElement = document.querySelector('.slider__previous-bt') as HTMLElement;
     let nextBt: HTMLElement = document.querySelector('.slider__next-bt') as HTMLElement;
     if(this.currentPage.isPathReversed){
       this.placeAt(prevBt, 1 - .12);
       this.placeAt(ram, 1 -.20);
+      this.placeAt(station, 1 -.20);
       this.placeAt(nextBt, 1 - .28);
 
     }
     else{
       this.placeAt(prevBt, .1);
       this.placeAt(ram, .2);
+      this.placeAt(station, .2);
       this.placeAt(nextBt, .3);
     }
   }
@@ -156,8 +179,14 @@ class SliderComponent extends  React.Component<SliderProps, any>{
       percent2: 0
     };
     let ram: HTMLElement = document.querySelector('.slider__ram') as HTMLElement;
+    let prevStation: HTMLElement = document.querySelector('.slider__station.slider__previous-station') as HTMLElement;
+    let station: HTMLElement = document.querySelector('.slider__station.slider__current-station') as HTMLElement;
     let prevPath: HTMLElement = document.querySelector('.slider__svg') as HTMLElement;
     let path: HTMLElement = document.querySelectorAll('.slider__svg')[1] as HTMLElement;
+    let linePath: SVGPathElement = document.getElementById("slider_ram-path") as any;
+    let prevLinePath: SVGPathElement = document.getElementById("slider_previous-ram-path") as any;
+    this.placeAt(prevStation, .2, prevLinePath, this.previousPage.isPathReversed);
+    this.placeAt(station, .2, linePath, this.currentPage.isPathReversed);
     anime({
       targets: '.slider__bt',
       opacity:0,
@@ -169,42 +198,39 @@ class SliderComponent extends  React.Component<SliderProps, any>{
       percent: 100,
       easing: 'easeInQuad',
       update: (value)=>{
-        let rect = prevPath.getBoundingClientRect();
-        ram.style.marginTop = (rect.top - 76)  + 'px';
-        console.log(ram.style.top, ram.style.left, ram.style.marginTop, this.previousPage.isPathReversed, this.previousPage.name);
+        let prevRect = prevPath.getBoundingClientRect();
+        let rect = path.getBoundingClientRect();
+        ram.style.marginTop = prevStation.style.marginTop = (prevRect.top - 67)  + 'px';
+        station.style.marginTop = (rect.top - 67)  + 'px';
+        var currentValue = (ramPos.percent) / 100;
+        //draw line behind moving ram
+        this.setPathDraw(prevLinePath, currentValue, this.previousPage.isPathReversed);
+        //hide line on next shape
+        this.setPathDraw(linePath, 0);
         if(ramPos.percent >= 20){
-          if(this.previousPage.isPathReversed){
-            this.placeAt(ram, (100 - ramPos.percent) / 100, document.getElementById('slider_previous-ram-path') as any);
-          }
-          else {
-            this.placeAt(ram, (ramPos.percent) / 100, document.getElementById('slider_previous-ram-path') as any);
-          }
+          this.placeAt(ram, currentValue, document.getElementById('slider_previous-ram-path') as any, this.previousPage.isPathReversed);
         }
       },
       duration: 1550,
       complete: ()=>{
-        console.log('first part ram complete')
         ram.style.top = '0';
         ram.style.left = '0';
-
         anime({
           targets: ramPos,
           percent2: 20,
           duration: 550,
           easing: 'easeOutQuad',
           update:()=>{
-            console.log('update anime part 2')
-            console.log(ram.style.top, ram.style.left, ram.style.marginTop, this.previousPage.isPathReversed, this.previousPage.name);
+            // console.log(ram.style.top, ram.style.left, ram.style.marginTop, this.previousPage.isPathReversed, this.previousPage.name);
+            let prevRect = prevPath.getBoundingClientRect();
             let rect = path.getBoundingClientRect();
-            ram.style.marginTop = (rect.top - 76) + 'px';
-            if(ramPos.percent >= 5){
-              if(this.currentPage.isPathReversed){
-                this.placeAt(ram, (100 - ramPos.percent2) / 100, document.getElementById('slider_ram-path') as any);
-              }
-              else {
-                this.placeAt(ram, (ramPos.percent2) / 100, document.getElementById('slider_ram-path') as any);
-              }
-            }
+            prevStation.style.marginTop = (prevRect.top - 67)  + 'px';
+            ram.style.marginTop = station.style.marginTop = (rect.top - 67)  + 'px';
+
+            let currentValue = (ramPos.percent2) / 100;
+            //draw line behind moving ram
+            this.setPathDraw(linePath, currentValue, this.currentPage.isPathReversed);
+            this.placeAt(ram, currentValue, document.getElementById('slider_ram-path') as any, this.currentPage.isPathReversed);
           },
           complete: ()=>{
             setTimeout(()=>{
@@ -223,7 +249,8 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     })
   }
 
-  placeAt(element: HTMLElement, percent:number, p?: SVGPathElement){
+  placeAt(element: HTMLElement, percent:number, p?: SVGPathElement, isPathReversed?: boolean){
+    if(isPathReversed) percent = 1 - percent;
     if(!p){
       p = document.getElementById('slider_ram-path') as any;
     }

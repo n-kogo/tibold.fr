@@ -42,16 +42,10 @@ class FitText extends React.Component<FitTextProps, any>{
 
   _onBodyResize() {
     var element: HTMLElement = ReactDOM.findDOMNode(this) as HTMLElement;
-    var ve: HTMLElement = document.createElement('div');
     let targetWidth = element.offsetWidth;
-    ve.classList.add('virtual-fit-text');
-    let baseFontSize =  55;
-    ve.style.fontSize = baseFontSize + 'px';
-
-    ve.innerHTML = element.innerHTML;
-    element.style.fontSize = ve.style.fontSize;
-    console.log('iteration', baseFontSize, targetWidth, ve.clientWidth);
-    while(ve.offsetWidth > targetWidth){
+    let baseFontSize =  70;
+    element.style.fontSize = baseFontSize-- + 'px';
+    while(element.getBoundingClientRect().height > baseFontSize * 1.5){
       element.style.fontSize = baseFontSize-- + 'px';
       console.log('iteration', baseFontSize, targetWidth)
     }

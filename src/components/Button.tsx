@@ -12,7 +12,7 @@ export class Button extends React.Component<ButtonProps, any>{
     if(this.props.link){
       let link = this.props.link;
       return (
-        <a className="button" href={link} target="_blank" >{this.props.text}</a>
+        <a className="button" href={link} target="_blank" rel="noopener noreferrer">{this.props.text}</a>
       )
     }
     else if(this.props.action){

@@ -7,19 +7,21 @@ export interface HoverInfoDescriptor {
   text: string
 }
 
-interface AppState{
+export interface AppState{
   currentPath: string;
   overlayOpen: boolean;
+  menuOpen: boolean;
   hoverInfo: HoverInfoDescriptor | null
 }
 
 export const default_state: AppState = {
   currentPath: window.location.pathname,
   overlayOpen: false,
+  menuOpen: false,
   hoverInfo: null
 };
 
-const reducer = (state: AppState, action: any)=>{
+const reducer = (state: AppState, action: any): AppState =>{
   if(!state){
     state = default_state;
   }
@@ -32,9 +34,13 @@ const reducer = (state: AppState, action: any)=>{
       return Object.assign({}, state, {
         overlayOpen: action.open
       });
+    case actionTypes.TOGGLE_MENU:
+      return Object.assign({}, state, {
+        menuOpen: action.open
+      });
     case actionTypes.HOVER_ICON:
       return Object.assign({}, state, {
-        hoverData: action.hoverData
+        hoverInfo: action.hoverData
       });
     default:
       return state;

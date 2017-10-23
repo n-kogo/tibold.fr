@@ -14,7 +14,8 @@ interface SideNavProps{
   history: any;
   actions: actionTypings;
   opt: {
-    mode: '';
+    mode: 'normal' | 'vertical',
+    closeMenu: boolean
   }
 }
 
@@ -33,7 +34,7 @@ class SideNavComponent extends React.Component<SideNavProps, any>{
     let links: Array<JSX.Element> = this.routes.map((route, i)=>{
       return (
         <LinkWrapper link={'/' + route}  key={i}>
-          <div className={classNames("side-nav__link", {"active": '/' + route === this.props.currentPath})}>
+          <div className={classNames("side-nav__link", {"active": '/' + route === this.props.currentPath})} onClick={()=>this.checkAction()}>
             <div className={"side-nav__link-dot"}>
             </div>
             <span className="link-info">{this.routeNames[route]}</span>
@@ -48,14 +49,15 @@ class SideNavComponent extends React.Component<SideNavProps, any>{
       </div>
     )
   }
-  navigateTo(route: string){
-    console.log('nav to ', route)
-    this.props.actions.changePage(route);
-    this.props.history.push(route);
+
+  checkAction(){
+    if(this.props.opt.closeMenu){
+      this.props.actions.toggleMenu(false);
+    }
   }
 }
 
-let SideNavRouter = withRouter(SideNavComponent);
+let SideNavRouter= withRouter(SideNavComponent);
 
 function mapDispatchToProps(dispatch: any) {
   return {
