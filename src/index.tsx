@@ -23,6 +23,7 @@ import {MetroLines} from "./components/MetroLines";
 import * as classNames from 'classnames';
 import {Menu} from "./components/Menu";
 import {HoverBubble} from "./components/HoverBubble";
+import {overlayContent} from "./globals";
 
 let store = configureStore();
 const PageTransition = (props: any) => (
@@ -78,18 +79,21 @@ let Content = (props: any)=>{
 };
 let ContentComponent = withRouter(Content);
 
-
 class App extends React.Component<any, any>{
   render(){
     let loc = this.props.location.pathname;
+    let tag =loc.replace('/', '');
     console.log('location get', loc);
+    let overlayComponent = tag in overlayContent ?
+      React.createElement(overlayContent[tag])
+      : 'Nothing to see here';
     return (
       <Provider store={store}>
         <div className={classNames("main", {"page-open": loc !== '/'})}>
           <Menu />
           <HoverBubble />
           <Overlay>
-            <h2>Hello Overlays</h2>
+            {overlayComponent}
           </Overlay>
           <Route component={Landing} />
           <ContentComponent />

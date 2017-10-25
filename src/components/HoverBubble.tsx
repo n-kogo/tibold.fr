@@ -8,7 +8,6 @@ interface HoverBubbleProps {
 
 class HoverBubbleComponent extends React.Component<HoverBubbleProps, any>{
   render(){
-    console.log('render info', this.props.info)
     if(!this.props.info){
       return (
         <div className="hover-bubble disabled"></div>

@@ -1,3 +1,10 @@
+import {HensWorldContent} from "./components/content/HensWorldContent";
+import * as React from "react";
+import {TheLastFrontierContent} from "./components/content/TheLastFrontierContent";
+import {EternityRunContent} from "./components/content/EternityRunContent";
+import {WittyfitContent} from "./components/content/WittyfitContent";
+import {RefugeContent} from "./components/content/RefugeContent";
+
 export interface PageDescriptor  {
   color?: string,
   name: string,
@@ -54,6 +61,9 @@ const labels: {[s: string]: string} = {
   css3: "CSS3",
   react: "React",
   gulp: "Gulp",
+  webpack: "Webpack",
+  sass: 'Sass',
+  typescript: 'TypeScript',
   'socket-io': 'Socket.io'
 };
 
@@ -86,6 +96,14 @@ const pContent: {[key: string]: PageContent} = {
     description: "Jeu développé à l'occasion d'un évènement organisé au sein de la communauté Hens World sur une durée de 72 heures. Le jeu est jouable sur navigateur, il s'agissait avant tout d'un challenge technique sur une courte durée pour appréhender les jeux en ligne en temps réel.",
     date: 'Août 2017 - Game Jam',
   }
+};
+
+export const overlayContent: {[key :string]: any} = {
+  'hens-world': HensWorldContent,
+  'the-last-frontier': TheLastFrontierContent,
+  'eternity-run': EternityRunContent,
+  'wittyfit': WittyfitContent,
+  'le-refuge-des-souvenirs': RefugeContent,
 };
 
 export const formations: Array<FormationContent> = [
