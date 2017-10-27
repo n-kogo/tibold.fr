@@ -1,9 +1,20 @@
 import * as React from "react";
+import * as classNames from "classnames";
 
-export class Line extends React.Component{
+interface LineProps{
+  spaceAround?: boolean;
+  noMargin?: boolean;
+  boxed?: boolean;
+}
+
+export class Line extends React.Component<LineProps, any>{
   render(){
     return (
-      <div className="line">
+      <div className={classNames("line", {
+        "space-around": this.props.spaceAround,
+        "no-margin": this.props.noMargin,
+        "boxed": this.props.boxed
+      })}>
         {
           this.props.children
         }

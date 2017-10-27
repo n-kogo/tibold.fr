@@ -57,7 +57,7 @@ export class IconList extends  React.Component<IconListProps, IconListState>{
     });
     tl.add({
       targets: null,
-      duration: 150,
+      duration: 180,
       offset: '+=1'
     });
     icons.forEach((icon)=>{
@@ -70,8 +70,8 @@ export class IconList extends  React.Component<IconListProps, IconListState>{
         scale: {
           value: 1,
         },
-        duration: 250,
-        offset: '-=150'
+        duration: 260,
+        offset: '-=165'
       });
     });
 

@@ -3,10 +3,11 @@ import * as SVG from "svg.js";
 import * as anime from "animejs";
 import * as svgjs from "svg.js";
 import * as React from "react";
+import {withRouter} from "react-router";
 
 
 interface MetroLine{
-  spawnTime: number;
+  age: number;
   path: string;
   line: svgjs.Path;
   outline: svgjs.Path;
@@ -15,7 +16,8 @@ interface MetroLine{
   animation: any;
 }
 
-export class MetroLines extends React.Component{
+
+export class MetroLines extends React.Component<any, any>{
   lines: Array<MetroLine> = [];
   bgColor: string = "#999";
   svg: svgjs.Doc;
@@ -31,33 +33,45 @@ export class MetroLines extends React.Component{
     this.updateLines();
   }
   updateLines(){
-    if(this.lines.length === 0){
-      this.spawnLine();
+    if(window.location.pathname !== '/'){
+      this.lines.forEach((line)=>{
+        line.animation.pause();
+      });
     }
     else {
-      let lastLine = this.lines[this.lines.length - 1];
-      if(performance.now() - lastLine.spawnTime > 1600){
+      if(this.lines.length === 0){
         this.spawnLine();
       }
-    }
-    this.lines.forEach((line, index)=>{
-      if(performance.now() - line.spawnTime > 10000){
-        anime({
-          targets: [line.line.node, line.outline.node, line.ram, line.station.node],
-          opacity:0,
-          duration: 800,
-          easing: 'linear',
-          complete: ()=>{
-            line.line.node.parentElement.removeChild(line.line.node)
-            line.outline.node.parentElement.removeChild(line.outline.node);
-            line.ram.parentNode.removeChild(line.ram);
-            this.lines.splice(index, 1);
-          }
-
+      else {
+        this.lines.forEach((line)=>{
+          line.age++;
         });
-        line.spawnTime = performance.now();
+        let lastLine = this.lines[this.lines.length - 1];
+        if(lastLine.age > 95){
+          this.spawnLine();
+        }
       }
-    });
+      this.lines.forEach((line, index)=>{
+        if(line.age > 600){
+          line.age = 0;
+          line.animation = anime({
+            targets: [line.line.node, line.outline.node, line.ram, line.station.node],
+            opacity:0,
+            duration: 800,
+            easing: 'linear',
+            complete: ()=>{
+              line.line.node.parentElement.removeChild(line.line.node);
+              line.outline.node.parentElement.removeChild(line.outline.node);
+              line.ram.parentNode.removeChild(line.ram);
+              this.lines.splice(index, 1);
+            }
+          });
+        }
+        else {
+          line.animation.play();
+        }
+      });
+    }
     this.requestAnimationFrameID = requestAnimationFrame(()=> this.updateLines());
   }
   spawnLine(){
@@ -68,9 +82,9 @@ export class MetroLines extends React.Component{
       outline: this.svg.path(path),
       line: this.svg.path(path),
       station: this.svg.circle(40),
-      spawnTime: performance.now(),
+      age: 0,
       ram: document.createElement('div'),
-      animation: 'lol'
+      animation: anime.timeline()
     };
     this.lines.push(metroLine);
     cont.appendChild(metroLine.ram);
@@ -93,48 +107,43 @@ export class MetroLines extends React.Component{
         width: 3
       })
       .cx(circlePos.x).cy(circlePos.y);
-
-    let a = anime({
+    let pathEl = anime.path(metroLine.line.node);
+    metroLine.animation.add({
       targets: [metroLine.line.node, metroLine.outline.node],
       strokeDashoffset: [anime.setDashoffset, 0],
       opacity:{
         value: 1,
         duration: 800,
       },
-      delay: function(el, i) { return i * 50 },
+      delay: function(el: any, i: any) { return i * 50 },
       easing: 'easeInOutSine',
       duration: (metroLine.line.node as any).getTotalLength() * 1.5,
-      complete: ()=>{
-        anime({
-          targets: metroLine.station.node,
-          opacity: 1,
-          duration: 300,
-          easing: 'linear'
-        })
-      }
-    });
-
-    let pathEl = anime.path(metroLine.line.node);
-    anime({
+    })
+    .add({
+      targets: metroLine.station.node,
+      opacity: 1,
+      duration: 300,
+      delay: -70,
+      easing: 'linear'
+    })
+    .add({
       targets: metroLine.ram,
       translateX: pathEl('x'),
       translateY: pathEl('y'),
       easing: 'easeInOutQuad',
       rotate: pathEl('angle'),
+      delay: -150,
       opacity:{
         value: 1,
         duration: 300
       },
       duration: (metroLine.line.node as any).getTotalLength() * 3,
-      delay: 300,
-      complete: ()=>{
-        anime({
-          targets: metroLine.ram,
-          opacity: 0,
-          duration: 700,
-          easing: 'linear'
-        })
-      }
+    })
+    .add({
+      targets: metroLine.ram,
+      opacity: 0,
+      duration: 700,
+      easing: 'linear'
     });
     let w = document.createElement('svg');
   }

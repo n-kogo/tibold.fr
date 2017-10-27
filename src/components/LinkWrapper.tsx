@@ -8,12 +8,16 @@ import actions, {actionTypings} from "../store/actions";
 interface LinkWrapperProps{
   link: string;
   actions: actionTypings;
+  external?: boolean;
 }
 
 class LinkWrapperComponent extends React.Component<LinkWrapperProps, any>{
   render(){
     return(
-      <Link to={this.props.link} onClick={()=>this.navigateTo(this.props.link)}>{this.props.children}</Link>
+      this.props.external ?
+        <a href={this.props.link}  target="_blank" rel="noopener noreferrer">{this.props.children}</a>
+        :
+        <Link to={this.props.link} onClick={()=>this.navigateTo(this.props.link)}>{this.props.children}</Link>
     )
   }
   navigateTo(link: string){

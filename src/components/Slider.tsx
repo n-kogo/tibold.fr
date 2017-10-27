@@ -7,7 +7,7 @@ import {timeline} from "animejs";
 import {projects as pages, PageDescriptor} from '../globals';
 import {LinkWrapper} from "./LinkWrapper";
 import {CSSProperties} from "react";
-import AnimeCallbackFunction = require("animejs");
+import * as ReactDOM from "react-dom";
 
 
 interface SliderProps{
@@ -17,11 +17,13 @@ interface SliderProps{
 
 class SliderComponent extends  React.Component<SliderProps, any>{
   shown: boolean = true;
-  img: string;
-  nextImg: string;
-  previousImage: string;
+  img: string | JSX.Element;
+  nextImg: string | JSX.Element;
+  previousImage: string | JSX.Element;
   currentPage: PageDescriptor;
   previousPage: PageDescriptor;
+  displaysMobile: boolean;
+  mobileQuery: string = '(max-width: 899px)';
   constructor(props: SliderProps){
     super(props);
     this.state = {
@@ -54,39 +56,53 @@ class SliderComponent extends  React.Component<SliderProps, any>{
       var bg = this.currentPage.color;
     }
 
-    let closingPath = page.isPathReversed ?
-      `L${page.viewbox[0]},0 L${page.viewbox[0]},${page.viewbox[1]}`
-      :
-      `L${page.viewbox[0]},${page.viewbox[1]} L${page.viewbox[0]},0z`;
+    let closingPath = this.isMobile() ? page.mobileClosingPath : page.closingPath;
 
-    if(this.previousPage){
-      var prevClosingPath = this.previousPage.isPathReversed ?
-        `L${this.previousPage.viewbox[0]},0 L${this.previousPage.viewbox[0]},${this.previousPage.viewbox[1]}`
-        :
-        `L${this.previousPage.viewbox[0]},${this.previousPage.viewbox[1]} L${this.previousPage.viewbox[0]},0z`;
+    if(this.previousPage) {
+      var prevClosingPath = this.isMobile() ? this.previousPage.mobileClosingPath : this.previousPage.closingPath;
+      var previousPath = this.isMobile() ? this.previousPage.mobilePath : this.previousPage.path;
     }
-
+    let currentPath = this.isMobile() ? page.mobilePath : page.path;
+    this.displaysMobile = this.isMobile();
     let pageKeys = Object.keys(pages);
     let linkIndex = pageKeys.indexOf(pageName) >= pageKeys.length - 1 ? 0 : pageKeys.indexOf(pageName) + 1;
     let link = pageKeys[linkIndex];
     let prevLinkIndex = pageKeys.indexOf(pageName) === 0 ? pageKeys.length - 1 : pageKeys.indexOf(pageName) - 1;
     let prevLink = pageKeys[prevLinkIndex];
     let svgStyle: CSSProperties = {position:'relative', zIndex: 50, transform: 'translateY(0)'};
+    console.log('is moving ahead', this.isMovingAhead());
     return (
       <div className="slider" style={{backgroundColor: '#EEE'}}>
-        {
-          this.previousPage ?
-            <svg className="slider__svg"  viewBox={`0 0 ${this.previousPage.viewbox[0]} ${this.previousPage.viewbox[1]}`} style={svgStyle} preserveAspectRatio="none">
-              <path id="slider_previous-path" className="slider__path-fill" d={this.previousPage.path + prevClosingPath} strokeWidth={"0"}/>
-              <path id="slider_previous-ram-path" d={this.previousPage.path} stroke={"#none"} strokeWidth={"0.005"} fill={"none"}/>
-            </svg>
-          :
-          ''
-        }
-        <svg className="slider__svg"  viewBox={`0 0 ${page.viewbox[0]} ${page.viewbox[1]}`} style={svgStyle} preserveAspectRatio="none">
-          <path id="slider_path" className="slider__path-fill" d={page.path + closingPath} strokeWidth={"0"}/>
-          <path id="slider_ram-path" d={page.path} />
-        </svg>
+        <div className="slider__svg-container">
+          {
+            this.isMovingAhead() ?
+              ''
+              :
+              <svg className="slider__svg"  viewBox={`0 0 ${page.viewbox[0]} ${page.viewbox[1]}`} style={svgStyle} preserveAspectRatio="none">
+                <path id="slider_path" className="slider__path-fill" d={currentPath + closingPath} strokeWidth={"0"}/>
+                <path id="slider_ram-path" d={currentPath} />
+              </svg>
+          }
+          {
+            this.previousPage ?
+              <svg className="slider__svg"  viewBox={`0 0 ${this.previousPage.viewbox[0]} ${this.previousPage.viewbox[1]}`} style={svgStyle} preserveAspectRatio="none">
+                <path id="slider_previous-path" className="slider__path-fill" d={previousPath + prevClosingPath} strokeWidth={"0"}/>
+                <path id="slider_previous-ram-path" d={previousPath} stroke={"#none"} strokeWidth={"0.005"} fill={"none"}/>
+              </svg>
+              :
+              ''
+          }
+          {
+            this.isMovingAhead() ?
+              <svg className="slider__svg"  viewBox={`0 0 ${page.viewbox[0]} ${page.viewbox[1]}`} style={svgStyle} preserveAspectRatio="none">
+                <path id="slider_path" className="slider__path-fill" d={currentPath + closingPath} strokeWidth={"0"}/>
+                <path id="slider_ram-path" d={currentPath} />
+              </svg>
+              :
+              ''
+          }
+
+        </div>
         {
           this.previousPage ?
             <div className="slider__station slider__previous-station"> </div>
@@ -104,14 +120,32 @@ class SliderComponent extends  React.Component<SliderProps, any>{
         </LinkWrapper>
         <div className="slider__ram"> </div>
         {/*Image blocs*/}
-        <div className="slider__image" style={{backgroundImage: `url(${this.img})`}}> </div>
+        {
+          typeof this.img == 'string' ?
+            <div className="slider__image" style={{backgroundImage: `url(${this.img})`}}> </div>
+            :
+            <span>
+              <div className="slider__image with-content">
+              </div>
+              {this.img}
+            </span>
+        }
         {!!this.nextImg ?
-          <div className="slider__next-image" style={{backgroundImage: `url(${this.nextImg})`}}> </div>
+          (typeof this.nextImg == 'string' ?
+            <div className="slider__next-image" style={{backgroundImage: `url(${this.nextImg})`}}> </div>
+            :
+            <span>
+              <div className="slider__next-image with-content">
+              </div>
+              {this.nextImg}
+            </span>
+          )
           : ''
         }
       </div>
     );
   }
+
   setPathDraw(path: SVGPathElement, percent: number, isPathReversed?: boolean){
     path.setAttribute('stroke-dasharray', (path.getTotalLength() * percent) + ' ' + (path.getTotalLength() * (1 - percent)));
     if(isPathReversed){
@@ -123,10 +157,16 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     }
     return path;
   }
+
   componentDidMount(){
     let linePath: SVGPathElement = document.getElementById("slider_ram-path") as any;
     this.setPathDraw(linePath, .2, this.currentPage.isPathReversed);
     this.componentDidUpdate();
+    window.addEventListener('resize', ()=>{
+      if(this.displaysMobile !== this.isMobile()){
+        this.forceUpdate();
+      }
+    });
   }
   componentDidUpdate(){
     if(this.shown){
@@ -164,7 +204,47 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     }
   }
 
-  moveRam(){
+  moveBackRam(){
+    if(this.isMobile()){
+      this.moveBackRamMobile();
+    }
+    else {
+      this.moveBackRamDesktop();
+    }
+  }
+
+
+  isMobile(){
+    return window.matchMedia(this.mobileQuery).matches;
+  }
+  isMovingAhead(){
+    if(!this.isMoving()) {
+      return false;
+    }
+    let pageNames = Object.keys(pages);
+    let currentIndex =  pageNames.indexOf(this.currentPage.tag);
+    let previousIndex = pageNames.indexOf(this.previousPage.tag);
+    return (currentIndex === 0 && previousIndex === pageNames.length - 1)
+      || (currentIndex > previousIndex && !(previousIndex === 0 && currentIndex === 5));
+  }
+  isMoving(){
+    return !!this.previousPage;
+  }
+
+  moveRam() {
+    if (this.isMovingAhead()) {
+      if (this.isMobile()) {
+        this.moveRamMobile();
+      }
+      else {
+        this.moveRamDesktop();
+      }
+    }
+    else {
+      this.moveBackRam();
+    }
+  }
+  moveRamDesktop(){
     document.querySelectorAll('.slider__svg').forEach((div: HTMLElement)=>{
       div.style.transform = 'translateY(0)';
     });
@@ -185,8 +265,10 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     let path: HTMLElement = document.querySelectorAll('.slider__svg')[1] as HTMLElement;
     let linePath: SVGPathElement = document.getElementById("slider_ram-path") as any;
     let prevLinePath: SVGPathElement = document.getElementById("slider_previous-ram-path") as any;
+
     this.placeAt(prevStation, .2, prevLinePath, this.previousPage.isPathReversed);
     this.placeAt(station, .2, linePath, this.currentPage.isPathReversed);
+    let baseMarginTop = ReactDOM.findDOMNode(this).getBoundingClientRect().top;
     anime({
       targets: '.slider__bt',
       opacity:0,
@@ -200,8 +282,8 @@ class SliderComponent extends  React.Component<SliderProps, any>{
       update: (value)=>{
         let prevRect = prevPath.getBoundingClientRect();
         let rect = path.getBoundingClientRect();
-        ram.style.marginTop = prevStation.style.marginTop = (prevRect.top - 67)  + 'px';
-        station.style.marginTop = (rect.top - 67)  + 'px';
+        ram.style.marginTop = prevStation.style.marginTop = (prevRect.top - baseMarginTop)  + 'px';
+        station.style.marginTop = (rect.top - baseMarginTop)  + 'px';
         var currentValue = (ramPos.percent) / 100;
         //draw line behind moving ram
         this.setPathDraw(prevLinePath, currentValue, this.previousPage.isPathReversed);
@@ -224,8 +306,8 @@ class SliderComponent extends  React.Component<SliderProps, any>{
             // console.log(ram.style.top, ram.style.left, ram.style.marginTop, this.previousPage.isPathReversed, this.previousPage.name);
             let prevRect = prevPath.getBoundingClientRect();
             let rect = path.getBoundingClientRect();
-            prevStation.style.marginTop = (prevRect.top - 67)  + 'px';
-            ram.style.marginTop = station.style.marginTop = (rect.top - 67)  + 'px';
+            prevStation.style.marginTop = (prevRect.top - baseMarginTop)  + 'px';
+            ram.style.marginTop = station.style.marginTop = (rect.top - baseMarginTop)  + 'px';
 
             let currentValue = (ramPos.percent2) / 100;
             //draw line behind moving ram
@@ -235,6 +317,272 @@ class SliderComponent extends  React.Component<SliderProps, any>{
           complete: ()=>{
             setTimeout(()=>{
               ram.style.marginTop = "0";
+              station.style.marginTop = "0";
+              this.placeAll();
+              anime({
+                targets: '.slider__bt',
+                opacity:1,
+                duration: (elt,i) => (150 + 150 * i),
+                easing: 'linear'
+              });
+            }, 50);
+          }
+        });
+      },
+    })
+  }
+
+  moveRamMobile(){
+    document.querySelectorAll('.slider__svg').forEach((div: HTMLElement)=>{
+      div.style.transform = 'translateY(0)';
+    });
+    anime({
+      targets: ['.slider__svg'],
+      translateX: [0, "-100%"],
+      easing: 'easeInOutQuad',
+      duration: (elt, i)=>(2100 - i * 6)
+    });
+    let ramPos= {
+      percent: 20,
+      percent2: 0
+    };
+    let ram: HTMLElement = document.querySelector('.slider__ram') as HTMLElement;
+    let prevStation: HTMLElement = document.querySelector('.slider__station.slider__previous-station') as HTMLElement;
+    let station: HTMLElement = document.querySelector('.slider__station.slider__current-station') as HTMLElement;
+    let prevPath: HTMLElement = document.querySelector('.slider__svg') as HTMLElement;
+    let path: HTMLElement = document.querySelectorAll('.slider__svg')[1] as HTMLElement;
+    let linePath: SVGPathElement = document.getElementById("slider_ram-path") as any;
+    let prevLinePath: SVGPathElement = document.getElementById("slider_previous-ram-path") as any;
+
+    this.placeAt(prevStation, .2, prevLinePath, this.previousPage.isPathReversed);
+    this.placeAt(station, .2, linePath, this.currentPage.isPathReversed);
+    let baseMarginLeft = ReactDOM.findDOMNode(this).getBoundingClientRect().left;
+    anime({
+      targets: '.slider__bt',
+      opacity:0,
+      duration: 150,
+      easing: 'linear'
+    });
+    anime({
+      targets: ramPos,
+      percent: 100,
+      easing: 'easeInQuad',
+      update: (value)=>{
+        let prevRect = prevPath.getBoundingClientRect();
+        let rect = path.getBoundingClientRect();
+        ram.style.marginLeft = prevStation.style.marginLeft = (prevRect.left - baseMarginLeft)  + 'px';
+        station.style.marginLeft = (rect.left - baseMarginLeft)  + 'px';
+        var currentValue = (ramPos.percent) / 100;
+        //draw line behind moving ram
+        this.setPathDraw(prevLinePath, currentValue, this.previousPage.isPathReversed);
+        //hide line on next shape
+        this.setPathDraw(linePath, 0);
+        if(ramPos.percent >= 20){
+          this.placeAt(ram, currentValue, document.getElementById('slider_previous-ram-path') as any, this.previousPage.isPathReversed);
+        }
+      },
+      duration: 1550,
+      complete: ()=>{
+        ram.style.top = '0';
+        ram.style.left = '0';
+        anime({
+          targets: ramPos,
+          percent2: 20,
+          duration: 550,
+          easing: 'easeOutQuad',
+          update:()=>{
+            // console.log(ram.style.top, ram.style.left, ram.style.marginTop, this.previousPage.isPathReversed, this.previousPage.name);
+            let prevRect = prevPath.getBoundingClientRect();
+            let rect = path.getBoundingClientRect();
+            prevStation.style.marginLeft = (prevRect.left - baseMarginLeft)  + 'px';
+            ram.style.marginLeft = station.style.marginLeft = (rect.left - baseMarginLeft)  + 'px';
+
+            let currentValue = (ramPos.percent2) / 100;
+            //draw line behind moving ram
+            this.setPathDraw(linePath, currentValue, this.currentPage.isPathReversed);
+            this.placeAt(ram, currentValue, document.getElementById('slider_ram-path') as any, this.currentPage.isPathReversed);
+          },
+          complete: ()=>{
+            setTimeout(()=>{
+              ram.style.marginLeft = "0";
+              station.style.marginLeft = "0";
+              this.placeAll();
+              anime({
+                targets: '.slider__bt',
+                opacity:1,
+                duration: (elt,i) => (150 + 150 * i),
+                easing: 'linear'
+              });
+            }, 50);
+          }
+        });
+      },
+    })
+  }
+
+  moveBackRamDesktop(){
+    document.querySelectorAll('.slider__svg').forEach((div: HTMLElement)=>{
+      div.style.transform = 'translateY(-100%)';
+    });
+    anime({
+      targets: ['.slider__svg'],
+      translateY: ["-100%", 0],
+      easing: 'easeInOutQuad',
+      duration: (elt, i)=>(2100 + i * 6)
+    });
+    let ramPos= {
+      percent: 20,
+      percent2: 0
+    };
+    let ram: HTMLElement = document.querySelector('.slider__ram') as HTMLElement;
+    let prevStation: HTMLElement = document.querySelector('.slider__station.slider__previous-station') as HTMLElement;
+    let station: HTMLElement = document.querySelector('.slider__station.slider__current-station') as HTMLElement;
+    let prevPath: HTMLElement = document.querySelectorAll('.slider__svg')[1] as HTMLElement;
+    let path: HTMLElement = document.querySelectorAll('.slider__svg')[0] as HTMLElement;
+    let linePath: SVGPathElement = document.getElementById("slider_ram-path") as any;
+    let prevLinePath: SVGPathElement = document.getElementById("slider_previous-ram-path") as any;
+
+    this.placeAt(prevStation, .2, prevLinePath, this.previousPage.isPathReversed);
+    this.placeAt(station, .2, linePath, this.currentPage.isPathReversed);
+    let baseMarginTop = ReactDOM.findDOMNode(this).getBoundingClientRect().top;
+    anime({
+      targets: '.slider__bt',
+      opacity:0,
+      duration: 150,
+      easing: 'linear'
+    });
+    anime({
+      targets: ramPos,
+      percent: [20, 0],
+      easing: 'easeInQuad',
+      update: (value)=>{
+        let prevRect = prevPath.getBoundingClientRect();
+        let rect = path.getBoundingClientRect();
+        console.log(prevRect);
+        ram.style.marginTop = prevStation.style.marginTop = (prevRect.top - baseMarginTop)  + 'px';
+        station.style.marginTop = (rect.top - baseMarginTop)  + 'px';
+        var currentValue = (ramPos.percent) / 100;
+        //draw line behind moving ram
+        this.setPathDraw(prevLinePath, currentValue, this.previousPage.isPathReversed);
+        //hide line on next shape
+        this.setPathDraw(linePath, 1);
+        if(ramPos.percent <= 20){
+          this.placeAt(ram, currentValue, document.getElementById('slider_previous-ram-path') as any, this.previousPage.isPathReversed);
+        }
+      },
+      duration: 750,
+      complete: ()=>{
+        ram.style.top = '0';
+        ram.style.left = '0';
+        anime({
+          targets: ramPos,
+          percent2: [100, 20],
+          duration: 1500,
+          easing: 'easeOutQuad',
+          update:()=>{
+            // console.log(ram.style.top, ram.style.left, ram.style.marginTop, this.previousPage.isPathReversed, this.previousPage.name);
+            let prevRect = prevPath.getBoundingClientRect();
+            let rect = path.getBoundingClientRect();
+            prevStation.style.marginTop = (prevRect.top - baseMarginTop)  + 'px';
+            ram.style.marginTop = station.style.marginTop = (rect.top - baseMarginTop)  + 'px';
+
+            let currentValue = (ramPos.percent2) / 100;
+            //draw line behind moving ram
+            this.setPathDraw(linePath, currentValue, this.currentPage.isPathReversed);
+            this.placeAt(ram, currentValue, document.getElementById('slider_ram-path') as any, this.currentPage.isPathReversed);
+          },
+          complete: ()=>{
+            setTimeout(()=>{
+              ram.style.marginTop = "0";
+              station.style.marginTop = "0";
+              this.placeAll();
+              anime({
+                targets: '.slider__bt',
+                opacity:1,
+                duration: (elt,i) => (150 + 150 * i),
+                easing: 'linear'
+              });
+            }, 50);
+          }
+        });
+      },
+    })
+  }
+
+  moveBackRamMobile(){
+    document.querySelectorAll('.slider__svg').forEach((div: HTMLElement)=>{
+      div.style.transform = 'translateX(-100%)';
+    });
+    anime({
+      targets: ['.slider__svg'],
+      translateX: ["-100%", 0],
+      easing: 'easeInOutQuad',
+      duration: (elt, i)=>(2100 + i * 6)
+    });
+    let ramPos= {
+      percent: 20,
+      percent2: 0
+    };
+    let ram: HTMLElement = document.querySelector('.slider__ram') as HTMLElement;
+    let prevStation: HTMLElement = document.querySelector('.slider__station.slider__previous-station') as HTMLElement;
+    let station: HTMLElement = document.querySelector('.slider__station.slider__current-station') as HTMLElement;
+    let prevPath: HTMLElement = document.querySelectorAll('.slider__svg')[1] as HTMLElement;
+    let path: HTMLElement = document.querySelectorAll('.slider__svg')[0] as HTMLElement;
+    let linePath: SVGPathElement = document.getElementById("slider_ram-path") as any;
+    let prevLinePath: SVGPathElement = document.getElementById("slider_previous-ram-path") as any;
+
+    this.placeAt(prevStation, .2, prevLinePath, this.previousPage.isPathReversed);
+    this.placeAt(station, .2, linePath, this.currentPage.isPathReversed);
+    let baseMarginLeft = ReactDOM.findDOMNode(this).getBoundingClientRect().left;
+    anime({
+      targets: '.slider__bt',
+      opacity:0,
+      duration: 150,
+      easing: 'linear'
+    });
+    anime({
+      targets: ramPos,
+      percent: [20, 0],
+      easing: 'easeInQuad',
+      update: (value)=>{
+        let prevRect = prevPath.getBoundingClientRect();
+        let rect = path.getBoundingClientRect();
+        ram.style.marginLeft = prevStation.style.marginLeft = (prevRect.left - baseMarginLeft)  + 'px';
+        station.style.marginLeft = (rect.left - baseMarginLeft)  + 'px';
+        var currentValue = (ramPos.percent) / 100;
+        //draw line behind moving ram
+        this.setPathDraw(prevLinePath, currentValue, this.previousPage.isPathReversed);
+        //hide line on next shape
+        this.setPathDraw(linePath, 1);
+        if(ramPos.percent <= 20){
+          this.placeAt(ram, currentValue, document.getElementById('slider_previous-ram-path') as any, this.previousPage.isPathReversed);
+        }
+      },
+      duration: 750,
+      complete: ()=>{
+        ram.style.top = '0';
+        ram.style.left = '0';
+        anime({
+          targets: ramPos,
+          percent2: [100, 20],
+          duration: 1500,
+          easing: 'easeOutQuad',
+          update:()=>{
+            // console.log(ram.style.top, ram.style.left, ram.style.marginTop, this.previousPage.isPathReversed, this.previousPage.name);
+            let prevRect = prevPath.getBoundingClientRect();
+            let rect = path.getBoundingClientRect();
+            prevStation.style.marginLeft = (prevRect.left - baseMarginLeft)  + 'px';
+            ram.style.marginLeft = station.style.marginLeft = (rect.left - baseMarginLeft)  + 'px';
+
+            let currentValue = (ramPos.percent2) / 100;
+            //draw line behind moving ram
+            this.setPathDraw(linePath, currentValue, this.currentPage.isPathReversed);
+            this.placeAt(ram, currentValue, document.getElementById('slider_ram-path') as any, this.currentPage.isPathReversed);
+          },
+          complete: ()=>{
+            setTimeout(()=>{
+              ram.style.marginLeft = "0";
+              station.style.marginLeft = "0";
               this.placeAll();
               anime({
                 targets: '.slider__bt',
@@ -276,9 +624,12 @@ class SliderComponent extends  React.Component<SliderProps, any>{
    let s = document.querySelector('.slider');
    i.style.opacity = '1';
    ni.style.opacity = '0';
+   if(document.querySelector('.presentation')){
+     (document.querySelector('.presentation') as HTMLElement).style.opacity = '0';
+   }
    tl.add({
-     targets: i,
-     opacity: 0,
+     targets: [i, '.slider__image ~ .presentation'],
+     opacity: [1,0],
      duration: 400,
      easing: 'linear',
    })
@@ -290,8 +641,8 @@ class SliderComponent extends  React.Component<SliderProps, any>{
      offset: 300,
    })
    .add({
-     targets: ni,
-     opacity: 1,
+     targets: [ni, '.slider__next-image ~ .presentation'],
+     opacity: [0, 1],
      duration: 600,
    });
   }

@@ -4,6 +4,7 @@ import {UnderlineTitle} from "../components/UnderlineTitle";
 import {ProjectExcerpt} from "../components/ProjectExcerpt";
 import {Line} from "../components/Line";
 import {Formation} from "../components/Formation";
+import {LinkWrapper} from "../components/LinkWrapper";
 
 export class CV extends React.Component{
   render(){
@@ -11,37 +12,35 @@ export class CV extends React.Component{
     for (let key in projects){
       if(key !== 'home'){
         projectsElements.push(
-          <ProjectExcerpt key={key} project={projects[key]} tag={key} />
+          <LinkWrapper key={key} link={key}>
+            <ProjectExcerpt  project={projects[key]} tag={key} />
+          </LinkWrapper>
         )
       }
     }
     return (
       <div className="home">
-        <Line>
-          <div style={{flex: '1 1 auto'}}>
-            <UnderlineTitle>
-              Formations
-            </UnderlineTitle>
-            {formations.map((formation, index)=>{
-              return(
-                <Formation formation={formation} key={index} />
-              )
-            })}
-          </div>
+        {/*<Line>*/}
           <div className="info-card" style={{display: 'none'}}>
-            <img className="avatar" src="../assets/avatar.jpg" alt=""/>
-            <p>Thibaut</p>
-            <p>CARCENAC</p>
-            <p>06.09.66.26.76</p>
-            <a className="mail">thibaut.carcenac@gmail.com</a>
-            <p>Charente (16)</p>
-          </div>
-        </Line>
 
+          </div>
+        {/*</Line>*/}
         <UnderlineTitle>
           Expériences
         </UnderlineTitle>
-        {projectsElements}
+        <div className="excerpt__container">
+          {projectsElements}
+        </div>
+        <div style={{flex: '1 1 auto'}}>
+          <UnderlineTitle>
+            Formations
+          </UnderlineTitle>
+          {formations.map((formation, index)=>{
+            return(
+              <Formation formation={formation} key={index} />
+            )
+          })}
+        </div>
       </div>
     )
   }

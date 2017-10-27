@@ -40,16 +40,14 @@ h1, h2, h3{
 #header{
   display: flex;
   width: 100%;
-  padding: 0 10px;
+  padding: 5px 10px;
   flex: 0 0 auto;
   background-color: $color-background-page;
   position: relative;
   z-index: 2;
   box-sizing: border-box;
   align-items: center;
-  .main-logo{
-    //position: absolute;
-  }
+  line-height: 1;
   .side-nav{
     margin: 40px auto 0 auto;
     flex: 0 0 auto;
@@ -120,10 +118,6 @@ h1, h2, h3{
   width: 100%;
   position: relative;
   overflow: hidden;
-  @include media-phone{
-    height: 55vh;
-    transform: rotate(90deg);
-  }
   svg{
     width: 100%;
     height: 100%;
@@ -171,6 +165,50 @@ h1, h2, h3{
     left: 0;
     background-size: cover;
     background-position: center center;
+    &.with-content {
+      margin-left: 0;
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2em;
+      flex-direction: column;
+      color: white;
+      background-image: url(../assets/fond_cv.jpg);
+      box-sizing: border-box;
+      padding-right: 15%;
+      background-size: cover;
+    }
+  }
+  .presentation{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-60%) translateX(-50%);
+    left: 45%;
+    z-index: 10000;
+    color: $shade-bright;
+    text-align: center;
+    .avatar{
+      margin-bottom: 35px;
+    }
+    .mail{
+      margin-top: -25px;
+      z-index: 101;
+      color: lighten($color-main, 10%);
+      display: block;
+    }
+    @include media-phone{
+      transform: translateY(-60%) translateX(-50%);
+      left: 50%;
+    }
+  }
+  .avatar{
+    border-radius: 50%;
+    border: 3px solid white;
+    width: 150px;
+  }
+  @include media-phone{
+    padding-right: 0;
   }
   &__image{
     z-index: 10;
@@ -206,7 +244,25 @@ h1, h2, h3{
     z-index: 60;
     transform-origin: 0 0;
   }
-
+  &__svg-container{
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  @include media-phone{
+    flex: 1 0 70%;
+    display: block;
+    svg{
+      transform-origin: 0% 0%;
+    }
+    &__svg-container{
+      width: 200%;
+    }
+    svg{
+      display: inline-block;
+      width: 50%;
+    }
+  }
 }
 
 //page specific
@@ -222,6 +278,9 @@ h1, h2, h3{
   position: absolute;
   box-sizing: border-box;
   height: 100%;
+  .line{
+    opacity: 0;
+  }
   h2{
     font-size: 1em;
   }
@@ -230,6 +289,26 @@ h1, h2, h3{
     min-height: 100%;
     flex-direction: column;
     justify-content: center;
+  }
+  &__role{
+    color: $color-main;
+    font-size: 1.3em;
+    line-height: 1.6;
+  }
+  &__contract{
+    padding: 3px 5px;
+    background-color: $color-main;
+    border-radius: 5px;
+    display: inline-block;
+    width: auto;
+    color: white;
+  }
+  &__role{
+    > span:not(:last-child){
+      &:after{
+        content: ' / ';
+      }
+    }
   }
   &:not(.fadeTranslate-exit){
     h2{
@@ -257,8 +336,28 @@ h1, h2, h3{
   .button{
     opacity: 0;
   }
+
+  @include media-phone{
+    padding: 0px 35px 35px 35px;
+    position: relative;
+    &__flex{
+      min-height: unset;
+    }
+  }
 }
 
+
+@include media-phone{
+  .main{
+  }
+  .content{
+    overflow-y: auto;
+    align-items: stretch;
+    display: block;
+  }
+  .slider{
+  }
+}
 
 
 .navbar{
@@ -472,7 +571,7 @@ h1, h2, h3{
 .home{
   max-width: 1080px;
   width: 100%;
-  padding: 10px 30px 25px 25px;
+  padding: 25px 30px 25px 25px;
   box-sizing: border-box;
   margin: 0 auto;
   padding-bottom: 45px;
@@ -560,8 +659,22 @@ h1, h2, h3{
   flex: 0 0 auto;
   margin-bottom: 35px;
   justify-content: space-between;
+  &.space-around{
+    justify-content: space-around;
+  }
+  &.boxed{
+    padding: 5px;
+    background-color: white;
+    border: 1px solid $shade-bright-gray;
+  }
+  &.no-margin{
+    margin-bottom: 0;
+  }
   @include media-phone{
     flex-direction: column;
+    > * {
+      margin-bottom: 10px;
+    }
   }
 }
 
@@ -605,38 +718,78 @@ h1, h2, h3{
   }
 }
 
+.excerpt__container{
+  padding-top: 10px;
+  position: relative;
+  margin-bottom: 25px;
+  &:before{
+    content: '';
+    display: block;
+    z-index: 2;
+    height: 100%;
+    position: absolute;
+    margin-left: 29px;
+    background-color: $color-main;
+    width: 3px;
+  }
+}
+
 .project-excerpt{
-  background: $shade-lighter-gray;
+  background: white;
   margin: 10px 5px;
-  box-shadow: 1px 2px 1px 0px rgba(20, 20, 20, .5);
+  border: 1px solid $shade-lighter-gray;
   display: flex;
   position: relative;
-  align-items: stretch;
+  padding: 10px 15px 10px 85px;
+  &:hover{
+    .project-excerpt__image{
+      width: 110px;
+      height: 110px;
+      margin-left: -40px;
+      border-width: 4px;
+    }
+  }
   &__content{
     flex: 1 1 auto;
     padding: 5px;
     position: relative;
   }
   &__date{
-    color: $shade-bright;
+    color: $shade-dark-gray;
     font-style: italic;
     font-size: .9em;
     margin-top: 5px;
   }
+  &__roles{
+    font-size: 1.1em;
+    color: $color-main;
+    > span:not(:last-child){
+      &:after{
+        content: ' / ';
+      }
+    }
+  }
   h2{
-    color: white;
+    color: $color-font;
     font-size: 2em;
     text-transform: uppercase;
     font-weight: bold;
     margin-bottom: 5px;
   }
   &__image{
-    width: 20%;
-    flex: 0 0 20%;
-    min-width: 100px;
-    background-size: 200%;
-    background-position: center;
-    position: relative;
+    z-index: 3;
+    background-size: 250%;
+    position: absolute;
+    box-sizing: border-box;
+    border-radius: 50%;
+    width: 30px;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 30px;
+    border: 15px solid $color-main;
+    background-position: center top;
+    transition: all .3s;
     svg{
       display: block;
       width: auto;
@@ -655,7 +808,6 @@ h1, h2, h3{
     display: flex;
     height: 50%;
     justify-content: flex-end;
-    margin-right: -15px;
     padding-top: 10px;
     align-items: center;
   }
@@ -818,4 +970,12 @@ h1, h2, h3{
   position: absolute;
   font-family: Raleway, sans-serif;
   visibility: hidden;
+}
+
+
+.notransition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
 }

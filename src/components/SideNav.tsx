@@ -51,7 +51,7 @@ class SideNavComponent extends React.Component<SideNavProps, any>{
   }
 
   checkAction(){
-    if(this.props.opt.closeMenu){
+    if(this.props.opt && this.props.opt.closeMenu){
       this.props.actions.toggleMenu(false);
     }
   }

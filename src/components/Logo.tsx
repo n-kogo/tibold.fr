@@ -9,7 +9,6 @@ export class Logo extends React.Component<LogoProps, any>{
   render(){
     let style: any = {};
     if(this.props.fontSize) style.fontSize = this.props.fontSize + 'px';
-    console.log('style', style)
     return (
       <Link to="/" className="main-logo" style={style}>
         <span>T</span>

@@ -47,7 +47,6 @@ class FitText extends React.Component<FitTextProps, any>{
     element.style.fontSize = baseFontSize-- + 'px';
     while(element.getBoundingClientRect().height > baseFontSize * 1.5){
       element.style.fontSize = baseFontSize-- + 'px';
-      console.log('iteration', baseFontSize, targetWidth)
     }
   }
   render(){
@@ -65,11 +64,25 @@ export class Project extends React.Component<ProjectProps, any>{
     let content = pContent[this.props.tag];
     return (
       <div className={classNames('project', this.props.tag)}>
+
         <div className="project__flex">
+          <Line noMargin={true} boxed={true}>
+            <div className="project__contract">
+              {content.contract}
+            </div>
+            <div className="project__role">
+              {
+                content.role.map((role)=>{
+                  return <span key={role}>{role}</span>;
+                })
+              }
+            </div>
+          </Line>
           <FitText>
             {this.props.children}
           </FitText>
           <h3>{content.excerpt}</h3>
+
           <div className="project__excerpt">
             {Array.isArray(content.description) ?
               content.description.map((line, index)=>(
@@ -93,9 +106,8 @@ export class Project extends React.Component<ProjectProps, any>{
   }
   introPage(){
     let tl = timeline();
-    console.log('intro')
     tl.add({
-      targets: '.project__excerpt',
+      targets: ['.project__excerpt', '.project .line.boxed'],
       translateY: -25,
       opacity: 0,
       duration: 1,
@@ -111,7 +123,7 @@ export class Project extends React.Component<ProjectProps, any>{
       easing: 'linear'
     });
     tl.add({
-      targets: '.project h3',
+      targets: ['.project h3', '.project .line.boxed'],
       translateY: 0,
       opacity: 1,
       duration: 700,
@@ -123,14 +135,14 @@ export class Project extends React.Component<ProjectProps, any>{
       opacity: 1,
       duration: 600,
       easing: 'easeInOutQuad',
-      offset: '-=200'
+      offset: '-=220'
     });
     tl.add({
       targets: '.project .button',
       translateY: 0,
       opacity: 1,
       easing: 'easeInOutQuad',
-      offset: '+=400',
+      offset: '-=300',
       duration: 500,
     });
     tl.play();

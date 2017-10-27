@@ -83,7 +83,6 @@ class App extends React.Component<any, any>{
   render(){
     let loc = this.props.location.pathname;
     let tag =loc.replace('/', '');
-    console.log('location get', loc);
     let overlayComponent = tag in overlayContent ?
       React.createElement(overlayContent[tag])
       : 'Nothing to see here';
@@ -95,13 +94,22 @@ class App extends React.Component<any, any>{
           <Overlay>
             {overlayComponent}
           </Overlay>
-          <Route component={Landing} />
+          <Landing />
           <ContentComponent />
           <SvgDefinitions />
           <MetroLines />
         </div>
       </Provider>
     )
+  }
+  componentDidMount(){
+    window.onresize = (e: any)=>{
+      // prevent content to scroll/transition on page resize and move instantly
+      document.querySelector('.main').classList.add('notransition');
+      setTimeout(()=>{
+        document.querySelector('.main').classList.remove('notransition');
+      }, 100)
+    };
   }
 }
 
