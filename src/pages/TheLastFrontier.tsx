@@ -7,7 +7,7 @@ export class TheLastFrontier extends React.Component{
   name: string = "The Last Frontier";
   tag: string = 'the-last-frontier';
   link: string = 'http://beta.thelastfrontiergame.com';
-  timeout: number = 600;
+  timeout: number = 900;
   render(){
     let n = this.name.split('');
     let renderName = n.map((letter, index)=>(
@@ -34,7 +34,8 @@ export class TheLastFrontier extends React.Component{
       let letter = letters[i];
       tl.add({
         targets: letter,
-        translateX: 200,
+        translateX: 50,
+        translateY: -400,
         opacity: 0,
         duration: 1,
         offset: 0,
@@ -42,11 +43,23 @@ export class TheLastFrontier extends React.Component{
       });
       tl.add({
         targets: letter,
-        translateX: 0,
-        opacity: 1,
-        duration: 500,
-        easing: 'easeInOutQuad',
-        offset: 50 + i * 100
+        translateX: {
+          value: 0,
+          duration: 120,
+          easing: 'linear'
+        },
+        translateY: {
+          value: [-300, 0],
+          elasticity: 5,
+          duration: 180,
+          easing: 'easeInQuad'
+        },
+        opacity: {
+          value: 1,
+          delay: 140,
+          duration: 300
+        },
+        offset: 50 + i * 55
       });
     }
     tl.pause();

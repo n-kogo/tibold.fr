@@ -2,6 +2,7 @@ import * as React from "react";
 import {Project} from "../components/Project";
 import {timeline} from "animejs";
 import {CST} from "../globals";
+import * as anime from "animejs";
 
 export class LeRefuge extends React.Component{
   name: string = "Le Refuge des Souvenirs";
@@ -12,9 +13,9 @@ export class LeRefuge extends React.Component{
     let n = this.name.split('');
     let renderName = n.map((letter, index)=>(
       letter !== ' ' ?
-        <span key={index}>{letter}</span>
+        <tspan key={index}>{letter}</tspan>
         :
-        <span style={{marginLeft: '.5em'}} key={index}> </span>
+        <tspan style={{marginLeft: '.5em'}} key={index}> </tspan>
     ));
     return (
       <Project
@@ -22,31 +23,46 @@ export class LeRefuge extends React.Component{
         url={this.link}
         introOffset={this.timeout}
       >
-        <h2>{renderName}</h2>
+        <svg width={"100%"} style={{height: "auto", display:"none"}} >
+          <defs></defs>
+          <text x="0" y="50" >
+            {renderName}
+          </text>
+        </svg>
+        <h2>{this.name}</h2>
       </Project>
     )
   }
+
   componentDidMount(){
-    let title = document.querySelector('.project h2');
-    let letters = title.getElementsByTagName('span');
+    let title : HTMLElement = document.querySelector('.project h2') as any;
+    let svgTitle: HTMLElement = document.querySelector('.project text') as any;
+    let fs = getComputedStyle(title).fontSize;
+    let height = parseInt(fs.replace('px', ''));
+    svgTitle.style.fontSize = fs;
+    svgTitle.parentElement.style.height = (height * 1.3).toFixed();
+    title.style.display = "none";
+    svgTitle.setAttribute('y', svgTitle.style.fontSize);
+    svgTitle.parentElement.style.display = "block";
+    console.log('svg title', svgTitle);
+    let letters = svgTitle.getElementsByTagName('tspan');
     let tl = timeline();
     for(let i = 0; i < letters.length; i++){
       let letter = letters[i];
       tl.add({
         targets: letter,
-        translateX: 200,
         opacity: 0,
+        strokeDashoffset: 300,
         duration: 1,
-        offset: 0,
         easing: 'easeInOutQuad',
       });
       tl.add({
-        targets: letter,
-        translateX: 0,
         opacity: 1,
-        duration: 500,
+        targets: letter,
+        strokeDashoffset: [300, 0],
+        duration: 1000,
         easing: 'easeInOutQuad',
-        offset: 50 + i * 100
+        offset: 50 + i * 400
       });
     }
     tl.pause();

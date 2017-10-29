@@ -27,6 +27,10 @@ export class HensWorld extends React.Component<any, any>{
     return (
       <Project tag={this.tag} url={this.link} introOffset={this.timeout + CST.SLIDER_TIMER}>
         <h2>{renderName}</h2>
+        <div className="hens-world__shapes">
+          <div className="shape-1"></div>
+          <div className="shape-2"></div>
+        </div>
       </Project>
     )
   }

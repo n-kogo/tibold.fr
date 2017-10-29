@@ -3,7 +3,7 @@
 @import './transitions';
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 @import url('https://fonts.googleapis.com/css?family=Raleway:100,900,400');
-
+@import url('https://fonts.googleapis.com/css?family=Bowlby+One|Cinzel+Decorative|Poiret+One|Monoton|Passero+One|Cantarell');
 
 body,html, #root{
   width: 100%;
@@ -278,7 +278,28 @@ h1, h2, h3{
   position: absolute;
   box-sizing: border-box;
   height: 100%;
-  .line{
+  &.hens-world h2{
+    font-family: 'Poiret One', sans-serif;
+  }
+  &.le-refuge-des-souvenirs text, &.le-refuge-des-souvenirs h2{
+    font-family: 'Cinzel Decorative', sans-serif;
+    font-weight: bold;
+    line-height: 1;
+  }
+  &.eternity-run h2{
+    font-family: 'Passero One', sans-serif;
+  }
+  &.the-last-frontier h2{
+    font-family: 'Cantarell', sans-serif;
+    font-style: italic;
+    text-transform: uppercase;
+  }
+  &.wittyfit h2{
+    font-family: 'Monoton', sans-serif;
+    font-weight: normal;
+    text-transform: uppercase;
+  }
+  .line.boxed{
     opacity: 0;
   }
   h2{

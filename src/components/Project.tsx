@@ -45,7 +45,7 @@ class FitText extends React.Component<FitTextProps, any>{
     let targetWidth = element.offsetWidth;
     let baseFontSize =  70;
     element.style.fontSize = baseFontSize-- + 'px';
-    while(element.getBoundingClientRect().height > baseFontSize * 1.5){
+    while(element.getBoundingClientRect().height > baseFontSize * 1.5 && baseFontSize > 10){
       element.style.fontSize = baseFontSize-- + 'px';
     }
   }
@@ -66,6 +66,10 @@ export class Project extends React.Component<ProjectProps, any>{
       <div className={classNames('project', this.props.tag)}>
 
         <div className="project__flex">
+
+          <FitText>
+            {this.props.children}
+          </FitText>
           <Line noMargin={true} boxed={true}>
             <div className="project__contract">
               {content.contract}
@@ -78,11 +82,7 @@ export class Project extends React.Component<ProjectProps, any>{
               }
             </div>
           </Line>
-          <FitText>
-            {this.props.children}
-          </FitText>
           <h3>{content.excerpt}</h3>
-
           <div className="project__excerpt">
             {Array.isArray(content.description) ?
               content.description.map((line, index)=>(
