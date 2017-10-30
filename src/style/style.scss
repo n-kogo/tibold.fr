@@ -285,6 +285,10 @@ h1, h2, h3{
     font-family: 'Cinzel Decorative', sans-serif;
     font-weight: bold;
     line-height: 1;
+    tspan{
+      transition: fill .8s;
+      stroke-width: .5px;
+    }
   }
   &.eternity-run h2{
     font-family: 'Passero One', sans-serif;

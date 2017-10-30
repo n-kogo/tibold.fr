@@ -8,7 +8,7 @@ export class LeRefuge extends React.Component{
   name: string = "Le Refuge des Souvenirs";
   tag: string = 'le-refuge-des-souvenirs';
   link: string = 'http://le-refuge-des-souvenirs.com';
-  timeout: number = 700;
+  timeout: number = 1750;
   render(){
     let n = this.name.split('');
     let renderName = n.map((letter, index)=>(
@@ -49,20 +49,26 @@ export class LeRefuge extends React.Component{
     let tl = timeline();
     for(let i = 0; i < letters.length; i++){
       let letter = letters[i];
+      letter.style.fill = 'rgba(0, 0, 0, 0)';
+      letter.style.stroke = '#333';
+      letter.style.strokeDashoffset = '300';
+      letter.style.strokeDasharray = '300 300';
       tl.add({
         targets: letter,
-        opacity: 0,
-        strokeDashoffset: 300,
         duration: 1,
+        offset: 0,
         easing: 'easeInOutQuad',
       });
       tl.add({
         opacity: 1,
         targets: letter,
         strokeDashoffset: [300, 0],
-        duration: 1000,
-        easing: 'easeInOutQuad',
-        offset: 50 + i * 400
+        duration: 400,
+        easing: 'easeInQuad',
+        offset: 30 + i * (170 - i * 4),
+        complete: ()=>{
+          letter.style.fill= "#333";
+        }
       });
     }
     tl.pause();
