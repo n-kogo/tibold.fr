@@ -44,14 +44,16 @@ class FitText extends React.Component<FitTextProps, any>{
     var element: HTMLElement = ReactDOM.findDOMNode(this) as HTMLElement;
     let targetWidth = element.offsetWidth;
     let baseFontSize =  70;
+    let minFontSize = 20;
     element.style.fontSize = baseFontSize-- + 'px';
-    while(element.getBoundingClientRect().height > baseFontSize * 1.5 && baseFontSize > 10){
+    while(element.getBoundingClientRect().height > baseFontSize * 1.5 && baseFontSize > minFontSize){
+      console.log(element.getBoundingClientRect().height);
       element.style.fontSize = baseFontSize-- + 'px';
     }
   }
   render(){
     return (
-      <span >
+      <span className="fit-text">
         {this.props.children}
       </span>
     )

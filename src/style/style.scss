@@ -89,6 +89,7 @@ h1, h2, h3{
   z-index: 2;
   flex: 0 1 100%;
   display: flex;
+  min-height: 0;
   background-color: $color-background-content;
   flex-direction: column;
 }
@@ -280,6 +281,27 @@ h1, h2, h3{
   height: 100%;
   &.hens-world h2{
     font-family: 'Poiret One', sans-serif;
+  }
+  &.hens-world{
+    h2{
+      position: relative;
+    }
+    .hw-shape{
+      top:0;
+      width: 0;
+      height: 0;
+      border-radius: 100%;
+
+      //filter: url('#shadowed-goo');
+      filter: url('#goo');
+      position: absolute;
+      &.shape-1{
+        background-color: $color-ulmo;
+      }
+      &.shape-2{
+        background-color: $color-ulmo;
+      }
+    }
   }
   &.le-refuge-des-souvenirs text, &.le-refuge-des-souvenirs h2{
     font-family: 'Cinzel Decorative', sans-serif;
