@@ -51,8 +51,8 @@ export class LeRefuge extends React.Component{
       let letter = letters[i];
       letter.style.fill = 'rgba(0, 0, 0, 0)';
       letter.style.stroke = '#333';
-      letter.style.strokeDashoffset = '300';
-      letter.style.strokeDasharray = '300 300';
+      letter.style.strokeDashoffset = '400';
+      letter.style.strokeDasharray = '400 400';
       tl.add({
         targets: letter,
         duration: 1,
@@ -62,7 +62,7 @@ export class LeRefuge extends React.Component{
       tl.add({
         opacity: 1,
         targets: letter,
-        strokeDashoffset: [300, 0],
+        strokeDashoffset: [400, 0],
         duration: 400,
         easing: 'easeInQuad',
         offset: 30 + i * (170 - i * 4),

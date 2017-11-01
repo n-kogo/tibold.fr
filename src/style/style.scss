@@ -517,7 +517,6 @@ h1, h2, h3{
   display: flex;
   border-radius: 4px;
   background-color: $color-main;
-  transform: translate(0% -50%);
   a{
     color: $color-font;
     display: inline-block;
@@ -633,6 +632,7 @@ h1, h2, h3{
   display: flex;
   flex-wrap: wrap;
   flex: 0 0 auto;
+  min-height: auto;
   align-items: center;
   justify-content: space-around;
   margin: 10px 0;

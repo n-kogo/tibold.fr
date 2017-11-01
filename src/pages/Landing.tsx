@@ -2,6 +2,7 @@ import * as React from "react";
 import {Logo} from "../components/Logo";
 import {SideNav} from "../components/SideNav";
 import {Link} from "react-router-dom";
+import {LinkWrapper} from "../components/LinkWrapper";
 
 
 export class Landing extends React.Component{
@@ -18,9 +19,11 @@ export class Landing extends React.Component{
               </p>
             </div>
           </div>
-          <Link to={'/home'} className="landing__button" onClick={()=>this.navTo('home')}>
-            V
-          </Link>
+          <LinkWrapper link={'/home'}>
+            <div className="landing__button">
+              V
+            </div>
+          </LinkWrapper>
           <SideNav />
         </div>
       </div>

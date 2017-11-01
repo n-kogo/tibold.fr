@@ -41,6 +41,7 @@ class SliderComponent extends  React.Component<SliderProps, any>{
       this.shown = true;
     }
     var pageName = this.props.currentPath.replace('/', '');
+    console.log('exploring', pageName);
     var page = pages[pageName];
     this.previousPage = this.currentPage;
     this.currentPage = page;
@@ -630,6 +631,7 @@ class SliderComponent extends  React.Component<SliderProps, any>{
    tl.add({
      targets: [i, '.slider__image ~ .presentation'],
      opacity: [1,0],
+     zIndex:1,
      duration: 400,
      easing: 'linear',
    })
