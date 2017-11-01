@@ -196,7 +196,7 @@ const projects: {
     mobileClosingPath: "L100,100 L0,100Z",
     viewbox: [100, 100],
     images:[
-      require('./assets/hens-world/_1.jpg'),
+      require('./assets/hens-world/1.jpg'),
       require('./assets/hens-world/2.jpg'),
       require('./assets/hens-world/3.jpg'),
       require('./assets/hens-world/4.jpg'),
