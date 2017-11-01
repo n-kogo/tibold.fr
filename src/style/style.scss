@@ -312,6 +312,8 @@ h1, h2, h3{
       stroke-width: .5px;
     }
   }
+  &.le-refuge-des-souvenirs h2{
+  }
   &.eternity-run h2{
     font-family: 'Passero One', sans-serif;
   }
@@ -1025,4 +1027,16 @@ h1, h2, h3{
   -moz-transition: none !important;
   -o-transition: none !important;
   transition: none !important;
+}
+
+.particle{
+  width: 7px;
+  height: 7px;
+  z-index: 1000;
+  border-radius: 100%;
+  position: absolute;
+}
+
+.main-wrapper{
+  position: relative;
 }

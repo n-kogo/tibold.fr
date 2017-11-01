@@ -49,7 +49,7 @@ const HomeTransition = (props: any) =>(
 let Content = (props: any)=>{
   let loc = props.location.pathname;
   return (
-    <div style={{height: '100%', display: 'flex', flexDirection: 'column'}}>
+    <div style={{height: '100%', display: 'flex', flexDirection: 'column'}} className={"main-wrapper"}>
       <Header />
       <div className={classNames("content")}>
         {

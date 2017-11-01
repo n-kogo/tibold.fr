@@ -174,7 +174,7 @@ const projects: {
         <p>16000 Angoulême</p>
         <Line spaceAround={true}>
           <LinkWrapper external={true} link={'https://www.linkedin.com/in/thibaut-carcenac-49b16280/'}>
-            <img src={require("./assets/logos/linkedin.svg")} width={"50"} alt="LinkedIn Icon"/>
+            <img src={require("./assets/logos/linkedin.svg")} width={"50"} height={50} alt="LinkedIn Icon"/>
           </LinkWrapper>
           <LinkWrapper external={true} link={"https://github.com/n-kogo"}>
             <img src={require("./assets/logos/github.svg")} width={"50"} alt="Github Icon"/>
@@ -243,7 +243,7 @@ const projects: {
     tag: 'le-refuge-des-souvenirs',
     viewbox: [100, 100],
     path: 'M71,0 c0,0 -8.52,6.325 -9.878,24.871  c-1.076,14.693 3.505,25.862 9.836,31.232  c6.936,5.883 11.082,5.729 14.411,11.064  c4.722,7.563 -10.351,32.832 -15,32.832',
-    mobilePath: 'M0,70 c0,0 6.325,-8.52 24.871,-9.878  c14.693,-1.076 25.862,3.505 31.232,9.836  c5.883, 6.936 5.729,11.082 11.064,14.411  c7.563,4.722 32.832,-10.351 32.832,-15',
+    mobilePath: 'M0,71 c0,0 6.325,-8.52 24.871,-9.878  c14.693,-1.076 25.862,3.505 31.232,9.836  c5.883, 6.936 5.729,11.082 11.064,14.411  c7.563,4.722 32.832,-10.351 32.832,-15',
     closingPath: "L100,100 L100,0Z",
     mobileClosingPath: "L100,100 L0,100Z",
     techs: ['typescript', 'react', 'nodejs', 'sass', 'mysql', 'webpack'],

@@ -15,7 +15,7 @@ export class LeRefuge extends React.Component{
       letter !== ' ' ?
         <tspan key={index}>{letter}</tspan>
         :
-        <tspan style={{marginLeft: '.5em'}} key={index}> </tspan>
+        <tspan key={index}> </tspan>
     ));
     return (
       <Project
