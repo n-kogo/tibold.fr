@@ -28,7 +28,7 @@ export class EternityRun extends React.Component{
   name: string = "One Eternity to Run";
   tag: string = 'eternity-run';
   link: string = 'http://eternity.hens-world.com';
-  timeout: number = 1200;
+  timeout: number = 1300;
   particles: Array<Particle>;
   render(){
     let n = this.name.split('');
@@ -52,20 +52,36 @@ export class EternityRun extends React.Component{
     let title = document.querySelector('.project h2');
     let letters = title.getElementsByTagName('span');
     let tl = timeline();
+    let lastMaj = 0;
     for(let i = 0; i < letters.length; i++){
       let letter = letters[i];
-      tl.add({
-        targets: letter,
-        filter: ['blur(10px)', "blur(0px)"],
-        translateX: [-500,0],
-        opacity: 1,
-        duration: 700,
-        easing: 'easeInQuad',
-        offset: 50 + i * (50)
-      });
-      if(letter.innerHTML.match(/[A-Z]/)){
-        for(var j = 0; j < 5 + random(10); j++){
-          this.spawnParticle(letter, 700 +  50 + i * 50 + CST.SLIDER_TIMER);
+      let isMaj = letter.innerHTML.match(/[A-Z]/);
+      if(isMaj) lastMaj = i;
+      let d = i - lastMaj;
+      let obj: any = isMaj ?
+        {
+          targets: letter,
+          translateX: [-500,0],
+          filter: ['blur(10px)', "blur(0px)"],
+          opacity: 1,
+          duration: 700,
+          easing: 'easeInQuad',
+          offset: 50 + i * (45),
+        }
+        :
+        {
+          targets: letter,
+          opacity: 1,
+          translateX: {
+            value: [-50 * d, 0]
+          },
+          duration: 700,
+          offset: 750 + 50 * lastMaj + 10 * d
+        };
+      tl.add(obj);
+      if(isMaj){
+        for(var j = 0; j < 9 + random(8); j++){
+          this.spawnParticle(letter, 710 +  50 + i * 45 + CST.SLIDER_TIMER);
         }
       }
     }
@@ -74,7 +90,6 @@ export class EternityRun extends React.Component{
   }
   spawnParticle(elt: HTMLElement, timeout: number){
     setTimeout(()=>{
-
       let rect = elt.getBoundingClientRect();
       let particle = document.createElement('div');
       particle.classList.add('particle');
@@ -83,19 +98,20 @@ export class EternityRun extends React.Component{
       particle.style.backgroundColor = colors[random(colors.length)]
       document.querySelector('.main-wrapper').appendChild(particle);
       particle.style.opacity = 0 + '';
-      let r = random(9);
+      particle.style.filter = `blur(${random(3)}px)`;
+      let r = random(18);
       anime({
         targets: particle,
-        translateX: [0,  120 + random(80)],
+        translateX: [0,  100 + random(95)],
         translateY: [0,  -random(35) - 15],
-        width: [r + 8, 3],
-        height: [r + 8, 3],
-        easing: 'easeOutExpo',
+        width: [r + 10, 5 + r/2],
+        height: [r + 10, 5 + r/2],
+        easing: 'easeOutQuart',
         opacity: {
-          value: [2, 0],
+          value: [1.5, 0],
           easing: "linear"
         },
-        duration: 1300,
+        duration: 1200,
         complete: ()=>{
           particle.parentElement.removeChild(particle);
         },
