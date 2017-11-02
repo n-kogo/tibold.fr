@@ -286,20 +286,33 @@ h1, h2, h3{
     h2{
       position: relative;
     }
-    .hw-shape{
-      top:0;
-      width: 0;
-      height: 0;
-      border-radius: 100%;
-
-      //filter: url('#shadowed-goo');
-      filter: url('#goo');
+    .hens-world__shapes{
+      display: inline-block;
+      filter: url("#goo");
+      height: 60px;
+      padding: 200px;
+      width: 100%;
+      margin-left: -200px;
+      margin-top: -200px;
+      overflow: hidden;
       position: absolute;
-      &.shape-1{
-        background-color: $color-ulmo;
-      }
+      left: 0;
+      zoom: 1;
+    }
+    .hw-shape{
+      border-radius: 50%;
+      font-size: 2em;
+      height: 50px;
+      line-height: 1.5em;
+      position: absolute;
+      text-align: center;
+      width: 50px;
+      background-color: $color-ulmo;
+      //&.shape-1{
+      //  background-color: $color-ulmo;
+      //}
       &.shape-2{
-        background-color: $color-ulmo;
+        //background-color: $color-wilwar;
       }
     }
   }
@@ -1039,4 +1052,54 @@ h1, h2, h3{
 
 .main-wrapper{
   position: relative;
+}
+
+
+
+
+
+.goo-container{
+  display: inline-block;
+  filter: url("#goo");
+  height: 100px;
+  width: 300px;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  zoom: 1;
+}
+.goo{
+  border-radius: 50%;
+  font-size: 2em;
+  fill: $color-ulmo;
+  line-height: 1.5em;
+  position: absolute;
+  text-align: center;
+  background-color: $color-ulmo;
+  //&.shape-1{
+  //  background-color: $color-ulmo;
+  //}
+}
+.goo2{
+  fill: $color-wilwar;
+  animation: move 3s 3 alternate;
+}
+
+@keyframes move {
+  0%{
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(70px);
+  }
+}
+
+.test-container{
+  padding: 1px;
+  width:400px;
+  height:50px;
+  background-color: white;
+  svg{
+    border:1px solid red;
+  }
 }

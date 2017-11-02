@@ -3,6 +3,7 @@ import {Logo} from "../components/Logo";
 import {SideNav} from "../components/SideNav";
 import {Link} from "react-router-dom";
 import {LinkWrapper} from "../components/LinkWrapper";
+import * as anime from "animejs";
 
 
 export class Landing extends React.Component{
@@ -29,6 +30,7 @@ export class Landing extends React.Component{
       </div>
     )
   }
+
   navTo(path: string){
 
   }

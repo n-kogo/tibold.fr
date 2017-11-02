@@ -60,7 +60,7 @@ export class IconList extends  React.Component<IconListProps, IconListState>{
       duration: 180,
       offset: '+=1'
     });
-    icons.forEach((icon)=>{
+    Array.from(icons).forEach((icon)=>{
       tl.add({
         targets: icon,
         opacity: {

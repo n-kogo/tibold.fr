@@ -31,16 +31,11 @@ export class HensWorld extends React.Component<any, any>{
             <div className="hw-shape shape-1"></div>
             <div className="hw-shape shape-2"></div>
           </div>
-          <svg style={{position: 'absolute'}}>
-            <defs>
-              <filter id="goo">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
-                <feBlend in="SourceGraphic" in2="goo" />
-              </filter>
-            </defs>
+          <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style={{position: 'absolute'}}>
+
           </svg>
         </h2>
+
       </Project>
     )
   }
@@ -50,8 +45,11 @@ export class HensWorld extends React.Component<any, any>{
     let letters = title.getElementsByTagName('span');
     let titleBox = document.querySelector('.project .fit-text').getBoundingClientRect();
     let tl = timeline({
-      loop: true
+      loop: true,
+      direction: 'alternate'
     });
+    console.log('hw shape', document.querySelector('.hens-world__shapes') );
+    (document.querySelector('.hens-world__shapes') as any).style.height = titleBox.height + 'px';
     tl.add({
       targets: '.hw-shape',
       width: titleBox.height,
@@ -63,7 +61,7 @@ export class HensWorld extends React.Component<any, any>{
       targets: '.shape-2',
       translateX: [25, letters[letters.length - 1].offsetLeft],
       easing: "easeInOutQuad",
-      duration: 3000,
+      duration: 2000,
       offset: "-=150"
     });
     tl.add({
