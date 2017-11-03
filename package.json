@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack -p --progress --colors",
+    "deploy":"cd dist && cp -R  ./ ../../html/",
     "staging": "webpack -d -p --progress --colors",
     "dev": "webpack-dev-server --hot --inline --colors --port 3000 --open",
     "debug": "webpack-dev-server -d --hot --inline --colors --port 3000 --open"
