@@ -58,21 +58,23 @@ export class HensWorld extends React.Component<any, any>{
         duration: 150,
         easing: 'linear'
       },
-      translateX: ['-50%', '-50%'],
-      translateY: [-150, 0],
-      scaleY: {
-        value: [1, .4],
-        delay: 200,
-        easing: 'easeOutCirc',
-        duration: 450,
-      },
-      scaleX: {
-        value: [1, 1.3],
-        delay: 200,
-        easing: 'easeOutQuart',
-        duration: 450,
-
-      },
+      // translateX: ['-50%', '-50%'],
+      // translateY: [-150, 0],
+      scale: [0.1, 1.3],
+      scale: [0.1, 1.3],
+      // scaleY: {
+      //   value: [1, .4],
+      //   delay: 200,
+      //   easing: 'easeOutCirc',
+      //   duration: 450,
+      // },
+      // scaleX: {
+      //   value: [1, 1.3],
+      //   delay: 200,
+      //   easing: 'easeOutQuart',
+      //   duration: 450,
+      //
+      // },
       duration: 350,
       complete: ()=>{
         setTimeout(()=>{
@@ -92,20 +94,7 @@ export class HensWorld extends React.Component<any, any>{
         duration: 150,
         easing: 'linear'
       },
-      translateX: ['-50%', '-50%'],
-      translateY: [-150, 0],
-      scaleY: {
-        value: [1, .4],
-        delay: 200,
-        duration: 450,
-        easing: 'easeOutCirc'
-      },
-      scaleX: {
-        value: [1, 1.3],
-        delay: 200,
-        easing: 'easeOutQuart',
-        duration: 450,
-      },
+      scale: [0.1, 1.3],
       duration: 350,
       complete: ()=>{
         setTimeout(()=>{
