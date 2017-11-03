@@ -1103,3 +1103,12 @@ h1, h2, h3{
     border:1px solid red;
   }
 }
+
+.overlay-content{
+  text-align: justify;
+  padding: 20px;
+  p{
+    margin-bottom: 15px;
+    text-indent: 2em;
+  }
+}
