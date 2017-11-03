@@ -48,41 +48,26 @@ export class HensWorld extends React.Component<any, any>{
     ball1.style.left = letters[3].offsetLeft / 2  + 'px';
     ball2.style.left = (letters[letters.length - 1].offsetLeft - letters[5].offsetLeft) / 2  + letters[5].offsetLeft + 'px';
 
-    let tl = timeline({
-      easing: 'easeInQuart',
-    } as any);
+    let tl = timeline();
     tl.add({
       targets: ball1,
       opacity: {
         value: [0, 1],
-        duration: 150,
+        duration: 50,
         easing: 'linear'
       },
-      // translateX: ['-50%', '-50%'],
-      // translateY: [-150, 0],
-      scale: [0.1, 1.3],
-      scale: [0.1, 1.3],
-      // scaleY: {
-      //   value: [1, .4],
-      //   delay: 200,
-      //   easing: 'easeOutCirc',
-      //   duration: 450,
-      // },
-      // scaleX: {
-      //   value: [1, 1.3],
-      //   delay: 200,
-      //   easing: 'easeOutQuart',
-      //   duration: 450,
-      //
-      // },
-      duration: 350,
+      translateX: ['-50%', '-50%'],
+      scaleX: [0.1, 1.1],
+      scaleY: [0.1, .9],
+      duration: 400,
+      easing: 'easeOutExpo',
       complete: ()=>{
         setTimeout(()=>{
           for(let i = 0; i < 10 + random(5); i++){
             this.spawnParticle(ball1);
           }
           ball1.parentElement.removeChild(ball1);
-        }, 1)
+        }, 50)
 
       }
     });
@@ -91,18 +76,21 @@ export class HensWorld extends React.Component<any, any>{
       offset: "-=300",
       opacity: {
         value: [0, 1],
-        duration: 150,
+        duration: 50,
         easing: 'linear'
       },
-      scale: [0.1, 1.3],
-      duration: 350,
+      translateX: ['-50%', '-50%'],
+      scaleX: [0.1, 1.1],
+      scaleY: [0.1, .9],
+      easing: 'easeOutExpo',
+      duration: 400,
       complete: ()=>{
         setTimeout(()=>{
           for(let i = 0; i < 10 + random(5); i++){
             this.spawnParticle(ball2);
           }
           ball2.parentElement.removeChild(ball2);
-        }, 1)
+        }, 50)
       }
     });
     tl.add({
@@ -110,10 +98,11 @@ export class HensWorld extends React.Component<any, any>{
       opacity: [0, 1],
       duration: 150,
       translateX: (elt: any, i: number)=> [i * -10 + 15, 0],
-      offset: "-=350",
+      offset: "-=20",
       color: {
         value: ["rgb(232, 132, 0)" , "#333"],
         delay: 350,
+        easing: 'linear',
         duration: 1000,
       },
       translateY: [10, 0]
@@ -123,11 +112,12 @@ export class HensWorld extends React.Component<any, any>{
       opacity: [0, 1],
       duration: 150,
       translateX: (elt: any, i: number)=> [i * -10 + 15, 0],
-      offset: "-=970",
+      offset: "-=1150",
       color: {
         value: ["rgb(17, 171, 166)" , "#333"],
         delay: 350,
         duration: 1000,
+        easing: 'linear',
       },
       translateY: [10, 0],
     });
@@ -140,9 +130,9 @@ export class HensWorld extends React.Component<any, any>{
     let particle = document.createElement('div');
     particle.classList.add('particle');
     let direction = random(rect.width / 2) - rect.width / 4;
-    let yVel =random(rect.height / 2)
+    let yVel =random(rect.height / 2) - rect.height / 6;
     particle.style.left =  direction + rect.left  + rect.width / 2 + 'px';
-    particle.style.top = yVel - rect.height / 4 + rect.top + rect.height / 2 + 'px';
+    particle.style.top = yVel  + rect.top + rect.height / 2 + 'px';
     particle.style.width = particle.style.height = random(15) + 7 + 'px';
     particle.style.backgroundColor = (getComputedStyle(elt) as any)['background-color'];
     document.querySelector('.main-wrapper').appendChild(particle);
@@ -163,7 +153,7 @@ export class HensWorld extends React.Component<any, any>{
         easing: 'linear'
       },
       marginTop: {
-        value: [0, 8],
+        value: [0, 4],
         delay: 370,
         duration: 800,
         easing: 'easeInQuad'
