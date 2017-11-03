@@ -53,13 +53,17 @@ export class HensWorld extends React.Component<any, any>{
     } as any);
     tl.add({
       targets: ball1,
-      opacity: [1, 1],
+      opacity: {
+        value: [0, 1],
+        duration: 150,
+        easing: 'linear'
+      },
       translateX: ['-50%', '-50%'],
       translateY: [-150, 0],
       scaleY: {
         value: [1, .4],
         delay: 200,
-        easing: 'easeOutQuart',
+        easing: 'easeOutCirc',
         duration: 450,
       },
       scaleX: {
@@ -83,14 +87,18 @@ export class HensWorld extends React.Component<any, any>{
     tl.add({
       targets: ball2,
       offset: "-=300",
-      opacity: [1, 1],
+      opacity: {
+        value: [0, 1],
+        duration: 150,
+        easing: 'linear'
+      },
       translateX: ['-50%', '-50%'],
       translateY: [-150, 0],
       scaleY: {
         value: [1, .4],
         delay: 200,
         duration: 450,
-        easing: 'easeOutQuart'
+        easing: 'easeOutCirc'
       },
       scaleX: {
         value: [1, 1.3],
