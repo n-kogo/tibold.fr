@@ -20,6 +20,9 @@ class SliderComponent extends  React.Component<SliderProps, any>{
   img: string | JSX.Element;
   nextImg: string | JSX.Element;
   previousImage: string | JSX.Element;
+  previousIndex: number;
+  currentIndex: number;
+  carouselEvent: any;
   currentPage: PageDescriptor;
   previousPage: PageDescriptor;
   displaysMobile: boolean;
@@ -32,6 +35,7 @@ class SliderComponent extends  React.Component<SliderProps, any>{
   }
 
   render(){
+    clearTimeout(this.carouselEvent);
     if(this.props.currentPath === '/' ){
       this.shown = false;
       this.nextImg = null;
@@ -45,22 +49,28 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     var page = pages[pageName];
     this.previousPage = this.currentPage;
     this.currentPage = page;
-    let imageIndex = Math.floor(Math.random() * page.images.length);
+    if(!this.previousPage) this.previousPage = this.currentPage;
+    this.currentIndex = Math.floor(Math.random() * page.images.length);
     if(this.previousImage){
-      this.nextImg = page.images[imageIndex];
+      this.nextImg = page.images[this.currentIndex];
+      while(this.nextImg === this.previousImage){
+        this.currentIndex = Math.floor(Math.random() * page.images.length);
+        this.nextImg = page.images[this.currentIndex];
+      }
       this.img = this.previousImage;
       this.previousImage = this.nextImg;
       var bg = this.previousPage.color;
     }
     else {
-      this.img = page.images[imageIndex];
+      this.img = page.images[this.currentIndex];
       this.previousImage = this.img;
+      this.previousIndex = this.currentIndex;
       var bg = this.currentPage.color;
     }
 
     let closingPath = this.isMobile() ? page.mobileClosingPath : page.closingPath;
 
-    if(this.previousPage) {
+    if(this.isMoving()) {
       var prevClosingPath = this.isMobile() ? this.previousPage.mobileClosingPath : this.previousPage.closingPath;
       var previousPath = this.isMobile() ? this.previousPage.mobilePath : this.previousPage.path;
     }
@@ -72,7 +82,6 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     let prevLinkIndex = pageKeys.indexOf(pageName) === 0 ? pageKeys.length - 1 : pageKeys.indexOf(pageName) - 1;
     let prevLink = pageKeys[prevLinkIndex];
     let svgStyle: CSSProperties = {position:'relative', zIndex: 50, transform: 'translateY(0)'};
-    console.log('is moving ahead', this.isMovingAhead());
     return (
       <div className="slider" style={{backgroundColor: '#EEE'}}>
         <div className="slider__svg-container">
@@ -86,7 +95,7 @@ class SliderComponent extends  React.Component<SliderProps, any>{
               </svg>
           }
           {
-            this.previousPage ?
+            this.isMoving() ?
               <svg className="slider__svg"  viewBox={`0 0 ${this.previousPage.viewbox[0]} ${this.previousPage.viewbox[1]}`} style={svgStyle} preserveAspectRatio="none">
                 <path id="slider_previous-path" className="slider__path-fill" d={previousPath + prevClosingPath} strokeWidth={"0"}/>
                 <path id="slider_previous-ram-path" d={previousPath} stroke={"#none"} strokeWidth={"0.005"} fill={"none"}/>
@@ -106,7 +115,7 @@ class SliderComponent extends  React.Component<SliderProps, any>{
 
         </div>
         {
-          this.previousPage ?
+          this.isMoving() ?
             <div className="slider__station slider__previous-station"> </div>
             :
             ''
@@ -124,17 +133,17 @@ class SliderComponent extends  React.Component<SliderProps, any>{
         {/*Image blocs*/}
         {
           typeof this.img == 'string' ?
-            <div className={"slider__image " + pageName + '-' + imageIndex} style={{backgroundImage: `url(${this.img})`}}> </div>
+            <div className={"slider__image " + this.previousPage.tag + '-' + this.previousIndex} style={{backgroundImage: `url(${this.img})`}}> </div>
             :
             <span>
-              <div className={"slider__image with-content " + pageName + '-' + imageIndex}>
+              <div className={"slider__image with-content " + this.previousPage.tag + '-' + this.previousIndex}>
               </div>
               {this.img}
             </span>
         }
         {!!this.nextImg ?
           (typeof this.nextImg == 'string' ?
-            <div className={"slider__next-image " + pageName + '-' + imageIndex} style={{backgroundImage: `url(${this.nextImg})`}}> </div>
+            <div className={"slider__next-image " + pageName + '-' + this.currentIndex} style={{backgroundImage: `url(${this.nextImg})`}}> </div>
             :
             <span>
               <div className="slider__next-image with-content">
@@ -174,14 +183,17 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     if(this.shown){
       this.showSlide();
     }
-    if(this.nextImg){
-      let ram: HTMLElement = document.querySelector('.slider__ram') as HTMLElement;
-      this.transitionSlide();
+    if(this.isMoving()){
       this.moveRam();
     }
     else {
       this.placeAll();
     }
+    if(this.nextImg){
+      this.transitionSlide();
+    }
+    this.previousIndex = this.currentIndex;
+    this.carouselEvent = setTimeout(()=> this.forceUpdate(), 6000);
   }
 
 
@@ -196,7 +208,6 @@ class SliderComponent extends  React.Component<SliderProps, any>{
       this.placeAt(ram, 1 -.20);
       this.placeAt(station, 1 -.20);
       this.placeAt(nextBt, 1 - .28);
-
     }
     else{
       this.placeAt(prevBt, .1);
@@ -204,6 +215,7 @@ class SliderComponent extends  React.Component<SliderProps, any>{
       this.placeAt(station, .2);
       this.placeAt(nextBt, .3);
     }
+    this.setPathDraw(document.querySelector('#slider_ram-path') as SVGPathElement, .2, this.currentPage.isPathReversed);
   }
 
   moveBackRam(){
@@ -219,6 +231,7 @@ class SliderComponent extends  React.Component<SliderProps, any>{
   isMobile(){
     return window.matchMedia(this.mobileQuery).matches;
   }
+
   isMovingAhead(){
     if(!this.isMoving()) {
       return false;
@@ -230,7 +243,7 @@ class SliderComponent extends  React.Component<SliderProps, any>{
       || (currentIndex > previousIndex && !(previousIndex === 0 && currentIndex === 5));
   }
   isMoving(){
-    return !!this.previousPage;
+    return !!this.previousPage && this.previousPage != this.currentPage;
   }
 
   moveRam() {
@@ -612,7 +625,6 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     if(this.currentPage.isPathReversed){
       angle += 180;
     }
-
     element.style.left = p1.x * 100 / this.currentPage.viewbox[0]  + '%';
     element.style.top = p1.y * 100 / this.currentPage.viewbox[1] + '%';
     element.style.transform = `rotate(${angle}deg) translateX(-50%) translateY(-50%)`;
@@ -640,12 +652,13 @@ class SliderComponent extends  React.Component<SliderProps, any>{
      targets: s,
      backgroundColor: this.currentPage.color,
      easing: 'linear',
-     duration: 550,
+     duration: 200,
      offset: 300,
    })
    .add({
      targets: [ni, '.slider__next-image ~ .presentation'],
      opacity: [0, 1],
+     easing: 'linear',
      duration: 600,
    });
   }
