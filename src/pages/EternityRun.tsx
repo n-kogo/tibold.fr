@@ -11,7 +11,7 @@ let colors = [
   "#ccacaa"];
 
 
-function random(max: number){
+export function random(max: number){
   return Math.floor(Math.random() * max);
 }
 
@@ -98,20 +98,19 @@ export class EternityRun extends React.Component{
       particle.style.backgroundColor = colors[random(colors.length)]
       document.querySelector('.main-wrapper').appendChild(particle);
       particle.style.opacity = 0 + '';
-      particle.style.filter = `blur(${random(3)}px)`;
       let r = random(18);
+      particle.style.width = particle.style.height = r + 7  + 'px';
       anime({
         targets: particle,
         translateX: [0,  100 + random(95)],
         translateY: [0,  -random(35) - 15],
-        width: [r + 10, 5 + r/2],
-        height: [r + 10, 5 + r/2],
-        easing: 'easeOutQuart',
+        scale: [1, .2],
         opacity: {
-          value: [1.5, 0],
+          value: [1.5, 0.1],
           easing: "linear"
         },
         duration: 1200,
+        easing: 'easeOutQuart',
         complete: ()=>{
           particle.parentElement.removeChild(particle);
         },
