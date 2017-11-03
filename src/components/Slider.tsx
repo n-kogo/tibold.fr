@@ -45,14 +45,15 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     var page = pages[pageName];
     this.previousPage = this.currentPage;
     this.currentPage = page;
+    let imageIndex = Math.floor(Math.random() * page.images.length);
     if(this.previousImage){
-      this.nextImg = page.images[Math.floor(Math.random() * page.images.length)];
+      this.nextImg = page.images[imageIndex];
       this.img = this.previousImage;
       this.previousImage = this.nextImg;
       var bg = this.previousPage.color;
     }
     else {
-      this.img = page.images[Math.floor(Math.random() * page.images.length)];
+      this.img = page.images[imageIndex];
       this.previousImage = this.img;
       var bg = this.currentPage.color;
     }
@@ -123,17 +124,17 @@ class SliderComponent extends  React.Component<SliderProps, any>{
         {/*Image blocs*/}
         {
           typeof this.img == 'string' ?
-            <div className="slider__image" style={{backgroundImage: `url(${this.img})`}}> </div>
+            <div className={"slider__image " + pageName + '-' + imageIndex} style={{backgroundImage: `url(${this.img})`}}> </div>
             :
             <span>
-              <div className="slider__image with-content">
+              <div className={"slider__image with-content " + pageName + '-' + imageIndex}>
               </div>
               {this.img}
             </span>
         }
         {!!this.nextImg ?
           (typeof this.nextImg == 'string' ?
-            <div className="slider__next-image" style={{backgroundImage: `url(${this.nextImg})`}}> </div>
+            <div className={"slider__next-image " + pageName + '-' + imageIndex} style={{backgroundImage: `url(${this.nextImg})`}}> </div>
             :
             <span>
               <div className="slider__next-image with-content">

@@ -219,6 +219,8 @@ const projects: {
     images: [
       require('./assets/wittyfit/1.jpg'),
       require('./assets/wittyfit/2.jpg'),
+      require('./assets/wittyfit/3.jpg'),
+      require('./assets/wittyfit/4.jpg'),
     ]
   },
   'the-last-frontier': {
@@ -252,6 +254,8 @@ const projects: {
       require('./assets/le-refuge-des-souvenirs/2.jpg'),
       require('./assets/le-refuge-des-souvenirs/3.jpg'),
       require('./assets/le-refuge-des-souvenirs/4.jpg'),
+      require('./assets/le-refuge-des-souvenirs/5.jpg'),
+      require('./assets/le-refuge-des-souvenirs/6.jpg'),
     ]
   },
   'eternity-run': {
