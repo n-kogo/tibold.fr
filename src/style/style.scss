@@ -746,25 +746,28 @@ h1, h2, h3{
     opacity: 0;
     z-index: 0;
   }
+  overflow: auto;
   transition: z-index .2s, opacity .35s;
   opacity: 1;
   top: 0;
   position: fixed;
   z-index: 100;
   width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
   height: 100%;
   background-color: rgba(13, 13, 15, 0.85);
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   &__wrapper{
     background: white;
     padding: 20px;
-    max-width: 800px;
+    max-width: 700px;
     box-shadow: 0 0 5px 1px rgba(15, 15, 15, .8);
     width: 90%;
     position: relative;
-    height: 80%;
+    margin: auto;
   }
   &__close-bt{
     position: absolute;
@@ -1110,5 +1113,22 @@ h1, h2, h3{
   p{
     margin-bottom: 15px;
     text-indent: 2em;
+  }
+  ul{
+    padding-top: 15px;
+    margin: auto;
+    font-weight: bold;
+    font-size: 1.1em;
+    text-align: left;
+    &:before{
+      content: '';
+      display: block;
+      width: 70%;
+      margin: auto;
+      height: 1px;
+      background-color: $color-main;
+      margin-bottom: 15px;
+
+    }
   }
 }

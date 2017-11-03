@@ -15,6 +15,11 @@ export class TheLastFrontierContent extends React.Component<any, any>{
         <p>
           Mon poste de développeur Full Stack m’a demandé une grande adaptabilité et autonomie pour répondre à tous les besoins. Cela a enclenché une grande part de veille technologique pour répondre à ces besoins, et mettre en place une structure viable pour une grande production.
         </p>
+        <ul>
+          <li>Développer une companion App, en collaboration avec les domaines du jeu vidéo</li>
+          <li>Une expérience full stack, où j'étais en charge du pôle Web</li>
+          <li>Une veille technologique poussée, pour proposer un meilleur produit</li>
+        </ul>
       </div>
     )
   }

@@ -18,6 +18,11 @@ export class RefugeContent extends React.Component<any, any>{
         <p>
           Pour le reste du site (pages de présentation, statistiques en fin de vidéo), j’ai opté pour l’utilisation de React, afin de me familiariser avec ce dernier.
         </p>
+        <ul>
+          <li>Recherche et développement sur l'API vidéo des navigateurs</li>
+          <li>Travail d'UX sur le film interactif</li>
+          <li>Premier projet utilisant React</li>
+        </ul>
       </div>
     )
   }

@@ -15,6 +15,12 @@ export class WittyfitContent extends React.Component<any, any>{
         <p>
           3 jours sur 5 étaient effectués en télétravail, ce qui a été formateur en terme d’autonomie et communication au sein du travail. Cette communication était renforcée par le statut de start-up de l’entreprise, qui nous incluaient dans les séances de brainstorming, et nous laissaient libre de proposer et discuter les différents aspects du projet.
         </p>
+        <ul>
+          <li>Première Expérience AngularJS</li>
+          <li>Une partie du temps en télétravail, forgeant l'autonomie</li>
+          <li>Rapidité dans l'autoformation (coffeescript, less, gulp, Angular, ...)</li>
+          <li>L'esprit startup, entrainant la communication et le partage d'idées</li>
+        </ul>
       </div>
     )
   }

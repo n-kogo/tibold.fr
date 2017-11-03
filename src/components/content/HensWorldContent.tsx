@@ -18,6 +18,12 @@ export class HensWorldContent extends React.Component<any, any>{
         <p>
           La partie back-end s’est vue complémentée d’un serveur NodeJS qui m’a permi de facilement gérer la communication temps réel entre les utilisateurs. C’était ma première expérience avec NodeJS, qui est vite devenu ma technologie de prédilection pour la mise en place rapide de fonctionnalités côté serveur.
         </p>
+        <ul>
+          <li>Un projet associatif, impliqué depuis plusieurs années</li>
+          <li>Gestion de projet, connaissance du produit en tant que service</li>
+          <li>Connaissance approfondie de Wordpress</li>
+          <li>Un apprentissage NodeJS en autodidacte pour les besoins du projet</li>
+        </ul>
       </div>
     )
   }
