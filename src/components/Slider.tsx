@@ -53,7 +53,8 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     this.currentIndex = Math.floor(Math.random() * page.images.length);
     if(this.previousImage){
       this.nextImg = page.images[this.currentIndex];
-      while(this.nextImg === this.previousImage){
+      console.log(page.images.length, 'page images length')
+      while(this.nextImg === this.previousImage  && page.images.length !== 1){
         this.currentIndex = Math.floor(Math.random() * page.images.length);
         this.nextImg = page.images[this.currentIndex];
       }
