@@ -38,6 +38,9 @@
   transition: opacity 500ms ease-in 500ms, transform 500ms ease-in-out 500ms;
 }
 
+@keyframes home-enter {
+}
+
 .homeTranslate-exit {
   opacity: 1;
   position: fixed;

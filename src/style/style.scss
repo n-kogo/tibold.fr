@@ -79,7 +79,7 @@ h1, h2, h3{
   align-items: stretch;
   transition: margin-top 1s;
   &.page-open{
-    margin-top: -100vh;
+    animation: main-trans 1s;
   }
 }
 

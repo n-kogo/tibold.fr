@@ -36,16 +36,6 @@ const PageTransition = (props: any) => (
   />
 );
 
-const HomeTransition = (props: any) =>(
-  <CSSTransition
-    {...props}
-    classNames={"homeTranslate"}
-    timeout={1000}
-    mountOnEnter={true}
-    unmountOnExit={true}
-  />
-);
-
 let Content = (props: any)=>{
   let loc = props.location.pathname;
   let style: any = {

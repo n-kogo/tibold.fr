@@ -23,19 +23,22 @@ class IconComponent extends React.Component<IconProps, any>{
     )
   }
   onHover(e: MouseEvent<HTMLElement>){
-    console.log('hover ICON IN')
-    this.props.actions.hoverIcon({
-      x: e.clientX,
-      y: e.clientY,
-      text: labels[this.props.tech]
-    });
+    if(parseFloat(e.currentTarget.style.opacity) > 0){
+      this.props.actions.hoverIcon({
+        x: e.clientX,
+        y: e.clientY,
+        text: labels[this.props.tech]
+      });
+    }
   }
   onMouseMove(e: MouseEvent<HTMLElement>){
-    this.props.actions.hoverIcon({
-      x: e.clientX,
-      y: e.clientY,
-      text: labels[this.props.tech]
-    });
+    if(parseFloat(e.currentTarget.style.opacity) > 0){
+      this.props.actions.hoverIcon({
+        x: e.clientX,
+        y: e.clientY,
+        text: labels[this.props.tech]
+      });
+    }
   }
   onMouseOut(){
     this.props.actions.hoverIcon(null);

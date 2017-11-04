@@ -53,7 +53,6 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     this.currentIndex = Math.floor(Math.random() * page.images.length);
     if(this.previousImage){
       this.nextImg = page.images[this.currentIndex];
-      console.log(page.images.length, 'page images length')
       while(this.nextImg === this.previousImage  && page.images.length !== 1){
         this.currentIndex = Math.floor(Math.random() * page.images.length);
         this.nextImg = page.images[this.currentIndex];
@@ -190,7 +189,7 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     else {
       this.placeAll();
     }
-    if(this.nextImg){
+    if(this.nextImg && (this.currentPage.images.length !== 1 || this.currentPage != this.previousPage)){
       this.transitionSlide();
     }
     this.previousIndex = this.currentIndex;
