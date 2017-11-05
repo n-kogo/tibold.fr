@@ -4,6 +4,7 @@ import {SideNav} from "../components/SideNav";
 import {Link} from "react-router-dom";
 import {LinkWrapper} from "../components/LinkWrapper";
 import * as anime from "animejs";
+import * as ReactDOM from 'react-dom';
 
 
 export class Landing extends React.Component{

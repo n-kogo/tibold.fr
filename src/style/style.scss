@@ -75,11 +75,12 @@ h1, h2, h3{
 
 .main{
   height: 100%;
+  position: relative;
   flex-direction: column;
   align-items: stretch;
-  transition: margin-top 1s;
+  transition: top 1s cubic-bezier(1, 0, 0, 1);
   &.page-open{
-    animation: main-trans 1s;
+    top: -100%;
   }
 }
 
@@ -135,7 +136,7 @@ h1, h2, h3{
     height: 30px;
     border-radius: 50%;
     color: white;
-    z-index: 60;
+    z-index: 1249;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -213,11 +214,17 @@ h1, h2, h3{
     top: 50%;
     transform: translateY(-60%) translateX(-50%);
     left: 45%;
-    z-index: 10000;
+    z-index: 1200;
     color: $shade-bright;
     text-align: center;
     .avatar{
       margin-bottom: 35px;
+    }
+    img:not(.avatar){
+      width: 50px;
+      @include  media-phone{
+        width: 38px;
+      }
     }
     .mail{
       margin-top: -25px;
@@ -258,7 +265,7 @@ h1, h2, h3{
     border: 3px solid $color-main;
     width: 36px;
     height: 22px;
-    z-index: 65;
+    z-index: 1300;
     transform-origin: 0 0;
   }
   &__station{
@@ -529,8 +536,9 @@ h1, h2, h3{
 .open-menu{
   color:white;
   font-size: 3em;
-  margin-left: 5em;
   cursor: pointer;
+  position: relative;
+  z-index: 1500;
   &:hover{
     path{
       stroke: $color-main;
@@ -762,7 +770,9 @@ h1, h2, h3{
     margin-bottom: 0;
   }
   @include media-phone{
-    flex-direction: column;
+    &:not(.force-line){
+      flex-direction: column;
+    }
     > * {
       margin-bottom: 10px;
     }
@@ -789,6 +799,9 @@ h1, h2, h3{
   display: flex;
   align-items: center;
   justify-content: center;
+  @include media-phone{
+    padding: 15px;
+  }
   &__wrapper{
     background: white;
     padding: 20px;
@@ -797,6 +810,11 @@ h1, h2, h3{
     width: 90%;
     position: relative;
     margin: auto;
+    box-sizing: border-box;
+    @include media-phone{
+      width: 100%;
+      padding: 15px 10px;
+    }
   }
   &__close-bt{
     position: absolute;
@@ -901,9 +919,13 @@ h1, h2, h3{
     top: 5px;
     display: flex;
     height: 50%;
+    flex: 0 0 auto;
     justify-content: flex-end;
     padding-top: 10px;
     align-items: center;
+    @include media-phone{
+      flex-direction: column;
+    }
   }
   .icon{
     width: 35px;
@@ -1076,6 +1098,7 @@ h1, h2, h3{
 
 .particle{
   width: 7px;
+  pointer-events: none;
   height: 7px;
   z-index: 1000;
   border-radius: 50%;
@@ -1085,8 +1108,6 @@ h1, h2, h3{
 .main-wrapper{
   position: relative;
 }
-
-
 
 
 

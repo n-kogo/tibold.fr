@@ -157,8 +157,11 @@ export class HensWorld extends React.Component<any, any>{
         delay: 370,
         duration: 800,
         easing: 'easeInQuad'
-      }
-    })
+      },
+      complete: ()=>{
+        particle.parentElement.removeChild(particle);
+      },
+    });
   }
 }
 

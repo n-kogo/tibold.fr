@@ -203,17 +203,18 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     let station: HTMLElement = document.querySelector('.slider__station.slider__current-station') as HTMLElement;
     let prevBt: HTMLElement = document.querySelector('.slider__previous-bt') as HTMLElement;
     let nextBt: HTMLElement = document.querySelector('.slider__next-bt') as HTMLElement;
+    let pos = this.isMobile() ? [.07, .2, .33] : [.1, .2, .3];
     if(this.currentPage.isPathReversed){
-      this.placeAt(prevBt, 1 - .12);
-      this.placeAt(ram, 1 -.20);
-      this.placeAt(station, 1 -.20);
-      this.placeAt(nextBt, 1 - .28);
+      this.placeAt(prevBt, 1 - pos[0]);
+      this.placeAt(ram, 1 - pos[1]);
+      this.placeAt(station, 1 - pos[1]);
+      this.placeAt(nextBt, 1 - pos[2]);
     }
     else{
-      this.placeAt(prevBt, .1);
-      this.placeAt(ram, .2);
-      this.placeAt(station, .2);
-      this.placeAt(nextBt, .3);
+      this.placeAt(prevBt, pos[0]);
+      this.placeAt(ram, pos[1]);
+      this.placeAt(station, pos[1]);
+      this.placeAt(nextBt, pos[2]);
     }
     this.setPathDraw(document.querySelector('#slider_ram-path') as SVGPathElement, .2, this.currentPage.isPathReversed);
   }

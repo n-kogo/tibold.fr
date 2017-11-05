@@ -172,15 +172,15 @@ const projects: {
         <p>06.09.66.26.76</p>
         <p>4 rue des tanneries</p>
         <p>16000 Angoulême</p>
-        <Line spaceAround={true}>
+        <Line spaceAround={true} forceLine={true}>
           <LinkWrapper external={true} link={'https://www.linkedin.com/in/thibaut-carcenac-49b16280/'}>
-            <img src={require("./assets/logos/linkedin.svg")} width={"50"} height={50} alt="LinkedIn Icon"/>
+            <img src={require("./assets/logos/linkedin.svg")} alt="LinkedIn Icon"/>
           </LinkWrapper>
           <LinkWrapper external={true} link={"https://github.com/n-kogo"}>
-            <img src={require("./assets/logos/github.svg")} width={"50"} alt="Github Icon"/>
+            <img src={require("./assets/logos/github.svg")} alt="Github Icon"/>
           </LinkWrapper>
           <LinkWrapper external={true} link={require('./assets/CV_Thibaut_CARCENAC.pdf')}>
-            <img src={require("./assets/logos/cv.svg")}  width={"50"} alt="Curriculum Vitae"/>
+            <img src={require("./assets/logos/cv.svg")}  alt="Curriculum Vitae"/>
           </LinkWrapper>
         </Line>
       </div>

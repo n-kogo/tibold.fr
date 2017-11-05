@@ -5,6 +5,7 @@ interface LineProps{
   spaceAround?: boolean;
   noMargin?: boolean;
   boxed?: boolean;
+  forceLine?: boolean;
 }
 
 export class Line extends React.Component<LineProps, any>{
@@ -13,7 +14,8 @@ export class Line extends React.Component<LineProps, any>{
       <div className={classNames("line", {
         "space-around": this.props.spaceAround,
         "no-margin": this.props.noMargin,
-        "boxed": this.props.boxed
+        "boxed": this.props.boxed,
+        "force-line": this.props.forceLine
       })}>
         {
           this.props.children
