@@ -44,7 +44,6 @@ export class HensWorld extends React.Component<any, any>{
     let titleBox = document.querySelector('.project .fit-text').getBoundingClientRect();
     let ball1 = document.querySelector('.ball-1') as HTMLElement;
     let ball2 = document.querySelector('.ball-2') as HTMLElement;
-    console.log(letters[3].offsetLeft, letters[letters.length - 1].offsetLeft, 'offset letters')
     ball1.style.left = letters[3].offsetLeft / 2  + 'px';
     ball2.style.left = (letters[letters.length - 1].offsetLeft - letters[5].offsetLeft) / 2  + letters[5].offsetLeft + 'px';
 

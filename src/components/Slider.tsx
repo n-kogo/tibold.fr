@@ -45,7 +45,6 @@ class SliderComponent extends  React.Component<SliderProps, any>{
       this.shown = true;
     }
     var pageName = this.props.currentPath.replace('/', '');
-    console.log('exploring', pageName);
     var page = pages[pageName];
     this.previousPage = this.currentPage;
     this.currentPage = page;
@@ -319,7 +318,6 @@ class SliderComponent extends  React.Component<SliderProps, any>{
           duration: 550,
           easing: 'easeOutQuad',
           update:()=>{
-            // console.log(ram.style.top, ram.style.left, ram.style.marginTop, this.previousPage.isPathReversed, this.previousPage.name);
             let prevRect = prevPath.getBoundingClientRect();
             let rect = path.getBoundingClientRect();
             prevStation.style.marginTop = (prevRect.top - baseMarginTop)  + 'px';
@@ -407,7 +405,6 @@ class SliderComponent extends  React.Component<SliderProps, any>{
           duration: 550,
           easing: 'easeOutQuad',
           update:()=>{
-            // console.log(ram.style.top, ram.style.left, ram.style.marginTop, this.previousPage.isPathReversed, this.previousPage.name);
             let prevRect = prevPath.getBoundingClientRect();
             let rect = path.getBoundingClientRect();
             prevStation.style.marginLeft = (prevRect.left - baseMarginLeft)  + 'px';
@@ -474,7 +471,6 @@ class SliderComponent extends  React.Component<SliderProps, any>{
       update: (value)=>{
         let prevRect = prevPath.getBoundingClientRect();
         let rect = path.getBoundingClientRect();
-        console.log(prevRect);
         ram.style.marginTop = prevStation.style.marginTop = (prevRect.top - baseMarginTop)  + 'px';
         station.style.marginTop = (rect.top - baseMarginTop)  + 'px';
         var currentValue = (ramPos.percent) / 100;
@@ -496,7 +492,6 @@ class SliderComponent extends  React.Component<SliderProps, any>{
           duration: 1500,
           easing: 'easeOutQuad',
           update:()=>{
-            // console.log(ram.style.top, ram.style.left, ram.style.marginTop, this.previousPage.isPathReversed, this.previousPage.name);
             let prevRect = prevPath.getBoundingClientRect();
             let rect = path.getBoundingClientRect();
             prevStation.style.marginTop = (prevRect.top - baseMarginTop)  + 'px';
@@ -584,7 +579,6 @@ class SliderComponent extends  React.Component<SliderProps, any>{
           duration: 1500,
           easing: 'easeOutQuad',
           update:()=>{
-            // console.log(ram.style.top, ram.style.left, ram.style.marginTop, this.previousPage.isPathReversed, this.previousPage.name);
             let prevRect = prevPath.getBoundingClientRect();
             let rect = path.getBoundingClientRect();
             prevStation.style.marginLeft = (prevRect.left - baseMarginLeft)  + 'px';
@@ -621,7 +615,6 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     let pathEl = anime.path(p);
     let p1 = p.getPointAtLength(p.getTotalLength() * percent);
     let p0 = p.getPointAtLength(p.getTotalLength() * (percent - 0.01));
-    // console.log(p1, p0, percent, p.getAttribute('d'));
     let angle =  ( Math.atan2(p1.y - p0.y, p1.x - p0.x) * 180) / Math.PI;
     if(this.currentPage.isPathReversed){
       angle += 180;

@@ -25,7 +25,6 @@ class PageNavComponent extends React.Component<any, any>{
     );
   }
   updateNav(){
-    console.log('updating fck page nav')
     let p = this.state.position + 1;
     if(p >= this.routes.length) p = 0;
     this.setState({
@@ -49,7 +48,6 @@ class PageNavComponent extends React.Component<any, any>{
       easing: 'easeInOutCubic',
       complete: ()=>{
         this.props.history.push('/' + currentRoute);
-        console.log('transition finish')
       }
     });
   }

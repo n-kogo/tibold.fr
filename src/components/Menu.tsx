@@ -34,7 +34,6 @@ export class MenuComponent extends React.Component<MenuProps, MenuState>{
     )
   }
   closeMenu(){
-    console.log('closing menu')
     this.props.actions.toggleMenu(false);
   }
 

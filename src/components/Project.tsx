@@ -47,7 +47,6 @@ class FitText extends React.Component<FitTextProps, any>{
     let minFontSize = 20;
     element.style.fontSize = baseFontSize-- + 'px';
     while(element.getBoundingClientRect().height > baseFontSize * 1.5 && baseFontSize > minFontSize){
-      console.log(element.getBoundingClientRect().height);
       element.style.fontSize = baseFontSize-- + 'px';
     }
   }

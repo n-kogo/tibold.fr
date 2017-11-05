@@ -32,15 +32,18 @@ export class LeRefuge extends React.Component{
     )
   }
 
-  componentDidMount(){
+  resizeTitle(){
     let svgTitle: HTMLElement = document.querySelector('.project text') as any;
     let currentFontSize: number = parseFloat(getComputedStyle(svgTitle).fontSize.replace('px', ''));
-    while(svgTitle.clientWidth < svgTitle.parentElement.clientWidth - 100){
+    while(svgTitle.clientWidth < svgTitle.parentElement.clientWidth - currentFontSize * 1.8){
       svgTitle.parentElement.style.fontSize = currentFontSize++ + 'px';
     }
     svgTitle.setAttribute('y', getComputedStyle(svgTitle).fontSize);
-    svgTitle.parentElement.style.display = "block";
-    console.log('svg title', svgTitle);
+  }
+
+  componentDidMount(){
+    let svgTitle: HTMLElement = document.querySelector('.project text') as any;
+    this.resizeTitle();
     let letters = svgTitle.getElementsByTagName('tspan');
     let tl = timeline();
     for(let i = 0; i < letters.length; i++){
@@ -69,6 +72,9 @@ export class LeRefuge extends React.Component{
     }
     tl.pause();
     setTimeout(tl.play, CST.SLIDER_TIMER);
+    window.addEventListener('resize', ()=>{
+      this.resizeTitle();
+    });
   }
 
 }

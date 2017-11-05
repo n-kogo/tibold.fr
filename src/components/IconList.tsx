@@ -51,7 +51,6 @@ export class IconList extends  React.Component<IconListProps, IconListState>{
 
   introAnim(){
     let icons = document.querySelectorAll('.icon-list .icon');
-    console.log('intro anim', icons)
     let tl = timeline({
       autoplay: false
     });

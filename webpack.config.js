@@ -122,4 +122,3 @@ module.exports = {
   }
 };
 
-// console.log(require('util').inspect(module.exports, {colors: true}))
