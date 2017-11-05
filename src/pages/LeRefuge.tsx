@@ -23,26 +23,22 @@ export class LeRefuge extends React.Component{
         url={this.link}
         introOffset={this.timeout}
       >
-        <svg width={"100%"} style={{height: "auto", display:"none"}} >
-          <defs></defs>
-          <text x="0" y="50" >
+        <svg width={"100%"} style={{height: "1.3em"}}>
+          <text y={50} x={0}>
             {renderName}
           </text>
         </svg>
-        <h2>{this.name}</h2>
       </Project>
     )
   }
 
   componentDidMount(){
-    let title : HTMLElement = document.querySelector('.project h2') as any;
     let svgTitle: HTMLElement = document.querySelector('.project text') as any;
-    let fs = getComputedStyle(title).fontSize;
-    let height = parseInt(fs.replace('px', ''));
-    svgTitle.style.fontSize = fs;
-    svgTitle.parentElement.style.height = (height * 1.3).toFixed();
-    title.style.display = "none";
-    svgTitle.setAttribute('y', svgTitle.style.fontSize);
+    let currentFontSize: number = parseFloat(getComputedStyle(svgTitle).fontSize.replace('px', ''));
+    while(svgTitle.clientWidth < svgTitle.parentElement.clientWidth - 100){
+      svgTitle.parentElement.style.fontSize = currentFontSize++ + 'px';
+    }
+    svgTitle.setAttribute('y', getComputedStyle(svgTitle).fontSize);
     svgTitle.parentElement.style.display = "block";
     console.log('svg title', svgTitle);
     let letters = svgTitle.getElementsByTagName('tspan');
