@@ -78,6 +78,7 @@ h1, h2, h3{
   position: relative;
   flex-direction: column;
   align-items: stretch;
+  top:0;
   transition: top 1s cubic-bezier(1, 0, 0, 1);
   &.page-open{
     top: -100%;
