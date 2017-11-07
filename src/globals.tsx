@@ -58,6 +58,7 @@ const icons: {[s: string]: string} = {
   typescript: require('./assets/logos/typescript.svg'),
   'socket-io': require('./assets/logos/socket-io.svg'),
   webpack: require('./assets/logos/webpack.svg'),
+  phaser: require('./assets/logos/phaser.svg')
 };
 
 const labels: {[s: string]: string} = {
@@ -73,6 +74,7 @@ const labels: {[s: string]: string} = {
   gulp: "Gulp",
   webpack: "Webpack",
   sass: 'Sass',
+  phaser: 'Phaser',
   typescript: 'TypeScript',
   'socket-io': 'Socket.io'
 };
