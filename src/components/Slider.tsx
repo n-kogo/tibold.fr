@@ -3,7 +3,7 @@ import * as anime from 'animejs';
 import {connect, DispatchProp} from "react-redux";
 import {bindActionCreators} from "redux";
 import actions from "../store/actions";
-import {timeline} from "animejs";
+import {AnimeTimelineInstance, timeline} from "animejs";
 import {projects as pages, PageDescriptor} from '../globals';
 import {LinkWrapper} from "./LinkWrapper";
 import {CSSProperties} from "react";
@@ -23,6 +23,7 @@ class SliderComponent extends  React.Component<SliderProps, any>{
   previousIndex: number;
   currentIndex: number;
   carouselEvent: any;
+  currentTransition: AnimeTimelineInstance;
   currentPage: PageDescriptor;
   previousPage: PageDescriptor;
   displaysMobile: boolean;
@@ -625,8 +626,17 @@ class SliderComponent extends  React.Component<SliderProps, any>{
   }
 
   transitionSlide(){
+    if(this.currentTransition){
+      console.log('pausing transition');
+      this.currentTransition.seek(0);
+      this.currentTransition.pause();
+      this.currentTransition = null
+    }
    let tl =  timeline({
+
    });
+   this.currentTransition = tl;
+   console.log('setting timeline');
    let i = document.querySelector('.slider__image') as HTMLElement;
    let ni  = document.querySelector('.slider__next-image') as HTMLElement;
    let s = document.querySelector('.slider');
@@ -654,6 +664,10 @@ class SliderComponent extends  React.Component<SliderProps, any>{
      opacity: [0, 1],
      easing: 'linear',
      duration: 600,
+     complete: ()=>{
+       console.log('removing timeline');
+       this.currentTransition = null;
+     }
    });
   }
 

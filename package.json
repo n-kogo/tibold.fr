@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack -p --progress --colors",
-    "deploy":"cd dist && cp -R  ./ ../../html/",
+    "deploy": "cd dist && cp -R  ./ ../../html/",
     "staging": "webpack -d -p --progress --colors",
     "dev": "webpack-dev-server --hot --inline --colors --port 3000 --open",
     "debug": "webpack-dev-server -d --hot --inline --colors --port 3000 --open"
@@ -56,7 +56,7 @@
     "file-loader": "^0.11.2",
     "html-loader": "^0.5.1",
     "html-webpack-plugin": "^2.30.1",
-    "node-sass": "^4.5.3",
+    "node-sass": "^4.6.0",
     "react-router-dom": "^4.2.2",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
