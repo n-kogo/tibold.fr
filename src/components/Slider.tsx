@@ -35,6 +35,10 @@ class SliderComponent extends  React.Component<SliderProps, any>{
     }
   }
 
+  componentWillUnmount(){
+    clearTimeout(this.carouselEvent);
+  }
+
   render(){
     clearTimeout(this.carouselEvent);
     if(this.props.currentPath === '/' ){

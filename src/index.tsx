@@ -25,6 +25,10 @@ import {Menu} from "./components/Menu";
 import {HoverBubble} from "./components/HoverBubble";
 import {overlayContent} from "./globals";
 
+//Bienvenue :)
+console.info('Bienvenue sur mon portfolio!');
+console.info('Si vous êtes intéressé par mon travail, vous pouvez me contacter à l\'adresse suivante: thibaut.carcenac@gmail.com');
+
 let store = configureStore();
 const PageTransition = (props: any) => (
   <CSSTransition
