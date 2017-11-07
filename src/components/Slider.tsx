@@ -291,6 +291,9 @@ class SliderComponent extends  React.Component<SliderProps, any>{
       duration: 150,
       easing: 'linear'
     });
+    document.querySelectorAll('.slider__bt').forEach((e: HTMLElement)=>{
+      e.style.pointerEvents = 'none';
+    });
     anime({
       targets: ramPos,
       percent: 100,
@@ -339,6 +342,9 @@ class SliderComponent extends  React.Component<SliderProps, any>{
                 opacity:1,
                 duration: (elt,i) => (150 + 150 * i),
                 easing: 'linear'
+              });
+              document.querySelectorAll('.slider__bt').forEach((e: HTMLElement)=>{
+                e.style.pointerEvents = 'auto';
               });
             }, 50);
           }
@@ -627,7 +633,6 @@ class SliderComponent extends  React.Component<SliderProps, any>{
 
   transitionSlide(){
     if(this.currentTransition){
-      console.log('pausing transition');
       this.currentTransition.seek(0);
       this.currentTransition.pause();
       this.currentTransition = null
@@ -636,7 +641,6 @@ class SliderComponent extends  React.Component<SliderProps, any>{
 
    });
    this.currentTransition = tl;
-   console.log('setting timeline');
    let i = document.querySelector('.slider__image') as HTMLElement;
    let ni  = document.querySelector('.slider__next-image') as HTMLElement;
    let s = document.querySelector('.slider');
@@ -665,7 +669,6 @@ class SliderComponent extends  React.Component<SliderProps, any>{
      easing: 'linear',
      duration: 600,
      complete: ()=>{
-       console.log('removing timeline');
        this.currentTransition = null;
      }
    });
