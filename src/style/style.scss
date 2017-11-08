@@ -5,6 +5,11 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway:100,900,400');
 @import url('https://fonts.googleapis.com/css?family=Bowlby+One|Cinzel+Decorative|Poiret+One|Monoton|Passero+One|Cantarell');
 
+//fox remove dotted lines on links
+*::-moz-focus-inner {
+  border: 0;
+}
+
 body,html, #root{
   width: 100%;
   height: 100%;
